@@ -1,0 +1,35 @@
+.bottomSection{
+    width: 95dvw;
+    height: 10dvh;
+    margin: 0 auto 1rem;
+    background-color: var(--darkBlue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottomSection .navItems{
+    padding: clamp(0 0.7rem 1rem, 1vw, 0 1.2rem 1rem);
+    margin: auto;
+    text-decoration: none;
+    font-size: clamp(0.7rem, 3vw, 1.5rem);
+    text-align: center;
+}
+
+.bottomSection .navItems div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(0 0.7rem 1rem, 1vw, 0 1.2rem 1rem);
+}
+
+
+
+.bottomSection .navItems:hover{
+    border-bottom: 0.2rem solid var(--orange);
+}
+
+.bottomSection .active{
+    border-bottom: 0.3rem solid var(--orange);
+}

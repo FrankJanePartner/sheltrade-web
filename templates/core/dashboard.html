@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/iconStyles.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dashboard - sheltrade</title>
+    <!-- Start of Async Drift Code -->
+    <script>
+        "use strict";
+        
+        !function() {
+        var t = window.driftt = window.drift = window.driftt || [];
+        if (!t.init) {
+            if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+            t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+            t.factory = function(e) {
+            return function() {
+                var n = Array.prototype.slice.call(arguments);
+                return n.unshift(e), t.push(n), t;
+            };
+            }, t.methods.forEach(function(e) {
+            t[e] = t.factory(e);
+            }), t.load = function(t) {
+            var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+            o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+            var i = document.getElementsByTagName("script")[0];
+            i.parentNode.insertBefore(o, i);
+            };
+        }
+        }();
+        drift.SNIPPET_VERSION = '0.3.1';
+        drift.load('gznnzc5tprdh');
+    </script>
+    <!-- End of Async Drift Code -->
+</head>
+<body>
+    <div class="container dashboard">
+        <section class="firstSection">
+            <h2>Welcome, <span class="userName">{{ user.username }}</span></h2>
+            <div class="div">
+                <span class="icons" >
+                    <a href="/notification/">
+                        <i class="fas fa-bell"></i>
+                        <sup>{{ unread_count }}<sup>
+                    </a>
+                </span>
+                <a href="/dashboard/">
+                    <img src="{% static 'core/image/Icon white.png' %}" alt="logo" class="logo">
+                </a>
+            </div>
+        </section>
+
+        <section class="secondSection grid-container">
+            <a href="/wallet/" class="grid-item">
+                <div>
+                    <i class="fas fa-wallet"></i>
+                    <span>Wallet</span>
+                </div>
+            </a>
+            <a href="/wallet/deposit/" class="grid-item">
+                <div>
+                    <i class="fas fa-download rotate-icon"></i>
+                    <span>Deposit</span>
+                </div>
+            </a>
+            <a href="/wallet/withdraw/" class="grid-item">
+                <div>
+                    <i class="fas fa-upload rotate-icon"></i>
+                    <span>Withdraw</span>
+                </div>
+            </a>
+            <a href="/giftcard/" class="grid-item">
+                <div>
+                    <i class="fas fa-gift"></i>
+                    <span>Buy GiftCard</span>
+                </div>
+            </a>
+            <a href="/giftcard/sell/" class="grid-item">
+                <div>
+                    <i class="fas fa-box-open"></i>
+                    <span>Sell GiftCard</span>
+                </div>
+            </a>
+            <a href="/crypto/" class="grid-item">
+                <div>
+                    <i class="fab fa-ethereum"></i>
+                    <span>Buy Crypto</span>
+                </div>
+            </a>
+            
+            <a href="/crypto/sellcrypto/" class="grid-item">
+                <div>
+                    <i class="fab fa-btc"></i>
+                    <span>Sell Crypto</span>
+                </div>
+            </a>
+            <a href="/mobileTopUp/" class="grid-item">
+                <div>
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Buy Airtime</span>
+                </div>
+            </a>
+            <a href="/mobileTopUp/buyData/" class="grid-item">
+                <div>
+                    <i class="fas fa-wifi"></i>
+                    <span>Buy Data</span>
+                </div>
+            </a>
+            <a href="/billPayments/" class="grid-item">
+                <div>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Pay Bills</span>
+                </div>
+            </a>
+            <a href="/billPayments/subs/" class="grid-item">
+                <div>
+                    <i class="fas fa-credit-card"></i>
+                    <span>Subscriptions</span>
+                </div>
+            </a>
+            <a href="/wallet/transactions/" class="grid-item">
+                <div>
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </div>
+            </a>
+            <a href="/giftcard/market/" class="grid-item">
+                <div>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Market Place</span>
+                </div>
+            </a>
+            <a href="/contact/#faq" class="grid-item">
+                <div>
+                    <i style='font-style:bold; font-weight: 600;'>&quest;</i>
+                    <span>F.A.Q</span>
+                </div>
+            </a>
+            <a href="/accounts/logout/" class="grid-item">
+                <div>
+                    <i class="logout -icon ri-logout-box-r-line"></i>
+                    <span>LogOut</span>
+                </div>
+            </a>
+        </section>
+
+        <section class="bottomSection">
+            <a href="/dashboard/" class="navItems active">
+                <div>
+                    <i class="fas fa-tachometer-alt dashboard-icon"></i>
+                    <span>Dashboard</span>
+                </div>
+            </a>
+            <a href="/profile/" class="navItems">
+                <div>
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+            </a>
+            <a href="/settings/" class="navItems">
+                <div>
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </a>
+            <a href="/contact/" class="navItems">
+                <div>
+                    <i class="fas fa-question-circle"></i>
+                    <span>Contact Us</span>
+                </div>
+            </a>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if messages %}
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        });
+    </script>
+</body>
+</html>
+

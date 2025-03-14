@@ -1,0 +1,194 @@
+*{
+    /* background-color: var(--darkBlue); */
+    font-family: var(--font-family);
+    color: rgb(196, 196, 201);
+}
+
+body{
+    width: 100dvw;
+    height: 100dvh;
+    overflow-x: hidden;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: linear-gradient(to right bottom, var(--darkBlue), var(--lightBlue), var(--darkBlue));
+}
+
+.container{
+    width: 95dvw;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+}
+
+.firstSection{
+    width: 100%;
+    height: clamp(10dvh, 15dvh, 20dvh);
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+
+.firstSection h2 {
+    font-size: clamp(0.5rem, 3vw, 1.2rem);
+    width: fit-content;
+}
+
+.firstSection h2 span{
+    font-size: clamp(1.7rem, 3vw, 3rem);
+    color: white;
+}
+
+.firstSection .div{
+    width: fit-content;
+    gap: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.firstSection .div span{
+    width: fit-content;
+    gap: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+        
+.firstSection .div .icons a{
+    text-decoration: none;
+    position: relative;
+}
+
+.firstSection .div i{
+    color: white;
+}
+.firstSection .div .icons sup{
+    background-color: var(--darkBlue);
+    border: 1px solid white;
+    color: white;
+    padding: 0.15rem 0.3rem;
+    border-radius: 100%;
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+}
+.firstSection .div .icons sup sup{
+    display: none;
+}
+
+.firstSection .div i:hover{
+    color: var(--darkBlue);
+    font-size: 1.5rem;
+    padding: 0.4rem;
+    background: linear-gradient(to right bottom, var(--orange), var(--yellow), var(--orange));
+    border-radius: 100%;
+    border: 1px solid var(--darkBlue);
+}
+
+.firstSection .div .logo {
+    width: clamp(3rem, 5vw, 10rem);
+    background: none;
+}
+
+.firstSection .div a{
+    text-decoration: none;
+}
+
+.firstSection .div a i{
+    font-size: clamp(0.7rem, 3vw, 1.5rem);
+}
+
+.firstSection .div a i::after{
+    content: "";
+}
+
+.grid-container{
+    width: 100%;
+    height: fit-content;
+    margin: auto auto 3rem;
+    padding: auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(3.5rem, 15vw, 15rem), 1fr));
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item{
+    width: 100%;
+    padding: 0;
+    height: 5rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: var(--darkBlue);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(0.5rem, 3vw, 1.3rem);
+}
+
+.grid-item::after{
+    content: '';
+    position: absolute;
+    width: 107%;
+    height: 109%;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, var(--orange), var(--yellow));
+    z-index: -1;
+}
+
+.grid-item:hover{
+    z-index: 0;
+    width: 107%;
+    height: 6rem;
+    box-shadow: 40px 0 100px var(--yellow), -40px 0 100px var(--orange);
+}
+
+.grid-item div{
+    width: 97%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item div span{
+    text-wrap: auto;
+}
+
+.grid-item i{
+    margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    body{
+        height: fit-content !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and ( width <= 600px) {
+
+    .firstSection h2 span{
+        display: block;
+    }
+
+
+}

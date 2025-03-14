@@ -1,0 +1,102 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/wallet.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/iconStyles.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Wallet - sheltrade</title>
+</head>
+<body>
+    <div class="container dashboard">
+        {% for message in messages %}
+            <div style="display:none;">{{ message }}</div>  <!-- This can be kept for other uses -->
+        {% endfor %}
+        <section class="firstSection topSection">
+            <a href="/dashboard/">&larr; Go Back</a>
+            <a href="/">
+                <img src="../static/core/image/logo.png" alt="logo" class="logo">
+            </a>
+        </section>
+        <section id="wallet-overview" class="formHeader">
+            <h2>Available Balance</h2>
+            <h1 class="balance">{{ currency_symbol }} {{ wallet.userBalance|intcomma }}</h1>
+        </section>
+        <section id="wallet-actions">
+            <a href="/wallet/deposit/" class="grid-item">
+                <div>
+                    <i class="fas fa-download rotate-icon"></i>
+                    <span>Deposit</span>
+                </div>
+                <h3>&rarr;</h3>
+            </a>
+            <a href="/wallet/withdraw/" class="grid-item">
+                <div>
+                    <i class="fas fa-upload rotate-icon"></i>
+                    <span>Withdraw</span>
+                </div>
+                <h3>&rarr;</h3>
+            </a>
+            <a href="/wallet/add_account/" class="grid-item">
+                <div>
+                    <i class="fas fa-wallet"></i>
+                    <span>Add Bank Account</span>
+                </div>
+                <h3>&rarr;</h3>
+            </a>
+            <a href="/wallet/transactions/" class="grid-item">
+                <div>
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </div>
+                <h3>&rarr;</h3>
+            </a>
+        </section>
+        <section class="bottomSection">
+            <a href="/dashboard/" class="navItems active">
+                <div>
+                    <i class="fas fa-tachometer-alt dashboard-icon"></i>
+                    <span>Dashboard</span>
+                </div>
+            </a>
+            <a href="/profile/" class="navItems">
+                <div>
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+            </a>
+            <a href="/settings/" class="navItems">
+                <div>
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </a>
+            <a href="/contact/" class="navItems">
+                <div>
+                    <i class="fas fa-question-circle"></i>
+                    <span>Contact Us</span>
+                </div>
+            </a>
+        </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% if messages %}
+                    {% for message in messages %}
+                        alert("{{ message }}");
+                    {% endfor %}
+                {% endif %}
+            });
+        </script>
+    </div>
+</body>
+</html>
+

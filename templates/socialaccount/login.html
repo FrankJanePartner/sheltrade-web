@@ -1,0 +1,46 @@
+{% extends "../formBase.html" %}
+{% load socialaccount %}
+{% load allauth account %}
+{% load allauth i18n %}
+{% load static %}
+{% block title %}{% translate "Sign In" %} | {{ provider }}{% endblock%}
+{% block content %}
+    <div class="container socialSignIn" style="height:100dvh; width: 100100dvw;">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            {% if process == "connect" %}
+                <h1>Connect {{ provider }}</h1>
+                <p>You are about to connect a new third-party account from {{ provider }}.</p>
+            {% else %}
+                <h1>Sign In Via {{ provider }}</h1>
+                <p>You are about to sign in using a third-party account from {{ provider }}.</p>
+            {% endif %}
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary" id="btn-primary" aria-label="{% trans 'Continue to sign in' %}">{% trans "Continue" %}</button>
+        </form>
+    </div>
+{% endblock %}

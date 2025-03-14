@@ -1,0 +1,49 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Withdraw{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader" style="margin: 0.5rem;">
+            <h1>Withdraw Funds</h1>
+            <small>Please go to Wallet or <a href="/wallet/add_account/" style="color: var(--yellow); font-weight:700;">Add bank account</a> to add a withdral account information</small>
+        </div>
+        <form class="row g-3 needs-validation" novalidate method="POST" action="{% url 'wallet:withdrawal_submit_view' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <h3>Bank Account Information</h3>
+                    <p>Please Select Your Bank Account</p>
+                </div>
+                <div class="form-group accountInfos">
+                    <div class="form-group1 accountInfo" style="width:fit-content;">
+                        {% for withdrawalAccount in withdrawalAccounts %}
+                        <label class="accountItem" for="account_{{ withdrawalAccount.id }}" style="display:flex; justify-content: space-between; align-items:center; width: 100%;">
+                            <input type="radio" name="SelectedAcount" id="account_{{ withdrawalAccount.id }}" value="{{ withdrawalAccount.id }}" style=" width: 4rem;">
+                            <span style="margin:0 2rem;">
+                                <h4 style="display:flex; justify-content: space-between; align-items:center; color: var(--darkBlue);">Account Name: <p style="margin-left:1rem;">{{ withdrawalAccount.account_name }}</p></h4>
+                                <h4 style="display:flex; justify-content: space-between; align-items:center; color: var(--darkBlue);">Bank Name: <p style="margin-left:1rem;">{{ withdrawalAccount.bank_name }}</p></h4>
+                                <h4 style="display:flex; justify-content: space-between; align-items:center; color: var(--darkBlue);">Account Number: <p style="margin-left:1rem;">{{ withdrawalAccount.account_number }}</p></h4>
+                            </span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="number" name="amount" class="form-control" id="amount" required>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary w-100" type="submit">Withdraw</button>
+            </div>
+          </form>
+    </div>
+{% endblock %}

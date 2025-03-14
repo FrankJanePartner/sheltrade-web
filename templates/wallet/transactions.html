@@ -1,0 +1,52 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Transaction History{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'core/css/transactions.css' %}">
+    <div class="container">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Transaction History</h1>
+        </div>
+        {% if transactions %}
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Date/Time</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>    
+            {% for transaction in transactions %} 
+                <tr>
+                    {% if transaction.status == "Approved" %} 
+                        <td><i class="checked-box fas fa-check-square"></i></td>
+                    {% elif transaction.status == "Pending" %}
+                        <td><i class="unchecked-box fas fa-square"></i></td>
+                    {% elif transaction.status == "Rejected" %}
+                        <td><i class="unchecked-box fas fa-times-square"></i></td>
+                    {% else %}
+                        <td><i class="unchecked-box fas fa-square"></i></td>
+                    {% endif %} 
+                    <td>{{ transaction.date_time.date }} | {{ transaction.date_time.time }}</td>
+                    <td>{{ transaction.transaction_type }}</td>
+                    <td>{{ transaction.amount|intcomma }}</td>
+                    <td>{{ transaction.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %} 
+        <h3>No transactions Yet</h3>
+        {% endif %} 
+    </div>
+{% endblock %}

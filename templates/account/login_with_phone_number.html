@@ -1,0 +1,76 @@
+{% extends "../formBase.html" %}
+{% load socialaccount %}
+{% load allauth account %}
+{% load allauth i18n %}
+{% load static %}
+{% block title %}Login with Phone Number{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="formHeader">
+            <h1>Login to Your Account</h1>
+        </div>
+        
+        <form method="post" action="/accounts/login/phone_Number/">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <div class="form-group">
+                <label for="id_login">Phone Number:</label>
+                <div class="amount-select input-plus-select">
+                    <input type="tel" name="login" value="" placeholder="Phone Number" autocomplete="email" required id="id_login">
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn-primary">Log In</button>
+                <a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+            </div>
+
+            <div class="form-group">
+                <a class="social-signup-option allauth social-signup" href="{% url "core:phoneNumberLogin" %}">
+                    <i class="fa-brands bi-envelope-fill"></i>
+                    Continue with Username or Email
+                </a>
+                <a class="social-signup-google allauth social-signup" href="{% provider_login_url 'google' %}">
+                    <i class="fa-brands fa-google"></i>
+                    Continue with Google
+                </a>
+                <a class="social-signup-facebook allauth social-signup" href="{% provider_login_url 'facebook' %}">
+                    <i class="fa-brands fa-facebook"></i>
+                    Continue with Facebook
+                </a>
+            </div>
+        </form>
+
+        {% if not SOCIALACCOUNT_ONLY %}
+            <p>If you don't have an account, <a href="{% url 'account_signup' %}">Sign up here</a>.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+

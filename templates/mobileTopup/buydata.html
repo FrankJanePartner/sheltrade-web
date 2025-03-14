@@ -1,0 +1,153 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Buy Data Bundle{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Buy Data Bundle</h1>
+        </div>
+        <form class="crypto-form" action="" method="post" id="buy-data-form">  <!-- Form for buying data -->
+            {% csrf_token %}  <!-- CSRF token for security -->
+            <h1>Buy Data</h1>  <!-- Main heading for the form -->
+
+            {% if error %}  <!-- Conditional display of error message if present -->
+                <div class="error-message">
+                    <p>{{ error }}</p>  <!-- Display the error message -->
+                </div>
+            {% endif %}
+
+            <div class="form-group network">  <!-- Form group for selecting network provider -->
+                <label for="network"><h3>Select Network Provider</h3></label>
+                <select id="network" name="serviceID">  <!-- Dropdown for network selection -->
+                    <option value="">-- Select Provider --</option>
+                    <option value="mtn">MTN</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="glo">Glo</option>
+                    <option value="etisalat">9mobile</option>
+                </select>
+            </div>
+
+            <div class="form-group">  <!-- Form group for selecting data plan -->
+                <label for="bundle-type">Select Data Plan:</label>
+                <select id="bundle-type" name="variation_code">  <!-- Dropdown for data plan selection -->
+                    <option value="">-- Select Plan --</option>
+                </select>
+            </div>
+
+            <div class="form-group amount">
+                <label for="amount">Amount</label>
+                <div class="amount-select input-plus-select">
+                    <select id="currency" name="currency">
+                        <option value="{{ currency_symbol }}">{{ currency_symbol }}</option>
+                    </select>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">  <!-- Form group for entering phone number -->
+                <label for="phone">Phone Number</label>
+                <div class="amount-select input-plus-select">
+                    <input type="text" id="phone" name="phone" placeholder="Enter phone number"> <!-- Input for phone number --> 
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                </div>
+            </div>
+
+            <div class="transaction-summary">  <!-- Section for displaying transaction summary -->
+                <h3>Transaction Summary</h3>
+                <div class="summary-item">
+                    <h4>Network:</h4>
+                    <span id="summary-network">-</span>  <!-- Placeholder for network summary -->
+                </div>
+                <div class="summary-item">
+                    <h4>Bundle Type:</h4>
+                    <span id="summary-bundle-type">-</span>  <!-- Placeholder for bundle type summary -->
+                </div>
+                <div class="summary-item">
+                    <h4>Phone Number:</h4>
+                    <span id="summary-phone-number">-</span>  <!-- Placeholder for phone number summary -->
+                </div>
+                <div class="summary-item">
+                    <h4>Amount:</h4>
+                    <span id="summary-amount">-</span>  <!-- Placeholder for amount summary -->
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Proceed</button>  <!-- Submit button for the form -->
+        </form>
+        <script>
+            // Update transaction summary when form inputs change
+            document.querySelectorAll('select, input').forEach(element => {
+                element.addEventListener('change', updateSummary);  // Add change event listener to each input
+            });
+
+            function updateSummary() {  // Function to update the transaction summary
+                document.getElementById('summary-network').textContent = document.getElementById('network').value || '-';  // Update network summary
+                document.getElementById('summary-bundle-type').textContent = document.getElementById('bundle-type').value || '-';  // Update bundle type summary
+                document.getElementById('summary-phone-number').textContent = document.getElementById('phone').value || '-';  // Update phone number summary
+                const amount = document.getElementById('amount').value || '-';  // Get amount value
+                const currency = document.getElementById('currency').value;  // Get selected currency
+                document.getElementById('summary-amount').textContent = amount ? `${amount} ${currency.toUpperCase()}` : '-';  // Update amount summary
+            }
+        </script>
+        <script>
+            // Fetch data plans based on selected network provider
+            document.getElementById('network').addEventListener('change', function () {
+                const serviceID = this.value;  // Get the selected service ID from the dropdown
+                const dataPlansSelect = document.getElementById('bundle-type');  // Reference to the data plans dropdown
+                let currency = document.getElementById('currency');
+
+
+                if (serviceID) {  // Check if a service ID has been selected
+                    fetch(`/mobileTopUp/fetch-data-plans/?serviceID=${serviceID}`)  // Make a fetch request to get data plans for the selected service ID
+                        .then(response => {
+                            if (!response.ok) {  // Check if the response status is not OK (e.g., 404 or 500)
+                                throw new Error('Failed to fetch data plans');  // Throw an error if the response is not OK
+                            }
+                            return response.json();  // Parse the response body as JSON
+                            console.log(response)
+                        })
+                        .then(data => {
+                            // Clear previous options in the data plans dropdown
+                            dataPlansSelect.innerHTML = '<option value="">-- Select Plan --</option>';  // Reset the dropdown to show a default option
+
+                            if (data.content && data.content.variations) {  // Check if the response contains data plans
+                                // Populate new options in the dropdown
+                                data.content.variations.forEach(plan => {  // Iterate over each data plan
+                                    const option = document.createElement('option');  // Create a new option element for the dropdown
+                                    option.value = plan.variation_code;  // Set the value of the option to the plan's variation code
+                                    option.textContent = `${plan.name} - ${currency}${plan.variation_amount}`;  // Set the display text to show the plan name and amount
+                                    option.dataset.amount = plan.variation_amount;  // Store the amount as a data attribute for later use
+                                    dataPlansSelect.appendChild(option);  // Append the new option to the data plans dropdown
+                                });
+                            } else {
+                                alert('No data plans available for the selected provider.');  // Alert the user if no data plans are available
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data plans:', error);  // Log any errors that occur during the fetch
+                            alert('Error fetching data plans. Please try again.');  // Alert the user of the error
+                        });
+                }
+            });
+            
+            // Update amount when a data plan is selected
+            document.getElementById('bundle-type').addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];  // Get the currently selected option from the dropdown
+                const amount = selectedOption.dataset.amount || '';  // Retrieve the amount from the selected option's data attribute
+                document.getElementById('amount').value = amount;  // Update the amount input field with the selected plan's amount
+            });
+        </script>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/iconStyles.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dashboard - sheltrade</title>
+</head>
+<body>
+    <div class="container dashboard" style="height: 100dvh; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+        <section class="firstSection">
+            <h2>Welcome, <span class="userName">{{ user.username }}</span></h2>
+            <div class="div">
+                <a href="/dashboard/">
+                    <img src="{% static 'core/image/Icon white.png' %}" alt="logo" class="logo">
+                </a>
+            </div>
+        </section>
+
+        <section class="secondSection" style="height: 85%; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 1rem; align-items: center;">
+            <h2 style="font-size: 4rem;">{{ title }}</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if "success" in message.tags %}
+                        <i class="bi bi-check" style="padding: 0.3rem; color: white; background-color: green; border-radius: 100%; font-size: 10rem; font-weight: 600; font-style: italic;"></i>
+                    {% elif "error" in message.tags %}
+                        <i class="bi bi-x" style="padding: 0.3rem; color: white; background-color: red; border-radius: 100%; font-size: 10rem; font-weight: 600; font-style: italic;"></i>  
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <p style="font-size: 1.5rem;">{{ messageContent }}</p>
+            {% if image %}
+                <img src="{{ image.url }}" alt="logo" class="logo">
+            {% endif %}
+            {% if link %}<a href="{{ link }}">{{ linkText }}</a>{% endif %}
+            <p>Best Regards,</p>
+            <p>Sheltrade</p>
+            <img src="{% static 'core/image/Icon white.png' %}" alt="logo" class="logo">
+
+        </section>
+    </div>
+</body>
+</html>
+
+

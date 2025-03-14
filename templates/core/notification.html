@@ -1,0 +1,44 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Notifications{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/notification.css' %}">
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Notifications</h1>
+        </div>
+        
+        <section>
+            <div class="notStatus">
+                <p>
+                    You have <b>{{ unread_count }}</b> unread notfication
+                </p>
+                <a href="{% url 'core:mark_all_as_read' %}"><button>Mark all as red</button></a>
+            </div>
+            {% for n in notifications %}
+                {% if n.is_read is False  %}
+                    <a href="{{ n.get_absolute_url }}" class="note">
+                        <h4 style="color: red;">{{ n.title }} <i class="bi bi-dot" style="font-weight: 900; color: var(--darkBlue); font-size: 2rem; margin: 0;"></i></h4>
+                        <p>{{ n.content|truncatewords:20|slice:30 }} ...</p>
+                    </a>
+                {% else %}
+                    <a href="{{ n.get_absolute_url }}" class="note">
+                        <h4>{{ n.title }}</h4>
+                        <p>{{ n.content|truncatewords:20|slice:30 }}...</p>
+                    </a>
+                {% endif %}
+            {% empty %}
+                <p>You have no new notifications.</p>
+            {% endfor %}
+        </section>
+    </div>
+{% endblock %}

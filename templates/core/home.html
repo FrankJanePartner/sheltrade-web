@@ -1,0 +1,102 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block content %}
+    <main>
+        <section id="hero">
+            <h1>Welcome to Sheltrade</h1>
+            <p>Your one-stop platform for digital transactions</p>
+            <div class="cta-buttons">
+                <a href="/accounts/signup/" class="btn btn-primary">Get Started</a>
+                <a href="/about/" class="btn btn-secondary">Learn More</a>
+            </div>
+        </section>
+
+        <section id="services-overview">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <div class="service-item">
+                    <img src="{% static 'core/image/gift-card.png' %}" alt="Gift Cards">
+                    <h3>Gift Cards</h3>
+                    <p>
+                        Easily buy and sell a wide range of gift cards from popular 
+                        brands such as Amazon, iTunes, Google Play, and more. Whether you’re 
+                        looking to redeem a gift card or turn it into cash, our platform 
+                        offers a seamless and secure experience.
+                    </p>
+                    <a href="/giftcard/">Explore Gift Cards &rarr;</a>
+                </div>
+                <div class="service-item">
+                    <img src="{% static 'core/image/crypto.png' %}" alt="Cryptocurrencies">
+                    <h3>Cryptocurrencies</h3>
+                    <p>
+                        Access the world of cryptocurrencies with ease. 
+                        Buy and sell leading cryptocurrencies like Bitcoin, 
+                        Ethereum, and others directly through our platform. 
+                        Enjoy competitive rates, secure transactions, and instant payouts.
+                    </p>
+                    <a href="/buycrypto/">Explore Crypto &rarr;</a>
+                </div>
+                <div class="service-item">
+                    <img src="{% static 'core/image/airtime.png' %}" alt="Airtime & Data">
+                    <h3>Airtime & Data</h3>
+                    <p>
+                        Top up your mobile phone or buy data 
+                        bundles instantly across all major networks. 
+                        Whether it's for yourself or a loved one, 
+                        we make airtime and data purchases quick and easy, 
+                        anytime and anywhere
+                    </p>
+                    <a href="/mobileTopUp/">Recharge Now &rarr;</a>
+                </div>
+                <div class="service-item">
+                    <img src="{% static 'core/image/bill.png' %}" alt="Bill Payments">
+                    <h3>Bill Payments</h3>
+                    <p>
+                        Stay on top of your bills with our 
+                        hassle-free bill payment services. 
+                        Pay for subscriptions like GOTV and DSTV, 
+                        settle your electricity bills, and more, all in one place. 
+                        Never miss a payment deadline again.
+                    </p>
+                    <a href="/billPayments/">Pay Bills &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                    <span>
+                        <p>"Sheltrade has made managing my digital transactions so much easier!"</p>
+                        <cite>- John D.</cite>
+                    </span>
+                </div>
+                <div class="testimonial">
+                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                    <span>
+                        <p>"The cryptocurrency trading platform is user-friendly and secure."</p>
+                        <cite>- Sarah M.</cite>
+                    </span>
+                </div>
+                <div class="testimonial">
+                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                    <span>
+                        <p>"I love how I can pay all my bills in one place. Highly recommended!"</p>
+                        <cite>- Michael R.</cite>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if messages %}
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        });
+    </script>
+{% endblock %}

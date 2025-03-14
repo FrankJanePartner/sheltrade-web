@@ -1,0 +1,63 @@
+{% extends "../formBase.html" %}
+{% load socialaccount %}
+{% load allauth account %}
+{% load allauth i18n %}
+{% load static %}
+{% block title %}SignUp{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="formHeader">
+            <h1>Create an Account</h1>
+        </div>
+
+        <form method="post" action="/accounts/signup/">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" value="" placeholder="Enter Username" autocomplete="username" minlength="1" maxlength="150" required id="id_username">
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                <input type="email" name="email" value="" placeholder="Enter Email address" autocomplete="email" maxlength="320" id="id_email">
+            </div>
+            <div class="form-group">
+                <label for="id_password1">Password:</label>
+                <input type="password" name="password1" placeholder="Enter Password" autocomplete="new-password" required aria-invalid="true" aria-describedby="id_password1_helptext" id="id_password1">            
+            </div>
+            <div class="form-group">
+                <label for="id_password2" style="color:var(--darkBlue)">Conirm Password:</label>
+                <input type="password" name="password2" placeholder="Re-enter Password" autocomplete="new-password" required aria-invalid="true" id="id_password2">
+            </div>
+            <div class="form-group1">
+                <button type="submit" class="btn-primary" id="btn-primary">Sign Up</button>
+                <p style="color:var(--darkBlue)">Already have an account? <a style="color:var(--yellow)" href="/accounts/login/">Log in</a></p>
+            </div>
+            <div class="form-group">
+                <a class="social-signup-google allauth social-signup" href="{% provider_login_url 'google' %}">
+                    <i class="fa-brands fa-google"></i>
+                    Continue with Google
+                </a>
+                <a class="social-signup-facebook allauth social-signup" href="{% provider_login_url 'facebook' %}">
+                    <i class="fa-brands fa-facebook"></i>
+                    Continue with Facebook
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

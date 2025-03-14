@@ -1,0 +1,106 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Setting{% endblock%}
+{% block content %}
+    <style>
+        form{
+            height: fit-content !important;
+        }
+    </style>
+    <div class="container">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Setting</h1>
+
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form action="/accounts/username/change/" method="POST" id="changeUsername" style="margin-bottom: 1rem;">
+            {% csrf_token %}
+            <h1>Change Username</h1>
+            <div class="form-group">
+                <input type="text" name="username" id="Username" placeholder="New Username">
+                <button type="submit" class="btn-primary">Change Username</button>
+            </div>
+        </form>
+        <form action="/accounts/password/change/" method="POST" id="password" style="margin-bottom: 1rem;">
+            {% csrf_token %}
+            <h1>Change Password</h1>
+            <button type="submit" class="btn-primary">Change Password</button>
+        </form>
+        <form action="/accounts/password/change/" method="POST" id="confirm-email-code" style="margin-bottom: 1rem;">
+            {% csrf_token %}
+            <h1>Change Email</h1>
+            <div class="form-group">
+                <label for="email">Change to:</label>
+                <input type="email" name="email" id="email" placeholder="email@example.com">
+            </div>
+            <button type="submit" name="action_add" class="btn-primary">Change Email</button>
+        </form>
+
+        <form action="/preferred_currency/" method="POST" id="preferredCurrency">
+            {% csrf_token %}
+            <h1>Set Preferred Currency</h1>
+            <div class="form-group">
+                <select id="currency" name="currency" placeholder="{{ profile.preferredCurrency }}">
+                    {% for d in bankDetail %}
+                        {% if d.currency == profile.preferredCurrency %}
+                            <option style="color: red;" selected>{{ d.currency }}</option>
+                        {% else %}
+                            <option value="{{ d.currency }}">{{ d.currency }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+            </div>
+            <button type="submit" name="action_add" class="btn-primary">Set Preferred Currency</button>
+        </form>
+        
+        <form action="/accounts/add/phone_Number/" method="POST" id="phoneNumber" style="margin-bottom: 1rem;">
+            {% csrf_token %}
+            <h1>Add / Change Phone Number</h1>
+            <div class="form-group">
+                <label for="phone_Number">Phone Number:</label>
+                <div class="amount-select input-plus-select">
+                    <input type="phone_Number" name="phone_Number" id="phone_Number" placeholder="Phone Number">
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Add / Change Phone Number</button>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% if messages %}
+                    {% for message in messages %}
+                        alert("{{ message }}");
+                    {% endfor %}
+                {% endif %}
+            });
+        </script>
+    </div>
+{% endblock %}

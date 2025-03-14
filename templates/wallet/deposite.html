@@ -1,0 +1,84 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Deposit{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Make a Deposit</h1>
+        </div>
+        <form method="post"  enctype="multipart/form-data" action="{% url 'wallet:deposit_submit_view' %}">
+            {% csrf_token %}
+            {% for message in messages %}
+                <h5>{{message}}</h5>
+            {% endfor %}
+            <div class="form-group">
+                <div class="form-group">
+                    <h3>Bank Account Information</h3>
+                    <p>Please make your payment to the account details below using the Narration provided. <br> Make such to add the naration to avoid missing funds</p>
+                </div>
+                <div class="form-group accountInfos">
+                    <div class="form-group accountInfo">
+                        {% if not profile %}
+                            <h4>Please Choose a Preferred Currency <a href="/profile/">Here</a></h4>
+                        {% else %}
+                            {% if bankDetail %}
+                                {% for d in bankDetail %}
+                                    {% if d.currency == profile.preferredCurrency %}
+                                        <h4>Account Name: <span style="font-size: 1.7rem; color: var(--darkBlue); font-weight: 900; margin-left: 2rem;">{{ d.account_holder_name }}</span></h4>
+                                        <h4>Bank Name: <span style="font-size: 1.7rem; color: var(--darkBlue); font-weight: 900; margin-left: 2rem;">{{ d.bank_name }}</span></h4>
+                                        <p>Account Number: <span style="font-size: 1.7rem; color: var(--darkBlue); font-weight: 900; margin-left: 2rem;">{{ d.account_number }}</span></p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <p>No bank details available for your preferred currency.</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="narration copy-input">
+                    <input type="text" name="narration" id="narration" value="{{ narration }}">
+                    <button id="copyButton btn-primary" class="btn-primary">Copy Text</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Amount" class="form-label">Please enter Amount</label>
+                <div class="input-group has-validation" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="input-group-text" id="inputGroupPrepend" style="color: var(--darkBlue); margin-right: 1rem; font-size: 2.3rem;">{{ currency_symbol }}</span>
+                    <input type="number" name="amount" class="form-control" id="number" required style="width: 55dvw;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="proofOfPayment" class="form-label">proofOfPayment</label>
+                <input type="file" name="proof_of_payment" class="form-control" id="proofOfPayment" required>
+                <div class="invalid-feedback">Please enter your proof of image</div>
+            </div>
+            
+            <!-- Your other form fields here -->
+            <button type="submit" class="btn-primary" id="btn-primary">Deposit</button>
+        </form>
+        <script>
+            document.getElementById('copyButton').addEventListener('click', function() {
+                // Get the input field
+                const inputField = document.getElementById('narration');
+                
+                // Select the text in the input field
+                inputField.select();
+                inputField.setSelectionRange(0, 99999); // For mobile devices
+            
+                // Copy the text to the clipboard
+                navigator.clipboard.writeText(inputField.value).then(() => {
+                    alert('Narration copied to clipboard');
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            });        
+        </script>
+    </div>
+{% endblock %}

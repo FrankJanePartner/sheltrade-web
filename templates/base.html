@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'core/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
+    <link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% comment %} <script src="https://www.google.com/recaptcha/api.js" async defer></script> {% endcomment %}
+</head>
+<body>
+    <div class="container" style="height: fit-content;">
+        <header>
+            <div class="header-content">
+                <div class="right">
+                    <div id="aside-menu-btn" class="aside-menu-btn aside-control" <!--style="display: none"-->>
+                        <i id="menu-icon" class="fas fa-bars"></i>
+                    </div>
+                    <div class="logo">
+                        <a href="/"><img src="{% static 'core/image/Logo.png' %}" alt="Sheltrade Logo"></a>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/profile/">Profile</a></li>
+                        <li><a href="/wallet/">Wallets</a></li>
+                        <li><a href="/wallet/#transaction-history">Transactions</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <a href="/accounts/logout"><i class="logout -icon ri-logout-box-r-line"></i>Logout</a>
+                    <a href="/contact/"><i class="help  fas fa-question-circle"></i></a>
+                    <a href="/settings/"><i class="setting fas fa-cog"></i></a>
+                    <a href="/notification"><i class="notification fas fa-bell"></i></a>
+                    <a href="/profile/"><i class="user fas fa-user"></i></a>
+
+                </div>
+                <div id="menu-btn" class="menu_bar">
+                    <div><span class="menu_span">Hi  {{ user.username }}</span></div>
+                    <div id="menu-icon" class="fas fa-chevron-down"></div>
+                </div>
+                <ul class="accordion_menu">
+                    <li><a class="dropdown_text" href="/wallet/"><i class="wallet  fas fa-wallet"></i> Wallets</a></li>
+                    <li><a class="dropdown_text" href="/profile/"><i class="user fas fa-user"></i> Profile</a></li>
+                    <li><a class="dropdown_text" href="/notification/"><i class="notification fas fa-bell"></i> Notification</a></li>
+                    <li><a class="dropdown_text" href="/settings/"><i class="setting fas fa-cog"></i>  Settings</a></li>
+                    <li><a class="dropdown_text" href="/contact/"><i class="help  fas fa-question-circle"></i>  Help</a></li>
+                    <li><a class="dropdown_text" href="/accounts/logout/"><i class="logout -icon ri-logout-box-r-line"></i>Logout</a></li>
+                </ul>
+            </div>
+        </header>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="{% static 'core/js/menu.js' %}"></script>
+    {% block script %}
+    <script></script>
+    {% endblock %}
+</body>
+</html>

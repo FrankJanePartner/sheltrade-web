@@ -1,0 +1,31 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Notifications{% endblock%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
+<link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
+<link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/notification.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/notification.css' %}">
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/notification/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Notifications</h1>
+        </div>
+        
+        <section>
+            <div class="note">
+                <h4>{{ notification.title }}</h4>
+                <p>{{ notification.content }}</p>
+            </div>
+        </section>
+    </div>
+    <div class="notDetails">
+        <i  class="close fas fa-times"></i>
+    </div>
+{% endblock %}

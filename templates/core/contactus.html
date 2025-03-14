@@ -1,0 +1,146 @@
+{% extends base_template %}
+{% load static %}
+{% block title %}Contact Us{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'core/css/contactus.css' %}">
+{% endblock %}
+{% block active %}
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/#services-overview">Services</a></li>
+        <li><a href="/contact/" class="active">Contact Us</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="topSection">
+        <a href="/dashboard/" class="back">&larr; Go Back</a>
+        <a href="/">
+            <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+        </a>
+    </div>
+    <main>
+        <div class="formHeader">
+            <h1>Contact Us</h1>
+
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <h1>Get in Touch with Our Support Team</h1>
+        <section id="support-form">
+            <h2>Support Form</h2>
+            <form action="{% url "contact:sendContact" %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="10" style="height: 200px;" required></textarea>
+                </div>
+                
+                {% comment %} <div class="g-recaptcha" data-sitekey="6LdtJ-0qAAAAAJ2cfzOqOEyZwQ3wMLO68ecgPEax"></div> {% endcomment %}
+                <button type="submit" class="btn-primary">Submit Inquiry</button>
+            </form>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <hr>
+            <details>
+                <summary>How do I buy airtime?</summary>
+                <p>To buy airtime, navigate to the "Buy Airtime" page, select your network provider, enter the amount, and choose your preferred payment method.</p>
+            </details>
+            <details>
+                <summary>Can I sell gift cards on this platform?</summary>
+                <p>Yes, you can sell gift cards. Go to the "Sell Gift Card" page, select the card type, enter the balance, and choose your payout method.</p>
+            </details>
+            <details>
+                <summary>What payment methods are accepted?</summary>
+                <p>We accept various payment methods including credit/debit cards, bank transfers, and wallet payments.</p>
+            </details>
+        </section>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if messages %}
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        {% endif %}
+    });
+</script>
+{% comment %} <script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse.length > 0) {
+            alert("Captcha not completed!");
+            return;
+        }
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const fd = new FormData(e.target);
+        fd.append('g-recaptcha-response', captchaResponse); // Add reCAPTCHA response
+
+        const submitButton = e.target.querySelector('button[type="submit"]'); // Select the button
+
+        // Disable button during submission
+        if (submitButton) {
+            submitButton.disabled = true;
+        }
+
+        fetch(form.action || window.location.href, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+            },
+            body: fd,
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
+            .then((data) => {
+                alert(data.message || "Your message was submitted successfully.");
+                form.reset();
+                grecaptcha.reset();
+            })
+            .catch((err) => {
+                console.error("Error:", err);
+                alert("An error occurred while submitting your request.");
+            })
+            .finally(() => {
+                if (submitButton) {
+                    submitButton.disabled = false; // Re-enable button
+                }
+            });
+    });
+</script> {% endcomment %}
+{% endblock %}
+

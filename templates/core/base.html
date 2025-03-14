@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %} - Sheltrade</title>
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    {% endblock %}
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'core/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/header.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/"><img src="{% static 'core/image/Logo.png' %}" alt="Sheltrade Logo"></a>
+            </div>
+            {% block active %}
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about/">About Us</a></li>
+                <li><a href="/#services-overview">Services</a></li>
+                <li><a href="/contact/">Contact Us</a></li>
+            </ul>
+            {% endblock %}
+            <div class="user-actions">
+                <a href="/accounts/login/" class="btn btn-login">Login</a>
+                <a href="/accounts/signup/" class="btn btn-signup">Sign Up</a>
+            </div>
+            <button id="menu-btn" class="menu_bar">
+                <div id="menu-icon" class="fas fa-bars"></div>
+                <div><span class="menu_span">Menu</span></div>
+            </button>
+            <ul class="accordion_menu">    
+                <li><a class="dropdown_text" href="/">Home</a></li>
+                <li><a class="dropdown_text" href="/about/">About Us</a></li>
+                <li><a class="dropdown_text" href="/#services-overview">Services</a></li>
+                <li><a class="dropdown_text" href="/contact/">Contact Us</a></li>
+                <li><a class="dropdown_text" href="/accounts/signup/">Sign Up</a></li>
+                <li><a class="dropdown_text" href="/accounts/login/">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{% static 'core/image/Logo white.png' %}" alt="Sheltrade Logo">
+            </div>
+            <div class="quick-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="/about/"><i class="fa-solid fa-user"></i> About Us</a></li>
+                    <li><a href="/#services-overview"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+                    <li><a href="/contact/"><i class="fa-solid fa-envelope"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="social-media">
+                <h4>Follow Us</h4>
+                <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i>   Facebook</a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            </div>
+            <div class="contact-info">
+                <h4>Contact Information</h4>
+                <p><i class="fa-solid fa-envelope"></i> Email: info@sheltrade.com</p>
+                <p><i class="fa-solid fa-phone"></i> Phone: +1 (123) 456-7890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Sheltrade. All rights reserved.</p>
+            <a href="#terms"><i class="fa-solid fa-file-contract"></i> Terms of Service</a> | <a href="#privacy"><i class="fa-solid fa-shield"></i> Privacy Policy</a>
+        </div>
+    </footer>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="{% static 'core/js/menu.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Profile{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'core/css/wallet.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/notification.css' %}">
+    <style>
+        form{
+            height: fit-content !important;
+        }
+    </style>
+    <div class="container dashboard">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <section id="wallet-overview" class="formHeader">
+            <h2>{{ User }}Profile</h2>
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </section>
+        <section id="wallet-actions">
+            <a href="/settings/#changeUsername" class="grid-item">
+                <div>
+                    <h3 style="width: fit-content">
+                        Username:
+                        <span style="color: var(--yellow); margin-left: 0.5rem;">{{ user.username }}</span>
+                    </h3>
+                </div>
+                <p style="width: fit-content;">Change Username &rarr;</p>
+            </a>
+            <a href="/settings/#confirm-email-code" class="grid-item">
+                <div>
+                    <h3 style="width: fit-content">
+                        Email:
+                        <span style="color: var(--yellow); margin-left: 0.5rem;">{{ user.email }}</span>
+                    </h3>
+                </div>
+                <p style="width: fit-content;">Change Email &rarr;</p>
+            </a>
+            <a href="/settings/#preferredCurrency" class="grid-item">
+                <div>
+                    <h3 style="width: fit-content">
+                        Preferred Currency:
+                        {% for d in bankDetail %}
+                            {% if d.currency == profile.preferredCurrency %}
+                                <span style="color: var(--yellow); margin-left: 0.5rem;">{{ d.currency }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </h3>
+                </div>
+                <p style="width: fit-content;">Add / Change Preferred Currency &rarr;</p>
+            </a>
+            <a href="/settings/#phoneNumber" class="grid-item">
+                <div>
+                    <h3 style="width: fit-content">
+                        Phone Number:
+                        {% if profile.phone_Number %}
+                            <span style="color: var(--yellow); margin-left: 0.5rem;">{{ profile.phone_Number }}</span>
+                        {% else %}
+                            <span style="color: var(--yellow); margin-left: 0.5rem;">No Phone Number Add</span>
+                        {% endif %}
+                    </h3>
+                </div>
+                <p style="width: fit-content;">Add / Change Phone Number &rarr;</p>
+            </a>
+        </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% if messages %}
+                    {% for message in messages %}
+                        alert("{{ message }}");
+                    {% endfor %}
+                {% endif %}
+            });
+        </script>
+    </div>
+{% endblock %}
+

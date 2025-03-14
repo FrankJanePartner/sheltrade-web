@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/market.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/iconStyles.css' %}">
+    <link rel="stylesheet" href="{% static 'account/css/forms.css' %}">
+    <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Market - sheltrade</title>
+</head>
+<body>
+    <div class="container dashboard">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Buy Gift Card</h1>
+        </div>
+
+        <form method="post" action="" enctype="multipart/form-data" style="background-image: none; margin: 1rem auto 2rem;">
+            {% csrf_token %}
+            <div class="form-group">
+                <i class="opened-package fas fa-box-open"></i>
+                <select id="card_type_search" onchange="filterGiftCards()">
+                    <option value="all">All</option>
+                    <option value="Pending Verification">Pending</option>
+                    <option value="Invalid">Invalid</option>
+                    <option value="Listed for Sale">Listed for Sale</option>
+                    <option value="Sold">Sold</option>
+                </select>
+            </div>
+        </form>
+        <section class="secondSection grid-container" id="giftcardContainer">
+            {% if giftcards %}
+                {% for giftcard in giftcards %}
+                    <a href="/wallet/" class="grid-item" data-status="{{ giftcard.status|lower }}">
+                        <div>
+                            <img src="{{ giftcard.uploaded_image.url }}" alt="">
+                            <span>
+                                <h4>{{ giftcard.card_type }}</h4>
+                                <p>${{ giftcard.status }}</p>
+                                <p class="status {{ giftcard.price }}">{{ giftcard.price }}</p>
+                            </span>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <h3>No Gift Cards Listed Yet</h3>
+            {% endif %}
+        </section>
+    </div>
+
+    <script>
+        function filterGiftCards() {
+            const selectedStatus = document.getElementById('card_type_search').value.toLowerCase();
+            const giftcards = document.querySelectorAll('.grid-item');
+
+            giftcards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
+                if (selectedStatus === 'all' || cardStatus === selectedStatus) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

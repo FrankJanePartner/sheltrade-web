@@ -1,0 +1,113 @@
+{% extends "../formBase.html" %}
+{% load socialaccount %}
+{% load allauth account %}
+{% load allauth i18n %}
+{% load static %}
+{% block title %}Sell GiftCard{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Sell GiftCard</h1>
+        </div>
+        <form method="post" enctype="multipart/form-data" action="{% url 'giftcard:add_gift_card' %}"> 
+                {% csrf_token %}
+                {% for message in messages %}
+                    <h5>{{message}}</h5>
+                {% endfor %}
+                <div>
+                    <div class="form-group">                    
+                        <label for="card_type">Brand/Retailer Name:</label>
+                        <input type="text" id="card_type" name="card_type" required>
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="card_number">Card Number (if applicable):</label>
+                        <input type="text" id="card_number" name="card_number" maxlength="19">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="card_pin">Card PIN (if applicable):</label>
+                        <input type="text" id="card_pin" name="card_pin" maxlength="8">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="card_code">Card Code (if applicable):</label>
+                        <input type="text" id="card_code" name="card_code" maxlength="8">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="expiration_date">Expiration Date (YYYY-MM-DD)  (if any):</label>
+                        <input type="date" id="expiration_date" name="expiration_date">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="condition">Condition (New, Used, Partially Used):</label>
+                        <input type="text" id="condition" name="condition">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="restrictions">Restrictions (if any):</label>
+                        <textarea id="restrictions" name="restrictions"></textarea>
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="uploaded_image">Upload Image (if any):</label>
+                        <input type="file" id="uploaded_image" name="uploaded_image">
+                    </div>
+
+                    <div class="form-group">                    
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="processing_Fee" name="processing_Fee" step="0.01" required value="{{ charge.charge }}">
+                    </div>
+                </div>
+                <div class="transaction-summary">
+                    <h2>Transaction Summary</h2>
+                    <p>You are about to buy a gift card</p>
+                    <div class="summary-item">
+                        <h4>card Type:</h4>
+                        <span id="cardType">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Amount:</h4>
+                        <span id="summary-amount">{{ currency_symbol }}-</span>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Processing Fee:</h4>
+                        <span id="processingFee">{{ currency_symbol }}-</span>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Total:</h4>
+                        <span id="total">{{ currency_symbol }}-</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Sell Gift Card</button>
+            </form>
+            <script>
+                function updateSummary() {
+                    const cardType = document.getElementById('card_type').value || '-';
+                    const amount = parseFloat(document.getElementById('price').value) || 0;
+                    const processingFee = parseFloat(document.getElementById('processing_Fee').value) || 0;
+                    const total = amount - processingFee;
+            
+                    document.getElementById('cardType').textContent = cardType;
+                    document.getElementById('summary-amount').textContent = `{{ currency_symbol }}${amount.toFixed(2)}`;
+                    document.getElementById('processingFee').textContent = `{{ currency_symbol }}${processingFee.toFixed(2)}`;
+                    document.getElementById('total').textContent = `{{ currency_symbol }}${total.toFixed(2)}`;
+                }
+            
+                // Attach event listeners to relevant inputs
+                document.querySelectorAll('#card_type, #price').forEach(element => {
+                    element.addEventListener('input', updateSummary);
+                });
+            </script>            
+    </div>
+{% endblock %}

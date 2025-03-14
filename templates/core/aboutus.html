@@ -1,0 +1,121 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'core/css/aboutus.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/header.css' %}">
+{% endblock %}
+{% block active %}
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/" class="active">About Us</a></li>
+        <li><a href="/#services-overview">Services</a></li>
+        <li><a href="/contact/">Contact Us</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <main>
+        <section id="about-hero">
+            <h1>About Us</h1>
+            <p>
+                Navigating financial complexity can feel overwhelming, and many of us have felt the
+                weight of insecurity in managing our finances. My team and I recognized this challenge
+                and set out to find a solution.<br>
+                <br>
+                As passionate entrepreneurs who have experienced these issues firsthand, we are
+                dedicated to simplifying digital asset and payment management. Our unique approach
+                combines innovative technology with user-centered design, ensuring that managing
+                digital assets is not only secure but also intuitive. <br>
+                <br>
+                We believe everyone deserves control over their financial lives, which is why SHEL- TRADE was created. 
+                Our platform empowers individuals and businesses to achieve
+                financial freedom. <br>
+                <br>
+                Join us on this journey towards financial empowerment and discover how SHEL-TRADE
+                can transform your financial experience. Together, we are not just building a platform;
+                we are fostering a community committed to shaping a brighter financial future.
+            </p>
+            <div class="nonagon"></div>
+            <div class="pentagon"></div>
+        </section>
+
+        <section id="our-story">
+            <h2>Our Story</h2>
+            <p>
+                Founded in 2024, Sheltrade was born out of a vision to simplify digital transactions for everyone.
+                We started as a small team of fintech enthusiasts and have since grown into a leading platform for gift cards, 
+                cryptocurrencies, airtime, and bill payments. 
+                We saw a problem: financial complexity and insecurity holding people back. So, We set out to create a solution.<br>
+                <br>
+                We've dedicated myself to simplifying digital asset and payment management. 
+                We've poured my heart and soul into creating a secure, user-friendly platform.
+                We've dedicated myself to simplifying digital asset and payment management. 
+                We've poured my heart and soul into creating a secure, user-friendly platform.<br>
+                <br>
+                Join Us<br>
+                We're not just building a platform – We're building a community. Join me in shaping a brighter financial future.
+
+            </p>
+            <div class="big-pentagon"></div>
+            <div class="small-pentagon"></div>
+        </section>
+
+        <section id="mission-vision">
+            <div class="mission">
+                <h2>Our Mission</h2>
+                <p>
+                    Our Mission is to revolutionize digital asset management and payment services, providing seamless, secure and convenient access to a range of assets, including
+                    Gift cards, Cryptocurriencies, airtime, and Data. We put our customers at the center of our ecosystem, offering user-friendly
+                    products and top-notch support to empower their Financial 
+                </p>
+            </div>
+            <div class="vision">
+                <h2>Our Vision</h2>
+                <p>
+                    Five years from now, we will be a key player in the digital asset and payment
+                    solutions industry, driving innovation and growth. We will leverage our expertise to
+                    empower individuals and businesses to harness the potential of digital assets. Through proactive problem-solving, data-driven decision-making, and continuous
+                    improvement, We will build a stronger, more resilient ecosystem, and lead by
+                    example to create a better future for all.
+                </p>
+            </div>
+            <div class="nonagon"></div>
+            <div class="pentagon"></div>
+        </section>
+
+        <section id="team">
+            <h2>Meet Our Team</h2>
+            <div class="team-grid slider">
+                <div class="team-member">
+                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 1">
+                    <h3>John Doe</h3>
+                    <p>CEO & Co-founder</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 2">
+                    <h3>Jane Smith</h3>
+                    <p>CTO & Co-founder</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 3">
+                    <h3>Mike Johnson</h3>
+                    <p>Head of Operations</p>
+                </div>
+            </div>
+            <div class="big-pentagon"></div>
+            <div class="small-pentagon"></div>
+        </section>
+
+        <section id="values">
+            <h2>Our Core Values</h2>
+            <ul>
+                <li>Innovation</li>
+                <li>Security</li>
+                <li>Customer-Centric</li>
+                <li>Transparency</li>
+                <li>Integrity</li>
+            </ul>
+        </section>
+    </main>
+{% endblock %}
+

@@ -1,0 +1,182 @@
+header{
+    position: relative;
+}
+
+.menu_bar {
+    display: none;
+}
+
+.right .menu_bar .menu_span {
+    font-family: "Montserrat", sans-serif;
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: 0px;
+}
+
+.accordion_menu {
+    position: absolute;
+    top: 100%;
+    left: 5;
+    right: 0;
+    display: none;
+    width: 515px;
+    height: 658px;
+    background: rgba(213, 166, 25, 1);
+    transition:  2 ease-in-out;
+}
+
+.accordion_menu.active {
+    display: block;
+}
+
+
+.accordion_menu li.active .dropdown {
+    color: #fff;
+}
+.accordion_menu li.active .dropdown  .fa-chevron-down {
+    transform: rotate(180deg);
+}
+.dropdown, .dropdown_text {
+    cursor: pointer;
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 1rem; /* 1rem 1.5rem*/
+    color: black;
+    position: relative;
+    transition: 0.3s;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.dropdown:hover {
+    color: #fff;
+}
+
+.dropdown_text:hover {
+    color: #fff;
+}
+  
+.dropdown .fa-chevron-down {
+    position: absolute;
+    right: 12px;
+    left: auto;
+    transition: transform 0.2s ease-in-out;
+    font-size: 1.5rem;
+}
+
+#menu-icon.fa-times { /* cancel and Menu Navbar*/
+    display: none;
+}
+
+.submenuItems {
+    display: none;
+    transition: all 2s ease-in-out;
+}
+
+.accordion_menu li{
+    border-bottom: 1px solid white;
+    margin-left: 0rem;
+    padding: 1rem 0;
+}
+
+.accordion_menu li.active .submenuItems{
+    display: block;
+}
+
+.submenuItems a {
+    display: block;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-size: 17.5px;
+    font-weight: 300;
+    padding: 1rem 1.5rem; /* 1rem 1.5rem*/
+    border-bottom: 1px solid black;
+    color: #fff;
+    border-width: 1px;
+    transition: 0.3s;
+    margin-left: 15px;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.submenuItems a:hover {
+    color: #fff;
+    transition:  2 ease-in-out;
+}
+
+@media screen and (max-width: 767px){
+    .menu_bar {
+        width: fit-content;
+        height: fit-content;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        color: #007bff;
+        background-color: white;
+    }
+
+    .btn{
+        display: none !important;
+    }
+
+    #menu-btn {
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    
+    #menu-icon.fa-times { /* cancel and Menu Navbar*/
+        font-size: 1rem;
+        transform: rotate(180deg);
+    }
+
+    .right .menu_span {
+        display: none;
+    }
+
+    /* HEADER END */
+
+    /* NAVBAR ACCORDION START */
+    .accordion_menu {
+        width: 100dvw;
+        height: 100dvh;
+        background-color: grey;
+    }
+
+    .dropdown, .dropdown_text {
+        font-size: 1.5rem;
+        font-weight: 500;
+        border-width: 1.5px;
+    }    
+
+    .dropdown .fa-chevron-down {
+        font-size: 1rem;
+    }
+
+    .submenuItems a {
+        font-size: 17px;
+        font-weight: 300;
+        border-width: 1px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px){
+    .right .menu_bar {
+        width: fit-content;
+        height: 68px;
+        gap: 8px;
+        border-radius: 16px;
+    }
+
+    .accordion_menu {
+        width: 100%;
+        height: 57vh;
+    }
+
+}

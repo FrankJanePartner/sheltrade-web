@@ -1,0 +1,95 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Buy Airtime{% endblock%}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Buy Airtime</h1>
+        </div>
+        <form class="crypto-form" action="" method="post">
+            {% csrf_token %}
+            {% if error %}
+                <div class="error-message">
+                    <p style="color: red;">{{ error }}</p>
+                </div>
+            {% endif %}
+            <div class="form-group network">
+                <label for="network"><h3>Select Network Provider</h3></label>
+                <select id="network" name="network">
+                    <option value="">Select Network</option>
+                    <option value="mtn">MTN</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="glo">Glo</option>
+                    <option value="9mobile">9mobile</option>
+                </select>
+            </div>
+            <div class="form-group amount">
+                <label for="amount">Amount</label>
+                <div class="amount-select input-plus-select">
+                    <select id="currency" name="currency">
+                        <option value="{{ currency_symbol }}">{{ currency_symbol }}</option>
+                    </select>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone-number">Phone Number</label>
+                <div class="amount-select input-plus-select">
+                    <input type="text" id="phone-number" name="phone-number" placeholder="Enter phone number" value="">
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="transaction-summary">
+                <h3>Transaction Summary</h3>
+                <div class="summary-item">
+                    <h4>Network:</h4>
+                    <span id="summary-network">-</span>
+                </div>
+                <div class="summary-item">
+                    <h4>Phone Number:</h4>
+                    <span id="summary-phone-number">-</span>
+                </div>
+                <div class="summary-item">
+                    <h4>Amount:</h4>
+                    <span id="summary-amount">-</span>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Proceed</button>
+        </form>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Select inputs and add event listeners
+                document.querySelectorAll('select, input').forEach(element => {
+                    element.addEventListener('change', updateSummary);
+                });
+            
+                function updateSummary() {
+                    let network = document.getElementById('network');
+                    let phoneNumber = document.getElementById('phone-number');
+                    let amount = document.getElementById('amount');
+                    let currency = document.getElementById('currency');
+            
+                    if (!network || !phoneNumber || !amount || !currency) {
+                        console.error("One or more required elements are missing.");
+                        return;
+                    }
+            
+                    document.getElementById('summary-network').textContent = network.value.toUpperCase() || '-';
+                    document.getElementById('summary-phone-number').textContent = phoneNumber.value || '-';
+                    document.getElementById('summary-amount').textContent = amount.value ? `${amount.value} ${currency.value.toUpperCase()}` : '-';
+                }
+            });            
+        </script>
+    </div>
+{% endblock %}
