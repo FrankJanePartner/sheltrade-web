@@ -7,7 +7,7 @@ from django.utils.text import slugify
 # Create your models here.
 class Contact(models.Model):
     name = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=20, blank=True)
+    slug = models.SlugField(max_length=50, blank=True)
     email = models.EmailField(max_length=254)
     content = models.TextField()
     read = models.BooleanField(default=False)
@@ -30,7 +30,7 @@ class Contact(models.Model):
         """Auto-generate slug from title if not provided."""
         slug = f"{self.name} {self.id}"
         if not self.slug:
-            self.slug = slugify(slug)[:30]
+            self.slug = slugify(slug)[:50]
         super().save(*args, **kwargs)
 
 

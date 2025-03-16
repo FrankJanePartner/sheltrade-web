@@ -19,8 +19,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         user = super().save(request)
         user.is_active = False
         user.save()
-        # send_email_confirmation(request, user)
-        # return user
 
 # User model Serializer
 class UserSerializer(serializers.ModelSerializer):
