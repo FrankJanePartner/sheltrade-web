@@ -14,9 +14,10 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 # Initialize the VTUAPI with the necessary keys
-vtu_api =   VTUBILLSAPI(VT_EMAIL, VT_PASSWORD)
+vtu_api = VTUBILLSAPI(VT_EMAIL, VT_PASSWORD)
 
 def remove_first_char(s):
+    """Remove the first character from a string if its length is greater than 10."""
     return s[1:] if len(s) > 10 else s
 
 @login_required
@@ -29,10 +30,10 @@ def get_tv_services(request):
         return JsonResponse(services, safe=False)
     return JsonResponse({'error': 'Service ID is required.'}, status=400)
 
-
 @login_required
 @require_http_methods(["POST"])
 def subscribe_tv(request):
+    """Handle TV subscription: Verify and process payment based on subscription type."""
     user = request.user
     profile = Profile.objects.select_related("user").filter(user=user).first()
     currency = profile.preferredCurrency.lower() if profile else "ngn"
@@ -40,7 +41,6 @@ def subscribe_tv(request):
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
     userBalance = balance.userBalance
-    tv = get_object_or_404(TVSubscription, user=user)
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)
@@ -48,10 +48,8 @@ def subscribe_tv(request):
 
     error_message = None
 
-    """Handle TV subscription: Verify and process payment based on subscription type."""
     data = request.POST
     service_id = data.get('service-provider')
-    # service_id = data.get('serviceID')
     billers_code = data.get('card-number')
     variation_code = data.get('service-plan')
     subscription_type = data.get('subscription-type')
@@ -61,8 +59,6 @@ def subscribe_tv(request):
 
     if len(phone) > 10:
         phone = remove_first_char(phone)
-    else:
-        phone = phone
 
     # Generate a request ID
     request_id = vtu_api.generate_request_id()
@@ -99,20 +95,9 @@ def subscribe_tv(request):
                 status="Approved"
             )
 
-            if service_id not in tv.provider:
-                tv.objects.create(
-                    user=user,
-                    provider=service_id,
-                    smart_card_number=billers_code,
-                    amount=amount,
-                )
-
             # Send email to user
-            subject = f' Paid Cable bills.'
-            messageContent = f"""
-                    Hi, {user},
-                    Your Payment for {service_id} was successfull.
-                """
+            subject = f'Paid Cable bills.'
+            messageContent = f"Hi, {user}, Your Payment for {service_id} was successful."
             sender_email = settings.EMAIL_HOST_USER
             recipient_list = [user.email]
             html_content = render_to_string("email.html", {"messageContent": messageContent})
@@ -125,24 +110,23 @@ def subscribe_tv(request):
             Notification.objects.create(
                 user=user,
                 title='Paid Cable bills',
-                content="""
-                    Your Payment for {service_id} was successfull.
-                """
+                content=f"Your Payment for {service_id} was successful."
             )
             messages.success(
                 request,
-                f"Paid Cable bills successfully! You have recieve a {cashBackObj}% CashBack"
+                f"Paid Cable bills successfully! You have received a {cashBackObj}% CashBack"
             )
-            return redirect('core:dashbord')  # URL name for success.html
+            return redirect('core:dashboard')  # URL name for success.html
 
 @login_required
 def subs(request):
+    """Render the subscriptions page."""
     return render(request, 'billPayment/subscriptions.html')
-
 
 @login_required
 @require_http_methods(["POST"])
 def pay_electricity(request):
+    """Handle electricity bill payment: Verify meter and process payment."""
     user = request.user
     profile = Profile.objects.select_related("user").filter(user=user).first()
     currency = profile.preferredCurrency.lower() if profile else "ngn"
@@ -150,7 +134,6 @@ def pay_electricity(request):
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
     userBalance = balance.userBalance
-    elect = get_object_or_404(ElectricityPayment, user=user)
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)
@@ -158,7 +141,6 @@ def pay_electricity(request):
 
     error_message = None
 
-    """Handle electricity bill payment: Verify meter and process payment."""
     data = request.POST
     service_id = data.get('serviceID')  # Electricity provider
     meter_number = data.get('meter_number')
@@ -169,8 +151,6 @@ def pay_electricity(request):
 
     if len(phone) > 10:
         phone = remove_first_char(phone)
-    else:
-        phone = phone
 
     # Generate request ID
     request_id = vtu_api.generate_request_id()
@@ -207,21 +187,9 @@ def pay_electricity(request):
             amount=amount,
             status="Approved"
         )
-
-        if service_id not in elect.provider:
-            elect.objects.create(
-                user=user,
-                provider=service_id,
-                plan=meter_type,
-                smart_card_number=meter_number,
-                amount=amount,
-            )
         # Send email to user
-        subject = f' Paid Cable bills.'
-        messageContent = f"""
-                Hi, {user},
-                Your Payment for {service_id} was successfull.
-            """
+        subject = f'Paid Electricity bills.'
+        messageContent = f"Hi, {user}, Your Payment for {service_id} was successful."
         sender_email = settings.EMAIL_HOST_USER
         recipient_list = [user.email]
         html_content = render_to_string("email.html", {"messageContent": messageContent})
@@ -233,19 +201,18 @@ def pay_electricity(request):
         # Send notification
         Notification.objects.create(
             user=user,
-            title='Paid Paid Electricity bills',
-            content="""
-                Your Payment for {service_id} was successfull.
-            """
+            title='Paid Electricity bills',
+            content=f"Your Payment for {service_id} was successful."
         )
         messages.success(
             request,
-            f"Paid Electricity bills successfully! You have recieve a {cashBackObj}% CashBack"
+            f"Paid Electricity bills successfully! You have received a {cashBackObj}% CashBack"
         )
 
         # On success, redirect to success page
-        return redirect('core:dashbord')
+        return redirect('core:dashboard')
 
 @login_required
 def bills(request):
+    """Render the bills page."""
     return render(request, 'billPayment/bills.html')

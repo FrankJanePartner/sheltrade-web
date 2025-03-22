@@ -48,16 +48,16 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     
     # my apps
+    'billPayments',
     'contact',
     'core',
     'crypto',
     'giftcard',
-    'wallet',
     'mobileTopUp',
-    'billPayments',
     'sheltradeAdmin',
-    'workers',
     'sheltradeAPI',
+    'wallet',
+    'workers',
 
     # third-party apps
     # 'djmoney',
@@ -90,9 +90,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    # my apps middleware
+    'billPayments.middleware.RequestMiddleware',
+
     # allauth specific middleware
     'allauth.account.middleware.AccountMiddleware',
 ]
+
 
 ROOT_URLCONF = 'sheltrade.urls'
 

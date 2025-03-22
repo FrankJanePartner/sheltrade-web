@@ -1,23 +1,33 @@
 {% extends "../formBase.html" %}
 {% load static %}
-{% block title %}Bill Payment{% endblock%}
+{% block title %}Bill Payment{% endblock %}
+
 {% block content %}
     <div class="container socialSignIn">
+        <!-- Top section with logo and back button -->
         <div class="topSection">
             <a href="/dashboard/" class="back">&larr; Go Back</a>
             <a href="/">
                 <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
             </a>
         </div>
+
+        <!-- Header for the form -->
         <div class="formHeader">
             <h1>Bill Payment</h1>
         </div>
+
+        <!-- The form for electricity bill payment -->
         <form class="crypto-form"  id="electricity-payment-form" action="{% url 'billPayments:pay-electricity' %}" method="post">
+            <!-- CSRF token for security -->
             <div class="form-group">
                 {% csrf_token %}
+                
+                <!-- Dropdown for selecting the service provider -->
                 <label for="service-provider">Service Provider:</label>
                 <select id="service-provider" name="serviceID">
                     <option value="">-- Select Service Provider --</option>
+                    <!-- List of service providers -->
                     <option value="ikeja-electric">Ikeja Electric (IKEDC)</option>
                     <option value="eko-electric">Eko Electric (EKEDC)</option>
                     <option value="kaduna-electric">Kaduna Electric (KAEDCO)</option>
@@ -32,10 +42,14 @@
                     <option value="yola-electric">YOLA Electric(YEDC)</option>
                 </select>
             </div>
+
+            <!-- Input field for meter number -->
             <div class="form-group">
                 <label for="meter-number">Meter Number:</label>
                 <input type="text" id="meter-number" name="meter_number" placeholder="Enter your meter number" required>
             </div>
+
+            <!-- Dropdown for selecting meter type (Prepaid or Postpaid) -->
             <div class="form-group">
                 <label for="meter-type">Meter Type:</label>
                 <select id="meter-type" name="meter_type">
@@ -44,19 +58,26 @@
                     <option value="postpaid">Postpaid</option>
                 </select>
             </div>
+
+            <!-- Input field for phone number -->
             <div class="form-group">
                 <label for="phone">Phone:</label>
                 <input type="text" id="phone" name="phone" placeholder="Enter your meter number" required>
             </div>
+
+            <!-- Amount input field with currency selection -->
             <div class="form-group amount">
                 <label for="amount">Amount</label>
                 <div class="amount-select input-plus-select">
+                    <!-- Dropdown for selecting currency (initially set to the currency symbol) -->
                     <select id="currency" name="currency">
                         <option value="{{ currency_symbol }}">{{ currency_symbol }}</option>
                     </select>
                     <input type="number" id="amount" name="amount" placeholder="Enter amount">
                 </div>
             </div>
+
+            <!-- Transaction summary section to review entered details -->
             <div class="transaction-summary">
                 <h3>Transaction Summary</h3>
                 <div class="summary-item">
@@ -80,49 +101,53 @@
                     <span id="summary-amount">-</span>
                 </div>
             </div>
+
+            <!-- Submit button to initiate payment -->
             <button type="submit" class="btn-primary" id="pay-electricity-btn">Proceed</button>
         </form>
     </div>
+
     <script>
+        // Event listener for the "Proceed" button to trigger the form submission process
         document.getElementById('pay-electricity-btn').addEventListener('click', function (event) {
             // Prevent the default form submission behavior (if the button is inside a form)
             event.preventDefault();
         
-            // Get input values
+            // Get input values from the form fields
             const serviceID = document.getElementById('service-provider').value;
             const meterNumber = document.getElementById('meter-number').value;
             const meterType = document.getElementById('meter-type').value;
-            const phoneNumber = document.getElementById('phone-number').value;
+            const phoneNumber = document.getElementById('phone').value;
             const amount = document.getElementById('amount').value;
-            let currency = document.getElementById('currency');
+            let currency = document.getElementById('currency').value;
 
-        
-            // Check if all fields are filled
+            // Check if all the required fields are filled
             if (serviceID && meterNumber && meterType && phoneNumber && amount) {
-                // If all fields are filled, prepare data to send
+                // If all fields are filled, prepare the data to send in the request
                 const formData = new FormData();
                 formData.append('serviceID', serviceID);
                 formData.append('meter_number', meterNumber);
                 formData.append('meter_type', meterType);
                 formData.append('phone', phoneNumber);
                 formData.append('amount', amount);
-        
-                // Disable the button or show a loading message to prevent repeated clicks
+
+                // Disable the button and change its text to "Processing..." to prevent multiple submissions
                 document.getElementById('pay-electricity-btn').disabled = true;
                 document.getElementById('pay-electricity-btn').innerText = 'Processing...';
         
-                // Send the data to the server via fetch
+                // Send the data to the server using the Fetch API
                 fetch('/billPayments/pay-electricity/', {
                     method: 'POST',
                     body: formData,
                 })
                     .then(response => {
+                        // If response is not OK, throw an error
                         if (!response.ok) {
                             return response.json().then(data => {
                                 throw new Error(data.error || 'Payment failed.');
                             });
                         }
-                        // Redirect to success page on success
+                        // If successful, redirect to a success page
                         window.location.href = '/billPayments/subscription-success/';
                     })
                     .catch(error => {
@@ -135,18 +160,22 @@
                         alert(`Error: ${error.message}`);
                     });
             } else {
-                // Show alert only if required fields are missing
+                // If required fields are missing, show an alert to inform the user
                 alert('Please fill in all fields.');
             }
         });
-        // JavaScript to update the transaction summary
+
+        // JavaScript to update the transaction summary dynamically
+        // Whenever any input or select field changes, update the summary section
         document.querySelectorAll('select, input').forEach(element => {
             element.addEventListener('change', updateSummary);
         });
-    
+
+        // Function to update the transaction summary
         function updateSummary() {
-            document.getElementById('summary-phone-number').textContent = document.getElementById('phone-number').value || '-';
-            const amount = document.getElementById('amount').value|| '-';
+            // Update the summary section with the latest input values
+            document.getElementById('summary-phone-number').textContent = document.getElementById('phone').value || '-';
+            const amount = document.getElementById('amount').value || '-';
             document.getElementById('summary-amount').textContent = amount ? `${currency.toUpperCase()}${amount}` : '-';
             document.getElementById('summary-service-provider').textContent = document.getElementById('service-provider').value || '-';
             document.getElementById('summary-meter-type').textContent = document.getElementById('meter-type').value || '-';

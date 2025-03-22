@@ -39,6 +39,10 @@ class DepositNarations(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='deposit')
     transaction_id = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='deposit')
     narration = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'Deposit Naration'
+        verbose_name_plural = 'Deposit Narations'
     
 
     def __str__(self):
@@ -64,7 +68,21 @@ class WithdrawalAccount(models.Model):
     bank_name = models.CharField(max_length=50)  # Changed to lowercase for consistency
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Withdrawal Account'
+        verbose_name_plural = 'Withdrawal Accounts'
+
     def __str__(self):
         return f"{self.user.username} account {self.id}"
 
 
+class CashBackEarned(models.Model):
+    user = models.ForeignKey(User, related_name='cash_back_earned', on_delete=models.CASCADE)
+    amount = models.IntegerField(blank=True)
+
+    class Meta:
+        verbose_name = 'Cash Back Earned'
+        verbose_name_plural = 'Cash Backs Earned'
+
+    def __str__(self):
+        return f"{self.user}: {self.amount}"

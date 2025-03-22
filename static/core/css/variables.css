@@ -14,9 +14,9 @@
     /* Define font-family variable */
     --font-family: 'Ubuntu', sans-serif;
 }
-
+/* 
 body{
     border-box
-}
+} */
 
 /* @custom-media --mobile(max-width <= 400px); */

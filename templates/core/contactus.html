@@ -1,37 +1,59 @@
 {% extends base_template %}
 {% load static %}
+
+{% comment %}
+==================================================
+Contact Us Page Template
+==================================================
+This template provides a contact form for users to reach out to customer support. 
+It includes:
+- A dynamic base template selection (from context processor).
+- Form fields for name, email, and message.
+- Validation for form errors.
+- FAQ section to help users with common questions.
+- JavaScript to handle alert messages.
+==================================================
+{% endcomment %}
+
 {% block title %}Contact Us{% endblock %}
+
 {% block style %}
+    <!-- Linking an external CSS file for custom styling -->
     <link rel="stylesheet" href="{% static 'core/css/contactus.css' %}">
 {% endblock %}
+
 {% block active %}
+    <!-- Navigation Menu with an Active Contact Page -->
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about/">About Us</a></li>
         <li><a href="/#services-overview">Services</a></li>
-        <li><a href="/contact/" class="active">Contact Us</a></li>
+        <li><a href="/contact/" class="active">Contact Us</a></li> <!-- Active page -->
     </ul>
 {% endblock %}
+
 {% block content %}
 <div class="container">
+    <!-- Top Section: Back Button & Logo -->
     <div class="topSection">
         <a href="/dashboard/" class="back">&larr; Go Back</a>
         <a href="/">
             <img src="{% static 'core/image/logo.png' %}" alt="logo" class="logo">
         </a>
     </div>
+
     <main>
         <div class="formHeader">
             <h1>Contact Us</h1>
 
-
+            <!-- Display Non-field Errors (General Form Errors) -->
             {% if form.non_field_errors %}
-                <div class="alert alert-danger" >
+                <div class="alert alert-danger">
                     {{ form.non_field_errors }}
                 </div>
             {% endif %}
-            
-            <!-- Loop through each field in the form -->
+
+            <!-- Loop through each field and display individual field errors -->
             {% for field in form %}
                 <div>
                     {% if field.errors %}
@@ -42,40 +64,53 @@
                 </div>
             {% endfor %}
         </div>
+
         <h1>Get in Touch with Our Support Team</h1>
+
+        <!-- Contact Form Section -->
         <section id="support-form">
             <h2>Support Form</h2>
             <form action="{% url "contact:sendContact" %}" method="POST">
                 {% csrf_token %}
+                
+                <!-- User Name Field -->
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
                 </div>
+
+                <!-- User Email Field -->
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
+
+                <!-- User Message Field -->
                 <div class="form-group">
                     <label for="message">Message</label>
                     <textarea id="message" name="message" rows="10" style="height: 200px;" required></textarea>
                 </div>
-                
-                {% comment %} <div class="g-recaptcha" data-sitekey="6LdtJ-0qAAAAAJ2cfzOqOEyZwQ3wMLO68ecgPEax"></div> {% endcomment %}
+
+                <!-- Submit Button -->
                 <button type="submit" class="btn-primary">Submit Inquiry</button>
             </form>
         </section>
 
+        <!-- FAQ Section -->
         <section id="faq">
             <h2>Frequently Asked Questions</h2>
             <hr>
+
             <details>
                 <summary>How do I buy airtime?</summary>
                 <p>To buy airtime, navigate to the "Buy Airtime" page, select your network provider, enter the amount, and choose your preferred payment method.</p>
             </details>
+
             <details>
                 <summary>Can I sell gift cards on this platform?</summary>
                 <p>Yes, you can sell gift cards. Go to the "Sell Gift Card" page, select the card type, enter the balance, and choose your payout method.</p>
             </details>
+
             <details>
                 <summary>What payment methods are accepted?</summary>
                 <p>We accept various payment methods including credit/debit cards, bank transfers, and wallet payments.</p>
@@ -83,16 +118,29 @@
         </section>
     </main>
 </div>
+
+<!-- JavaScript: Display Alert Messages from Django Messages Framework -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         {% if messages %}
             {% for message in messages %}
-                alert("{{ message }}");
+                alert("{{ message }}");  // Show alert for each message
             {% endfor %}
         {% endif %}
     });
 </script>
-{% comment %} <script>
+
+{% comment %}
+==================================================
+Optional JavaScript: Google reCAPTCHA Integration
+==================================================
+The below script (commented out) is intended to handle Google reCAPTCHA verification 
+before form submission. If enabled, users must complete the reCAPTCHA before submitting.
+==================================================
+{% endcomment %}
+
+{% comment %}
+<script>
     const form = document.querySelector('form');
 
     form.addEventListener('submit', (e) => {
@@ -141,6 +189,7 @@
                 }
             });
     });
-</script> {% endcomment %}
-{% endblock %}
+</script> 
+{% endcomment %}
 
+{% endblock %}
