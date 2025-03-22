@@ -18,11 +18,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 # FROM SHELTRADE API APP INPORT
 from .serializer import (
     UserSerializer, TVSubscriptionSerializer, ElectricityPaymentSerializer, ContactSerializer, ProfileSerializer,
     NotificationSerializer, GiftCardSerializer, BuyGiftCardSerializer, WalletSerializer, TransactionSerializer,
-    DepositNarationsSerializer, WithdrawalSerializer, WithdrawalAccountSerializer
+    DepositNarrationSerializer, WithdrawalSerializer, WithdrawalAccountSerializer
 )
 
 # OTHER APPS MODELS
@@ -33,7 +34,7 @@ from crypto.models import UserAddress
 from giftcard.models import GiftCard, BuyGiftCard
 from mobileTopUp.models import SavedTransactionInfo
 from sheltradeAdmin.models import BankDetail, CryptoWallet, TransactionCharge, CashBack
-from wallet.models import Wallet, Transaction, DepositNarations, Withdrawal, WithdrawalAccount
+from wallet.models import Wallet, Transaction, DepositNarration, Withdrawal, WithdrawalAccount
 # from workers.models import
 from billPayments.utils import VTUBILLSAPI, VT_EMAIL, VT_PASSWORD
 from core.utils import ExchangeRate
@@ -799,7 +800,7 @@ def deposit_submit_view(request):
         status="pending"
     )
 
-    DepositNarations.objects.create(user=request.user, narration=narration, transaction_id=transaction)
+    DepositNarration.objects.create(user=request.user, narration=narration, transaction_id=transaction)
 
     admin_users = User.objects.filter(is_superuser=True)
     recipient_list = [user.email for user in admin_users]

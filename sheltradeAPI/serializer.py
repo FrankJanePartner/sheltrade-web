@@ -9,7 +9,7 @@ from core.models import Profile, Notification
 from crypto.models import UserAddress
 from giftcard.models import GiftCard, BuyGiftCard
 from mobileTopUp.models import SavedTransactionInfo
-from wallet.models import Wallet, Transaction, DepositNarations, Withdrawal, WithdrawalAccount
+from wallet.models import Wallet, Transaction, DepositNarration, Withdrawal, WithdrawalAccount
 # from workers.models import
 User = get_user_model()
 
@@ -100,9 +100,9 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class DepositNarationsSerializer(serializers.ModelSerializer):
+class DepositNarrationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DepositNarations
+        model = DepositNarration
         fields = '__all__'
 
 

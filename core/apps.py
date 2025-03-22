@@ -18,7 +18,7 @@ Usage:
 
 class CoreConfig(AppConfig):
     
-    """Configuration class for the Core app."""type
+    """Configuration class for the Core app."""
     default_auto_field = 'django.db.models.BigAutoField'  # Sets the default primary key field 
     name = 'core'   # Defines the name of the app
 

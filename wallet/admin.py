@@ -15,11 +15,11 @@ Usage:
 """
 
 from django.contrib import admin
-from .models import Wallet, Transaction, DepositNarations, Withdrawal, WithdrawalAccount
+from .models import Wallet, Transaction, DepositNarration, Withdrawal, WithdrawalAccount
 
 # Register the Wallet model in the Django admin panel.
 admin.site.register(Wallet)
 admin.site.register(Withdrawal)
 admin.site.register(Transaction)
-admin.site.register(DepositNarations)
+admin.site.register(DepositNarration)
 admin.site.register(WithdrawalAccount)
