@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.http import JsonResponse
 from django.shortcuts import redirect
 
+
 class CustomAccountAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
         """Allow signup for both API and web users."""

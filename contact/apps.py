@@ -7,11 +7,11 @@ It specifies default settings for the app and ensures necessary signal handlers 
 Features:
 - Sets `default_auto_field` to `BigAutoField` for automatic primary key fields.
 - Defines the app name (`contact`) for reference in Django's project settings.
-- Ensures that signal handlers from the `core.signals` module are imported when the app is ready.
+- Ensures that signal handlers from the `contact.signals` module are imported when the app is ready.
 
 Usage:
 - This configuration is automatically applied when Django starts.
-- Signals registered in `core.signals` are loaded during app initialization.
+- Signals registered in `contact.signals` are loaded during app initialization.
 
 """
 
@@ -33,4 +33,4 @@ class ContactConfig(AppConfig):
         
         Signals are used to execute code in response to model events like saving or deleting an object.
         """
-        import core.signals  # Importing signal handlers to connect them to Django's signal framework
+        import contact.signals  # Importing signal handlers to connect them to Django's signal framework
