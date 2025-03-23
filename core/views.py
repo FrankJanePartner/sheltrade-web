@@ -9,23 +9,41 @@ from giftcard.models import GiftCard
 from decimal import Decimal
 from django.contrib.auth import authenticate, login
 
-
+# Initialize the exchange rate utility
 exchange = ExchangeRate()
 
-
 def remove_first_char(s):
+    """
+    Removes the first character from a string if its length is greater than 10.
+    
+    Args:
+        s (str): The input string.
+    
+    Returns:
+        str: The modified string without the first character if applicable.
+    """
     return s[1:] if len(s) > 10 else s
 
-
-# Create your views here.
+# Home page view
 def home(request):
+    """
+    Renders the home page.
+    """
     return render(request, 'core/home.html')
 
+# About Us page view
 def aboutus(request):
+    """
+    Renders the About Us page.
+    """
     return render(request, 'core/aboutus.html')
 
 @login_required
 def dashboard(request):
+    """
+    Displays the user dashboard with transactions, notifications, and gift cards.
+    Redirects workers to their dashboard if they belong to the 'Workers' group.
+    """
     user = request.user
     transactions = Transaction.objects.filter(user=user)
     giftcards = GiftCard.objects.filter(seller=user)
@@ -33,168 +51,132 @@ def dashboard(request):
     unread_count = notifications.filter(is_read=False).count()
 
     context = {
-        "user":user,
-        "transactions":transactions,
+        "user": user,
+        "transactions": transactions,
         'notifications': notifications,
         'unread_count': unread_count
-        }
-
-    worker_context = {
-        "user":user,
-        "transactions":transactions,
-        'notifications': notifications,
-        'unread_count': unread_count
-        }
+    }
 
     if request.user.groups.filter(name='Workers').exists():
-        return redirect('workers:dashboard', worker_context)
+        return redirect('workers:dashboard', context)
     return render(request, 'core/dashboard.html', context)
 
 @login_required
 def profile(request):
+    """
+    Displays the profile of the logged-in user.
+    """
     user = request.user
     profile = Profile.objects.filter(user=user).first()
-    return render(request, 'profile/profile.html', {"profile":profile})
+    return render(request, 'profile/profile.html', {"profile": profile})
 
 @login_required
 def preferred_currency(request):
+    """
+    Allows users to set or update their preferred currency.
+    Updates the wallet balance based on the new currency exchange rate.
+    """
     if request.method == "POST":
-        currency = request.POST.get("currency")  # Get currency from POST data
+        currency = request.POST.get("currency")  # Retrieve currency from POST data
         user = request.user
         
-        presentUserProfile = Profile.objects.get(user=user)
-        presentUserCurrency = presentUserProfile.preferredCurrency
-
-        
+        profile = Profile.objects.get(user=user)
+        old_currency = profile.preferredCurrency
         wallet = Wallet.objects.get(user=user)
-        userBalance = wallet.userBalance
+        user_balance = wallet.userBalance
         
-        result = exchange.get_price(presentUserCurrency, currency)
+        # Convert balance to the new currency
+        result = exchange.get_price(old_currency, currency)
         rate = Decimal(result['conversion_rate'])
-
-        wallet.userBalance = userBalance * rate
+        wallet.userBalance = user_balance * rate
         wallet.save()
 
+        profile.preferredCurrency = currency
+        profile.save()
 
-        # Check if the Profile exists
-        profile = Profile.objects.filter(user=user).first()
-        if not profile:
-            # Create a Profile if it doesn't exist
-            profile = Profile.objects.create(user=user, preferredCurrency=currency)
-            profile.save()
+        Notification.objects.create(
+            user=user,
+            title='Preferred Currency Updated',
+            content="Your Preferred Currency has been updated successfully."
+        )
 
-            Notification.objects.create(
-                user=user,
-                title='Preferred Currency Set',
-                content="Your Preferred Currency Has been set successfully"
-            )
-
-
-            messages.success(request, 'Your Preferred Currency Has been set.')
-        else:
-            # Update the preferred currency
-            profile.preferredCurrency = currency
-            profile.save()
-
-            Notification.objects.create(
-                user=user,
-                title='Preferred Currency Updated',
-                content="Your Preferred Currency Has been Updated successfully"
-            )
-
-            messages.success(request, 'Your Preferred Currency Has been Updated.')
+        messages.success(request, 'Your Preferred Currency has been updated.')
         return redirect('core:profile')
-        # Handle the deposit logic here using the narration
 
 @login_required
 def notification(request):
+    """
+    Displays user notifications.
+    """
     notifications = Notification.objects.filter(user=request.user)
     unread_count = notifications.filter(is_read=False).count()
     return render(request, 'core/notification.html', {'notifications': notifications, 'unread_count': unread_count})
 
 @login_required
 def notification_detail(request, slug):
+    """
+    Displays the details of a specific notification.
+    Marks the notification as read if it was unread.
+    """
     notification = get_object_or_404(Notification, slug=slug)
-    # Mark as read when viewed
     if not notification.is_read:
         notification.mark_as_read()
-    context = {'notification': notification}
-    return render(request, 'core/notificationDetail.html', context)
-
+    return render(request, 'core/notificationDetail.html', {'notification': notification})
 
 @login_required
 def mark_all_as_read(request):
-    """Marks all notifications as read."""
+    """
+    Marks all notifications as read for the logged-in user.
+    """
     Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
     return redirect('core:notification')
 
-
 def settings(request):
+    """
+    Renders the settings page for the user.
+    """
     user = request.user
     profile = Profile.objects.filter(user=user).first()
-    return render(request, 'profile/settings.html', {"profile":profile})
-
+    return render(request, 'profile/settings.html', {"profile": profile})
 
 def addPhoneNumber(request):
+    """
+    Allows users to set or update their phone number.
+    """
     if request.method == "POST":
-        phone = request.POST.get("phone_Number")  # Get phone_Number from POST data
+        phone = request.POST.get("phone_Number")
         countries = request.POST.get('countries')
         user = request.user
-        if len(phone) > 10:
-            phone = remove_first_char(phone)
-        else:
-            phone = phone
-        phone_Number = countries+phone
 
-        presentUserProfile = Profile.objects.get(user=user)
-        presentUserPhoneNumber = presentUserProfile.phone_Number
+        phone = remove_first_char(phone) if len(phone) > 10 else phone
+        full_phone_number = countries + phone
 
-        notifications = Notification.objects.filter(user=request.user)
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.phone_Number = full_phone_number
+        profile.save()
 
-        profile = Profile.objects.filter(user=user).first()
-        if not profile:
-            # Create a Profile if it doesn't exist
-            profile = Profile.objects.create(user=user, phone_Number=phone_Number)
-            profile.save()
+        Notification.objects.create(
+            user=user,
+            title='Phone Number Updated',
+            content="Your Phone Number has been updated successfully."
+        )
 
-            Notification.objects.create(
-                user=user,
-                title='Phone Number Set',
-                content="Your Phone Number Has been set successfully"
-            )
-
-            messages.success(request, 'Phone Number Has been set.')
-        else:
-            # Update the Phone Number
-            profile.phone_Number = phone_Number
-            profile.save()
-
-            Notification.objects.create(
-                user=user,
-                title='Phone Number Updated',
-                content="Your Phone Number Has been Updated successfully"
-            )
-
-            messages.success(request, 'Phone Number Has been Updated.')
+        messages.success(request, 'Phone Number has been updated.')
         return redirect('core:profile')
 
-
 def phoneNumberLogin(request):
+    """
+    Allows users to log in using their phone number and password.
+    """
     if request.method == "POST":
-        code = request.POST.get('login')  # Get phone_Number from POST data
+        phone_number = request.POST.get('login')
         countries = request.POST.get('countries')
         password = request.POST.get('password')
-        user = request.user
-        tel = countries+code
+        tel = countries + phone_number
 
         try:
-            # Check if the phone number exists in the profile
-            user_profile = Profile.objects.get(phone_Number=tel)
-            user = user_profile.user  # Get the associated user
-
-            # Authenticate using the username (Allauth expects username or email)
-            user = authenticate(request, username=user.username, password=password)
-
+            profile = Profile.objects.get(phone_Number=tel)
+            user = authenticate(request, username=profile.user.username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Welcome {user.username}')
@@ -202,26 +184,28 @@ def phoneNumberLogin(request):
             else:
                 messages.error(request, 'Invalid phone number or password')
         except Profile.DoesNotExist:
-            messages.error(request, 'Phone number not found. Please login with email or username')
+            messages.error(request, 'Phone number not found. Please login with email or username.')
 
     return render(request, 'account/login_with_phone_number.html')
 
-
 def changeUserName(request):
+    """
+    Allows users to change their username.
+    """
     if request.method == 'POST':
-        newUser = request.POST.get('username')
+        new_username = request.POST.get('username')
         user = request.user
 
-        if User.objects.filter(username=newUser).exists():
-            messages.error(request, 'Username is taken')
+        if User.objects.filter(username=new_username).exists():
+            messages.error(request, 'Username is already taken.')
             return redirect('core:settings')
         else:
-            user.username = newUser
+            user.username = new_username
             user.save()
             Notification.objects.create(
                 user=user,
                 title='Change Username',
                 content="Username changed successfully!"
             )
-            messages.success(request, f'Username changed successfully!')
+            messages.success(request, 'Username changed successfully!')
             return redirect('core:settings')
