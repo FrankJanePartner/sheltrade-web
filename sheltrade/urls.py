@@ -34,6 +34,7 @@ urlpatterns = [
     
 
     # third party url
+    path('tinymce/', include('tinymce.urls')),
     path('accounts/', include('allauth.urls')),
     path('accounts/confirm-email/', include('allauth.account.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
