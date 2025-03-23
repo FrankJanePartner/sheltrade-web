@@ -26,7 +26,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User, Group
 from .models import Profile, TVSubscription, ElectricityPayment, Notification
 from wallet.models import Transaction
-from .middleware import RequestMiddleware
+from core.middleware import RequestMiddleware
 
 @receiver(post_save, sender=Transaction)
 def create_user_bills_or_tv_model(sender, instance, created, **kwargs):
