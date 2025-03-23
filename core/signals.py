@@ -11,12 +11,15 @@ from .models import Profile, Notification
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         # Create a profile instance for the new user
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance)        
 
-        # Assign user to the correct group
-        if instance.is_staff and not instance.is_superuser:
-            worker_group, _ = Group.objects.get_or_create(name='Workers')
-            instance.groups.add(worker_group)
-        elif not instance.is_staff and not instance.is_superuser:
-            customer_group, _ = Group.objects.get_or_create(name='Customers')
-            instance.groups.add(customer_group)
+
+@receiver(post_save, sender=User)
+def assign_user_group(sender, instance, created, **kwargs):
+
+    if instance.is_staff and not instance.is_superuser:
+        worker_group, _ = Group.objects.get_or_create(name='Workers')
+        instance.groups.add(worker_group)
+    elif not instance.is_staff and not instance.is_superuser:
+        customer_group, _ = Group.objects.get_or_create(name='Customers')
+        instance.groups.add(customer_group)
