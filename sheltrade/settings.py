@@ -4,12 +4,11 @@ from pathlib import Path
 import environ
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Set up environment variables
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -21,9 +20,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=env('SECRET_KEY')
+SECRET_KEY="django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+"
 
-# API and other important info
+# # API and other important info
 VTPass_API_KEY=env('VTPass_API_KEY')
 VTPass_PUBLIC_KEY=env('VTPass_PUBLIC_KEY')
 VTPass_SECRET_KEY=env('VTPass_SECRET_KEY')
@@ -284,12 +283,13 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # DEFAULT_FROM_EMAIL = 'partnermarvel55@gmail.com'
 
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8081",
-#     "http://127.0.0.1:8081",
-#     "http://localhost:8082",
-#     "http://127.0.0.1:8082",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8081",
+    "http://127.0.0.1:8081",
+    "http://localhost:8082",
+    "http://127.0.0.1:8082",
+]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 DJREST_AUTH = {

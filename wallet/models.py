@@ -1,88 +1,114 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Define constants for transaction status
-class TransactionStatus:
-    """
-    Defines the possible statuses for a transaction.
-    """
-    PENDING = 'Pending'
-    APPROVED = 'Approved'
-    REJECTED = 'Rejected'
-
-    PAYMENT_STATUS = [
-        (PENDING, 'Pending'),
-        (APPROVED, 'Approved'),
-        (REJECTED, 'Rejected'),
-    ]
-
 class Wallet(models.Model):
     """
     Represents a user's wallet, storing their balance and cashback earned.
+
+    This model tracks the user's wallet balance, cashback, and transaction history.
+
+    Attributes:
+        user (User): The user associated with this wallet.
+        balance (Decimal): The current balance in the wallet.
+        cashback (Decimal): The total cashback earned by the user.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    userBalance = models.DecimalField(max_digits=1000, decimal_places=2, default=0, help_text="Current balance in the user's wallet.")
-    cashBackEarned = models.DecimalField(max_digits=1000, decimal_places=2, default=0, help_text="Total cashback earned by the user.")
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    cashback = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
-        return f'{self.user.username} - Balance: {self.userBalance}'
+        """
+        Returns a string representation of the Wallet instance.
+        """
+        return f'{self.user.username} Wallet'
 
 class Transaction(models.Model):
     """
-    Represents a financial transaction made by a user.
+    Represents a transaction made by the user.
+
+    This model stores information about transactions, including the user, amount, 
+    transaction type, and status.
+
+    Attributes:
+        user (User): The user associated with this transaction.
+        transaction_type (str): The type of transaction (e.g., deposit, withdrawal).
+        amount (Decimal): The amount involved in the transaction.
+        status (str): The status of the transaction (e.g., completed, pending).
     """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    proof_of_payment = models.FileField(upload_to="images/proof_of_payment", blank=True, help_text="Upload proof of payment if required.")
-    transaction_type = models.CharField(max_length=50, help_text="Type of transaction, e.g., Deposit, Withdrawal, Purchase.")
-    amount = models.DecimalField(max_digits=1000, decimal_places=2, default=0, help_text="Transaction amount.")
-    status = models.CharField(max_length=10, choices=TransactionStatus.PAYMENT_STATUS, default=TransactionStatus.PENDING, help_text="Current transaction status.")
-    date_time = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the transaction was created.")
+    transaction_type = models.CharField(max_length=50)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.user.username} - {self.transaction_type} - {self.amount} - {self.status}"
+        """
+        Returns a string representation of the Transaction instance.
+        """
+        return f'Transaction {self.id} - {self.transaction_type} - {self.amount}'
 
 class DepositNarration(models.Model):
     """
-    Stores additional details about a deposit transaction.
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='deposit_narrations')
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='deposit_narrations')
-    narration = models.CharField(max_length=50, help_text="Additional description or reference for the deposit.")
+    Represents a narration for a deposit transaction.
 
-    class Meta:
-        verbose_name = 'Deposit Narration'
-        verbose_name_plural = 'Deposit Narrations'
-    
+    This model stores additional information about deposit transactions.
+
+    Attributes:
+        transaction (Transaction): The associated transaction.
+        narration (str): The narration or description of the deposit.
+    """
+
+    transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
+    narration = models.TextField()
+
     def __str__(self):
-        return f"{self.user.username} - {self.narration}"
+        """
+        Returns a string representation of the DepositNarration instance.
+        """
+        return f'Deposit Narration for Transaction {self.transaction.id}'
 
 class Withdrawal(models.Model):
     """
-    Represents a withdrawal request by a user.
+    Represents a withdrawal made by the user.
+
+    This model stores information about withdrawals, including the user, amount, 
+    and status.
+
+    Attributes:
+        user (User): The user associated with this withdrawal.
+        amount (Decimal): The amount withdrawn.
+        status (str): The status of the withdrawal (e.g., completed, pending).
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='withdrawals')
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='withdrawals')
-    account_name = models.CharField(max_length=50, help_text="Account holder's name.")
-    account_number = models.CharField(max_length=50, help_text="Bank account number.")
-    bank_name = models.CharField(max_length=50, help_text="Bank name.")
-    timestamp = models.DateTimeField(auto_now_add=True, help_text="Timestamp of withdrawal request.")
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.user.username} requested {self.transaction.amount} withdrawal to {self.account_name}" 
+        """
+        Returns a string representation of the Withdrawal instance.
+        """
+        return f'Withdrawal {self.id} - {self.amount}'
 
 class WithdrawalAccount(models.Model):
     """
-    Stores the user's preferred bank account for withdrawals.
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='withdrawal_accounts')
-    account_name = models.CharField(max_length=50, help_text="Name on the bank account.")
-    account_number = models.CharField(max_length=50, help_text="Bank account number.")
-    bank_name = models.CharField(max_length=50, help_text="Bank name.")
-    timestamp = models.DateTimeField(auto_now_add=True, help_text="Timestamp of account addition.")
+    Represents a withdrawal account for the user.
 
-    class Meta:
-        verbose_name = 'Withdrawal Account'
-        verbose_name_plural = 'Withdrawal Accounts'
+    This model stores information about the user's withdrawal accounts.
+
+    Attributes:
+        user (User): The user associated with this withdrawal account.
+        account_number (str): The account number for withdrawals.
+        bank_name (str): The name of the bank associated with the account.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    account_number = models.CharField(max_length=255)
+    bank_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.user.username} - {self.bank_name} Account"
+        """
+        Returns a string representation of the WithdrawalAccount instance.
+        """
+        return f'{self.user.username} - {self.bank_name} - {self.account_number}'

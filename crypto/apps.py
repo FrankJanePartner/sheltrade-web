@@ -1,5 +1,3 @@
-from django.apps import AppConfig
-
 """
 App Configuration for the Crypto App.
 
@@ -14,11 +12,10 @@ Features:
 Usage:
 - This configuration is automatically applied when Django starts.
 - Signals registered in `Crypto.signals` are loaded during app initialization.
-
 """
+from django.apps import AppConfig
 
 class CryptoConfig(AppConfig):
     """Configuration class for the Crypto app."""
     default_auto_field = 'django.db.models.BigAutoField'  # Sets the default primary key field type
     name = 'crypto'   # Defines the name of the app
-
