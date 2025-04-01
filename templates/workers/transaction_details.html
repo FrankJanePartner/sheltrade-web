@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+
+<html lang="en-us" dir="ltr">
+<head>
+<title>Add transaction | Sheltrade Admin Panel</title>
+<link rel="stylesheet" href="/static/admin/css/base.css">
+
+  <link rel="stylesheet" href="/static/admin/css/dark_mode.css">
+  <script src="/static/admin/js/theme.js"></script>
+
+
+  <link rel="stylesheet" href="/static/admin/css/nav_sidebar.css">
+  <script src="/static/admin/js/nav_sidebar.js" defer></script>
+
+<link rel="stylesheet" href="/static/admin/css/forms.css">
+
+
+<script src="/admin/jsi18n/"></script>
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="/static/admin/js/jquery.init.js"></script>
+<script src="/static/admin/js/core.js"></script>
+<script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script src="/static/admin/js/actions.js"></script>
+<script src="/static/admin/js/urlify.js"></script>
+<script src="/static/admin/js/prepopulate.js"></script>
+<script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/admin/css/responsive.css">
+    
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+<body class=" app-wallet model-transaction change-form"
+  data-admin-utc-offset="0">
+<a href="#content-start" class="skip-to-content-link">Skip to main content</a>
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    
+      <header id="header">
+        <div id="branding">
+        
+<div id="site-name"><a href="/admin/">Sheltrade</a></div>
+
+
+        </div>
+        
+        
+        <div id="user-tools">
+            
+                Welcome,
+                <strong>JPartner</strong>.
+            
+            
+                
+                    <a href="/">View site</a> /
+                
+                
+                    
+                    
+                
+                
+                <a href="/admin/password_change/">Change password</a> /
+                
+                <form id="logout-form" method="post" action="/admin/logout/">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="W6Zyzd9ui31zUYOYwBhHni1IgetOBFQncH0d1iJzWeRy95W6EA9BOehdFvHIp7ZJ">
+                    <button type="submit">Log out</button>
+                </form>
+                
+<button class="theme-toggle">
+  <span class="visually-hidden theme-label-when-auto">Toggle theme (current theme: auto)</span>
+  <span class="visually-hidden theme-label-when-light">Toggle theme (current theme: light)</span>
+  <span class="visually-hidden theme-label-when-dark">Toggle theme (current theme: dark)</span>
+  <svg aria-hidden="true" class="theme-icon-when-auto">
+    <use xlink:href="#icon-auto" />
+  </svg>
+  <svg aria-hidden="true" class="theme-icon-when-dark">
+    <use xlink:href="#icon-moon" />
+  </svg>
+  <svg aria-hidden="true" class="theme-icon-when-light">
+    <use xlink:href="#icon-sun" />
+  </svg>
+</button>
+
+            
+        </div>
+        
+        
+        
+      </header>
+    
+    <!-- END Header -->
+    
+      <nav aria-label="Breadcrumbs">
+        
+<div class="breadcrumbs">
+<a href="/admin/">Home</a>
+&rsaquo; <a href="/admin/wallet/">Wallet</a>
+&rsaquo; <a href="/admin/wallet/transaction/">Transactions</a>
+&rsaquo; Add transaction
+</div>
+
+      </nav>
+    
+    
+
+    <div class="main" id="main">
+      
+        
+          
+<button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+<nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
+  <input type="search" id="nav-filter"
+         placeholder="Start typing to filter…"
+         aria-label="Filter navigation items">
+  
+
+
+  
+    <div class="app-account module">
+      <table>
+        <caption>
+          <a href="/admin/account/" class="section" title="Models in the Accounts application">Accounts</a>
+        </caption>
+        
+          
+            <tr class="model-emailaddress">
+              <th scope="row" id="account-emailaddress">
+                
+                  <a href="/admin/account/emailaddress/">Email addresses</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/account/emailaddress/add/" class="addlink" aria-describedby="account-emailaddress">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-authtoken module">
+      <table>
+        <caption>
+          <a href="/admin/authtoken/" class="section" title="Models in the Auth Token application">Auth Token</a>
+        </caption>
+        
+          
+            <tr class="model-tokenproxy">
+              <th scope="row" id="authtoken-tokenproxy">
+                
+                  <a href="/admin/authtoken/tokenproxy/">Tokens</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/authtoken/tokenproxy/add/" class="addlink" aria-describedby="authtoken-tokenproxy">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-auth module">
+      <table>
+        <caption>
+          <a href="/admin/auth/" class="section" title="Models in the Authentication and Authorization application">Authentication and Authorization</a>
+        </caption>
+        
+          
+            <tr class="model-group">
+              <th scope="row" id="auth-group">
+                
+                  <a href="/admin/auth/group/">Groups</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/auth/group/add/" class="addlink" aria-describedby="auth-group">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-user">
+              <th scope="row" id="auth-user">
+                
+                  <a href="/admin/auth/user/">Users</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/auth/user/add/" class="addlink" aria-describedby="auth-user">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-billPayments module">
+      <table>
+        <caption>
+          <a href="/admin/billPayments/" class="section" title="Models in the Billpayments application">Billpayments</a>
+        </caption>
+        
+          
+            <tr class="model-electricitypayment">
+              <th scope="row" id="billPayments-electricitypayment">
+                
+                  <a href="/admin/billPayments/electricitypayment/">Electricity Payments</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/billPayments/electricitypayment/add/" class="addlink" aria-describedby="billPayments-electricitypayment">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-tvsubscription">
+              <th scope="row" id="billPayments-tvsubscription">
+                
+                  <a href="/admin/billPayments/tvsubscription/">TV Subscriptions</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/billPayments/tvsubscription/add/" class="addlink" aria-describedby="billPayments-tvsubscription">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-contact module">
+      <table>
+        <caption>
+          <a href="/admin/contact/" class="section" title="Models in the Contact application">Contact</a>
+        </caption>
+        
+          
+            <tr class="model-contact">
+              <th scope="row" id="contact-contact">
+                
+                  <a href="/admin/contact/contact/">Contacts</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/contact/contact/add/" class="addlink" aria-describedby="contact-contact">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-core module">
+      <table>
+        <caption>
+          <a href="/admin/core/" class="section" title="Models in the Core application">Core</a>
+        </caption>
+        
+          
+            <tr class="model-notification">
+              <th scope="row" id="core-notification">
+                
+                  <a href="/admin/core/notification/">Notifications</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/core/notification/add/" class="addlink" aria-describedby="core-notification">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-profile">
+              <th scope="row" id="core-profile">
+                
+                  <a href="/admin/core/profile/">Profiles</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/core/profile/add/" class="addlink" aria-describedby="core-profile">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-crypto module">
+      <table>
+        <caption>
+          <a href="/admin/crypto/" class="section" title="Models in the Crypto application">Crypto</a>
+        </caption>
+        
+          
+            <tr class="model-useraddress">
+              <th scope="row" id="crypto-useraddress">
+                
+                  <a href="/admin/crypto/useraddress/">User Addresses</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/crypto/useraddress/add/" class="addlink" aria-describedby="crypto-useraddress">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-giftcard module">
+      <table>
+        <caption>
+          <a href="/admin/giftcard/" class="section" title="Models in the Giftcard application">Giftcard</a>
+        </caption>
+        
+          
+            <tr class="model-giftcard">
+              <th scope="row" id="giftcard-giftcard">
+                
+                  <a href="/admin/giftcard/giftcard/">Gift cards</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/giftcard/giftcard/add/" class="addlink" aria-describedby="giftcard-giftcard">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-legal module">
+      <table>
+        <caption>
+          <a href="/admin/legal/" class="section" title="Models in the Legal application">Legal</a>
+        </caption>
+        
+          
+            <tr class="model-legal">
+              <th scope="row" id="legal-legal">
+                
+                  <a href="/admin/legal/legal/">Legal</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/legal/legal/add/" class="addlink" aria-describedby="legal-legal">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-mobileTopUp module">
+      <table>
+        <caption>
+          <a href="/admin/mobileTopUp/" class="section" title="Models in the Mobiletopup application">Mobiletopup</a>
+        </caption>
+        
+          
+            <tr class="model-savedtransactioninfo">
+              <th scope="row" id="mobileTopUp-savedtransactioninfo">
+                
+                  <a href="/admin/mobileTopUp/savedtransactioninfo/">Saved Transaction Infos</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/mobileTopUp/savedtransactioninfo/add/" class="addlink" aria-describedby="mobileTopUp-savedtransactioninfo">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-sheltradeAdmin module">
+      <table>
+        <caption>
+          <a href="/admin/sheltradeAdmin/" class="section" title="Models in the Sheltradeadmin application">Sheltradeadmin</a>
+        </caption>
+        
+          
+            <tr class="model-bankdetail">
+              <th scope="row" id="sheltradeAdmin-bankdetail">
+                
+                  <a href="/admin/sheltradeAdmin/bankdetail/">Bank Details</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/sheltradeAdmin/bankdetail/add/" class="addlink" aria-describedby="sheltradeAdmin-bankdetail">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-cashback">
+              <th scope="row" id="sheltradeAdmin-cashback">
+                
+                  <a href="/admin/sheltradeAdmin/cashback/">Cash Backs</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/sheltradeAdmin/cashback/add/" class="addlink" aria-describedby="sheltradeAdmin-cashback">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-cryptowallet">
+              <th scope="row" id="sheltradeAdmin-cryptowallet">
+                
+                  <a href="/admin/sheltradeAdmin/cryptowallet/">Crypto Wallets</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/sheltradeAdmin/cryptowallet/add/" class="addlink" aria-describedby="sheltradeAdmin-cryptowallet">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-transactioncharge">
+              <th scope="row" id="sheltradeAdmin-transactioncharge">
+                
+                  <a href="/admin/sheltradeAdmin/transactioncharge/">Transaction Charges</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/sheltradeAdmin/transactioncharge/add/" class="addlink" aria-describedby="sheltradeAdmin-transactioncharge">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-sites module">
+      <table>
+        <caption>
+          <a href="/admin/sites/" class="section" title="Models in the Sites application">Sites</a>
+        </caption>
+        
+          
+            <tr class="model-site">
+              <th scope="row" id="sites-site">
+                
+                  <a href="/admin/sites/site/">Sites</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/sites/site/add/" class="addlink" aria-describedby="sites-site">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-socialaccount module">
+      <table>
+        <caption>
+          <a href="/admin/socialaccount/" class="section" title="Models in the Social Accounts application">Social Accounts</a>
+        </caption>
+        
+          
+            <tr class="model-socialaccount">
+              <th scope="row" id="socialaccount-socialaccount">
+                
+                  <a href="/admin/socialaccount/socialaccount/">Social accounts</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/socialaccount/socialaccount/add/" class="addlink" aria-describedby="socialaccount-socialaccount">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-socialtoken">
+              <th scope="row" id="socialaccount-socialtoken">
+                
+                  <a href="/admin/socialaccount/socialtoken/">Social application tokens</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/socialaccount/socialtoken/add/" class="addlink" aria-describedby="socialaccount-socialtoken">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-socialapp">
+              <th scope="row" id="socialaccount-socialapp">
+                
+                  <a href="/admin/socialaccount/socialapp/">Social applications</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/socialaccount/socialapp/add/" class="addlink" aria-describedby="socialaccount-socialapp">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-token_blacklist module">
+      <table>
+        <caption>
+          <a href="/admin/token_blacklist/" class="section" title="Models in the Token Blacklist application">Token Blacklist</a>
+        </caption>
+        
+          
+            <tr class="model-blacklistedtoken">
+              <th scope="row" id="token_blacklist-blacklistedtoken">
+                
+                  <a href="/admin/token_blacklist/blacklistedtoken/">Blacklisted tokens</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/token_blacklist/blacklistedtoken/add/" class="addlink" aria-describedby="token_blacklist-blacklistedtoken">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-outstandingtoken">
+              <th scope="row" id="token_blacklist-outstandingtoken">
+                
+                  <a href="/admin/token_blacklist/outstandingtoken/">Outstanding tokens</a>
+                
+              </th>
+
+              
+                <td></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-wallet module current-app">
+      <table>
+        <caption>
+          <a href="/admin/wallet/" class="section" title="Models in the Wallet application">Wallet</a>
+        </caption>
+        
+          
+            <tr class="model-depositnarration">
+              <th scope="row" id="wallet-depositnarration">
+                
+                  <a href="/admin/wallet/depositnarration/">Deposit Narrations</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/wallet/depositnarration/add/" class="addlink" aria-describedby="wallet-depositnarration">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-transaction current-model">
+              <th scope="row" id="wallet-transaction">
+                
+                  <a href="/admin/wallet/transaction/" aria-current="page">Transactions</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/wallet/transaction/add/" class="addlink" aria-describedby="wallet-transaction">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-wallet">
+              <th scope="row" id="wallet-wallet">
+                
+                  <a href="/admin/wallet/wallet/">Wallets</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/wallet/wallet/add/" class="addlink" aria-describedby="wallet-wallet">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-withdrawalaccount">
+              <th scope="row" id="wallet-withdrawalaccount">
+                
+                  <a href="/admin/wallet/withdrawalaccount/">Withdrawal Accounts</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/wallet/withdrawalaccount/add/" class="addlink" aria-describedby="wallet-withdrawalaccount">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+          
+            <tr class="model-withdrawal">
+              <th scope="row" id="wallet-withdrawal">
+                
+                  <a href="/admin/wallet/withdrawal/">Withdrawals</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/wallet/withdrawal/add/" class="addlink" aria-describedby="wallet-withdrawal">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+    <div class="app-workers module">
+      <table>
+        <caption>
+          <a href="/admin/workers/" class="section" title="Models in the Workers application">Workers</a>
+        </caption>
+        
+          
+            <tr class="model-workersactivity">
+              <th scope="row" id="workers-workersactivity">
+                
+                  <a href="/admin/workers/workersactivity/">Worker&#x27;s Activities</a>
+                
+              </th>
+
+              
+                <td><a href="/admin/workers/workersactivity/add/" class="addlink" aria-describedby="workers-workersactivity">Add</a></td>
+              
+
+              
+            </tr>
+          
+        
+      </table>
+    </div>
+  
+
+
+</nav>
+
+        
+      
+      <main id="content-start" class="content" tabindex="-1">
+        
+          
+        
+        <!-- Content -->
+        <div id="content" class="colM">
+          
+          <h1>Add transaction</h1>
+          
+          <div id="content-main">
+
+
+
+<form enctype="multipart/form-data" method="post" id="transaction_form" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="W6Zyzd9ui31zUYOYwBhHni1IgetOBFQncH0d1iJzWeRy95W6EA9BOehdFvHIp7ZJ">
+<div>
+
+
+
+
+
+
+
+  
+<fieldset class="module aligned ">
+    
+    
+    
+        <div class="form-row field-user">
+            
+            
+                <div>
+                    
+                        <div class="flex-container">
+                            
+                                <label class="required" for="id_user">User:</label>
+                                
+                                    <div class="related-widget-wrapper" data-model-ref="user">
+    <select name="user" data-context="available-source" required id="id_user">
+  <option value="" selected>---------</option>
+
+  <option value="1">JPartner</option>
+
+  <option value="4">Worker1</option>
+
+  <option value="5">Worker2</option>
+
+  <option value="6">Worker3</option>
+
+  <option value="7">Worker4</option>
+
+  <option value="8">Worker5</option>
+
+</select>
+    
+        <a class="related-widget-wrapper-link change-related" id="change_id_user"
+            data-href-template="/admin/auth/user/__fk__/change/?_to_field=id&amp;_popup=1"
+            data-popup="yes"
+            title="Change selected user"><img src="/static/admin/img/icon-changelink.svg" alt="" width="20" height="20"></a><a class="related-widget-wrapper-link add-related" id="add_id_user"
+            data-popup="yes"
+            href="/admin/auth/user/add/?_to_field=id&amp;_popup=1"
+            title="Add another user"><img src="/static/admin/img/icon-addlink.svg" alt="" width="20" height="20"></a><a class="related-widget-wrapper-link view-related" id="view_id_user"
+             data-href-template="/admin/auth/user/__fk__/change/?_to_field=id"
+             title="View selected user"><img src="/static/admin/img/icon-viewlink.svg" alt="" width="20" height="20"></a>
+    
+</div>
+                                
+                            
+                        </div>
+                    
+                </div>
+            
+            
+        </div>
+    
+        <div class="form-row field-proof_of_payment">
+            
+            
+                <div>
+                    
+                        <div class="flex-container">
+                            
+                                <label for="id_proof_of_payment">Proof of payment:</label>
+                                
+                                    <input type="file" name="proof_of_payment" aria-describedby="id_proof_of_payment_helptext" id="id_proof_of_payment">
+                                
+                            
+                        </div>
+                    
+                        <div class="help" id="id_proof_of_payment_helptext">
+                            <div>Upload proof of payment if required.</div>
+                        </div>
+                    
+                </div>
+            
+            
+        </div>
+    
+        <div class="form-row field-transaction_type">
+            
+            
+                <div>
+                    
+                        <div class="flex-container">
+                            
+                                <label class="required" for="id_transaction_type">Transaction type:</label>
+                                
+                                    <input type="text" name="transaction_type" class="vTextField" maxlength="50" required aria-describedby="id_transaction_type_helptext" id="id_transaction_type">
+                                
+                            
+                        </div>
+                    
+                        <div class="help" id="id_transaction_type_helptext">
+                            <div>Type of transaction, e.g., Deposit, Withdrawal, Purchase.</div>
+                        </div>
+                    
+                </div>
+            
+            
+        </div>
+    
+        <div class="form-row field-amount">
+            
+            
+                <div>
+                    
+                        <div class="flex-container">
+                            
+                                <label class="required" for="id_amount">Amount:</label>
+                                
+                                    <input type="number" name="amount" value="0" step="0.01" required aria-describedby="id_amount_helptext" id="id_amount">
+                                
+                            
+                        </div>
+                    
+                        <div class="help" id="id_amount_helptext">
+                            <div>Transaction amount.</div>
+                        </div>
+                    
+                </div>
+            
+            
+        </div>
+    
+        <div class="form-row field-status">
+            
+            
+                <div>
+                    
+                        <div class="flex-container">
+                            
+                                <label class="required" for="id_status">Status:</label>
+                                
+                                    <select name="status" aria-describedby="id_status_helptext" id="id_status">
+  <option value="Pending" selected>Pending</option>
+
+  <option value="Approved">Approved</option>
+
+  <option value="Rejected">Rejected</option>
+
+</select>
+                                
+                            
+                        </div>
+                    
+                        <div class="help" id="id_status_helptext">
+                            <div>Current transaction status.</div>
+                        </div>
+                    
+                </div>
+            
+            
+        </div>
+    
+    
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+
+<input type="submit" value="Save" class="default" name="_save">
+
+<input type="submit" value="Save and add another" name="_addanother">
+<input type="submit" value="Save and continue editing" name="_continue">
+
+
+
+</div>
+
+
+
+    <script id="django-admin-form-add-constants"
+            src="/static/admin/js/change_form.js"
+            
+                data-model-name="transaction"
+            
+            async>
+    </script>
+
+
+
+
+<script id="django-admin-prepopulated-fields-constants"
+        src="/static/admin/js/prepopulate_init.js"
+        data-prepopulated-fields="[]">
+</script>
+
+
+</div>
+</form></div>
+
+          
+          <br class="clear">
+        </div>
+        <!-- END Content -->
+      </main>
+    </div>
+    <footer id="footer"></footer>
+</div>
+<!-- END Container -->
+
+<!-- SVGs -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<!-- END SVGs -->
+</body>
+</html>

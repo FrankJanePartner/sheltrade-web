@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'core/css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/validateGiftcard.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/iconStyles.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
@@ -27,163 +28,54 @@
 </head>
 <body>
     <div class="container dashboard">
+        <section class="firstSection">
+            <h2>Welcome, <span class="userName">{{ user.username }}</span></h2>
+            <div class="div">
+                <a href="/dashboard/">
+                    <img src="{% static 'core/image/Icon white.png' %}" alt="logo" class="logo">
+                </a>
+            </div>
+        </section>
+        <h2>Tasks</h2>
         <section class="secondSection grid-container">
-            <h2>Gift Cards</h2>
             <section class="grid-item">
                 <div>
                     <img src="{% static 'core/image/Icon.png' %}" alt="" >
                     <span>Wallet</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
                 </div>
             </section>
             <section class="grid-item">
                 <div>
                     <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Deposit</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Withdraw</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Buy GiftCard</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Sell GiftCard</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Buy Crypto</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Sell Crypto</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Buy Airtime</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Buy Data</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Pay Bills</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Subscriptions</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Transactions</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
-                </div>
-            </section>
-            <section class="grid-item">
-                <div>
-                    <img src="{% static 'core/image/Icon.png' %}" alt="" >
-                    <span>Market Place</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Approve</a>
-                        <a href="">Reject</a>
-                    </span>
+                    <span>Wallet</span>
                 </div>
             </section>
         </section>
-        <section class="secondSection grid-container">
-            <h2>Contact Messages</h2>
-            <section class="grid-item">
+        <section class="bottomSection">
+            <a href="/dashboard/" class="navItems active">
                 <div>
-                    <span>New message from User1</span>
-                    <span>
-                        <a href="">Check</a>
-                        <a href="">Respond</a>
-                    </span>
+                    <i class="fas fa-tachometer-alt dashboard-icon"></i>
+                    <span>Dashboard</span>
                 </div>
-            </section>
+            </a>
+            <a href="/profile/" class="navItems">
+                <div>
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+            </a>
+            <a href="/settings/" class="navItems">
+                <div>
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </a>
+            <a href="/contact/" class="navItems">
+                <div>
+                    <i class="fas fa-question-circle"></i>
+                    <span>Contact Us</span>
+                </div>
+            </a>
         </section>
     </div>
     <script>

@@ -1,3 +1,4 @@
+
 import os
 from pathlib import Path
 import environ
@@ -7,6 +8,11 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Set up environment variables
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -78,14 +84,16 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-
     'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    # corsheaders specific middleware
     "corsheaders.middleware.CorsMiddleware",
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -276,10 +284,13 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # DEFAULT_FROM_EMAIL = 'partnermarvel55@gmail.com'
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",
-    "http://127.0.0.1:8081",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8081",
+#     "http://127.0.0.1:8081",
+#     "http://localhost:8082",
+#     "http://127.0.0.1:8082",
+# ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 DJREST_AUTH = {
     'USE_JSON': True,

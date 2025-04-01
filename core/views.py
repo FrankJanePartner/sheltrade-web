@@ -58,7 +58,7 @@ def dashboard(request):
     }
 
     if request.user.groups.filter(name='Workers').exists():
-        return redirect('workers:dashboard', context)
+        return redirect('workers:dashboard')
     return render(request, 'core/dashboard.html', context)
 
 @login_required
