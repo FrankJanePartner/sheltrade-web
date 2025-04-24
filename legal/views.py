@@ -7,4 +7,4 @@ def terms_conditions(request, slug):
     context = {
         'legal':legal,
     }
-    return render(request, 'lagal/terms_conditions.html')
+    return render(request, 'lagal/terms_conditions.html', context)
