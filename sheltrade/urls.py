@@ -29,8 +29,6 @@ urlpatterns = [
     path('legal/', include('legal.urls', namespace='legal')),
     path('mobileTopUp/', include('mobileTopUp.urls', namespace='mobileTopUp')),
     path('billPayments/', include('billPayments.urls', namespace='billPayments')),
-    path('workers/', include('workers.urls', namespace='workers')),
-    # path('sheltradeAdmin/', include('sheltradeAdmin.urls', namespace='sheltradeAdmin')),
     path('api/', include('sheltradeAPI.urls', namespace='sheltradeAPI')),
     
 

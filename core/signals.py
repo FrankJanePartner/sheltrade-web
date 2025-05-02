@@ -2,6 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Group
 from .models import Profile
+from wallet.models import Wallet
 from .middleware import RequestMiddleware
 
 
@@ -11,7 +12,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
     if created:
         # Create a profile instance for the new user
-        Profile.objects.create(user=instance)
+        Profile.objects.get_or_create(user=instance)
+        Wallet.objects.get_or_create(user=instance)
 
         if request and request.path.startswith("/admin/auth/user/add/"):
             instance.is_staff = True  # Ensure staff status

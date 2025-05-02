@@ -17,7 +17,6 @@ from django.utils.html import strip_tags
 def create_user_transaction(sender, instance, created, **kwargs):
     if created:
         # Create a Transaction instance for the new user
-        Wallet.objects.create(user=instance)
         Notification.objects.create(
             user=instance,
             title='Account Created',

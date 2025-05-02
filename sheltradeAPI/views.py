@@ -18,6 +18,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 # FROM SHELTRADE API APP INPORT
 from .serializer import (
@@ -35,6 +37,7 @@ from giftcard.models import GiftCard, BuyGiftCard
 from mobileTopUp.models import SavedTransactionInfo
 from sheltradeAdmin.models import BankDetail, CryptoWallet, TransactionCharge, CashBack
 from wallet.models import Wallet, Transaction, DepositNarration, Withdrawal, WithdrawalAccount
+
 # from workers.models import
 from billPayments.utils import VTUBILLSAPI, VT_EMAIL, VT_PASSWORD
 from core.utils import ExchangeRate
@@ -369,36 +372,31 @@ class PhoneNumberView(APIView):
 class PhoneNumberLoginView(APIView):
 
     def post(self, request):
-        phone = request.data.get('phone_number')  # Get phone_Number from POST data
-        countries = request.data.get('countries')
+        phone = request.data.get('phone_number')
         password = request.data.get('password')
-        user = request.user
-        if len(str(phone)) > 10:
-            phone = remove_first_char(phone)
-        else:
-            phone = phone
-
-        tel = f"{countries}{phone}"
-        print(password)
 
         try:
-            # Check if the phone number exists in the profile
-            user_profile = Profile.objects.get(phone_Number=tel)
-            user = user_profile.user  # Get the associated user
+            # Get user by phone number
+            user_profile = Profile.objects.get(phone_Number=phone)
+            user = user_profile.user
 
-            # Authenticate using the username (Allauth expects username or email)
+            # Authenticate using username
             user = authenticate(request, username=user.username, password=password)
 
             if user is not None:
                 login(request, user)
-                token = TokenObtainPairView.object.get(user=user)
-                print(token.access_token)
-                return Response({"message": f"Welcome {user.username}"})
-
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    "message": f"Welcome {user.username}",
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                })
             else:
-                return Response({"message": "Invalid phone number or password"})
+                return Response({"detail": "Invalid phone number or password"}, status=status.HTTP_401_UNAUTHORIZED)
+
         except Profile.DoesNotExist:
-            return Response({"message": "Phone number not found. Please login with email or username"})
+            return Response({"message": "Phone number not found. Please login with email or username"}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 class NotificationListView(generics.ListAPIView):

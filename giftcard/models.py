@@ -50,7 +50,7 @@ class BuyGiftCard(models.Model):
         escrow_status (str): The status of the escrow for the transaction.
     """
 
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     gift_card = models.ForeignKey(GiftCard, on_delete=models.CASCADE)
     escrow_status = models.CharField(max_length=50, default='held')
 

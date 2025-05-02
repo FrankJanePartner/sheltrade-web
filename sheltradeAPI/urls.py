@@ -67,9 +67,9 @@ urlpatterns = [
     ),
     path("user-phone-number/", PhoneNumberView.as_view(), name="user-phone-number"),
     path(
-        "accounts/login/phone_Number/",
+        "login/phone_Number/",
         PhoneNumberLoginView.as_view(),
-        name="user-phone-number",
+        name="phone_Number",
     ),
     # Notifications API
     path("notifications/", NotificationListView.as_view(), name="notification-list"),
