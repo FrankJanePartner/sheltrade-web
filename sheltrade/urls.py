@@ -26,7 +26,6 @@ urlpatterns = [
     path('crypto/', include('crypto.urls', namespace='crypto')),
     path('wallet/', include('wallet.urls', namespace='wallet')),
     path('giftcard/', include('giftcard.urls', namespace='giftcard')),
-    path('legal/', include('legal.urls', namespace='legal')),
     path('mobileTopUp/', include('mobileTopUp.urls', namespace='mobileTopUp')),
     path('billPayments/', include('billPayments.urls', namespace='billPayments')),
     path('api/', include('sheltradeAPI.urls', namespace='sheltradeAPI')),

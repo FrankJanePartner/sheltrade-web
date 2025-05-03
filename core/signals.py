@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from .models import Profile
 from wallet.models import Wallet
 from .middleware import RequestMiddleware
+from django.db.models.signals import post_migrate
 
 
 @receiver(post_save, sender=User)
@@ -26,3 +27,9 @@ def create_user_profile(sender, instance, created, **kwargs):
         elif not instance.is_staff and not instance.is_superuser:
             customer_group, _ = Group.objects.get_or_create(name="Customers")
             instance.groups.add(customer_group)
+
+
+
+@receiver(post_migrate)
+def create_worker_group(sender, **kwargs):
+    Group.objects.get_or_create(name='Workers')

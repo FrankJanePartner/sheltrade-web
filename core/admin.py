@@ -14,8 +14,13 @@ Usage:
 - The `core` model is automatically available in the Django admin dashboard after registration.
 """
 from django.contrib import admin
-from  .models import Profile, Notification
+from  .models import Profile, Notification, Legal
 
 # Register the core model in the Django admin panel
+@admin.register(Legal)
+class LegalAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+
 admin.site.register(Profile)
 admin.site.register(Notification)

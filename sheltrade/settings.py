@@ -15,10 +15,6 @@ load_dotenv()
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY="django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+"
 
@@ -58,7 +54,6 @@ INSTALLED_APPS = [
     'core',
     'crypto',
     'giftcard',
-    'legal',
     'mobileTopUp',
     'sheltradeAdmin',
     'sheltradeAPI',

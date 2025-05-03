@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Profile, Notification
+from .models import Profile, Notification, Legal
 from .utils import ExchangeRate
 from wallet.models import Transaction, Wallet
 from django.contrib import messages
@@ -59,6 +59,10 @@ def dashboard(request):
 
     if request.user.groups.filter(name='Workers').exists():
         return redirect('/admin/')
+    elif request.user.is_superuser:
+        return redirect('/admin/')
+    else:
+        return redirect('/dashboard/')
     return render(request, 'core/dashboard.html', context)
 
 @login_required
@@ -209,3 +213,11 @@ def changeUserName(request):
             )
             messages.success(request, 'Username changed successfully!')
             return redirect('core:settings')
+
+
+def legal(request, slug):
+    legal = Legal.objects.filter(slug=slug)
+    context = {
+        'legal':legal,
+    }
+    return render(request, 'core/legal.html', context)

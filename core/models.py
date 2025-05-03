@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils.text import slugify
+from tinymce.models import HTMLField
+
 
 # ============================
 # User Profile Model
@@ -96,3 +98,23 @@ class Notification(models.Model):
         if not self.slug:
             self.slug = slugify(f'{self.id}{self.title}')[:20]  # Ensure slug length constraint
         super().save(*args, **kwargs)
+
+
+
+# ============================
+# Legal Model
+# ============================
+class Legal(models.Model):
+    name = models.URLField()
+    slug = models.SlugField(max_length=100)    
+    content = HTMLField()
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return f'{self.name}'
+    
+    class Meta:
+        verbose_name_plural = "Legal"
+        ordering = ['-created_at']
+
+

@@ -16,22 +16,35 @@ Usage:
 
 """
 
+from django.apps import AppConfig
+import sys
+import logging
+
+logger = logging.getLogger(__name__)
+
 class WorkersConfig(AppConfig):
     """Configuration class for the Workers app."""
-    default_auto_field = 'django.db.models.BigAutoField'  # Sets the default primary key field type
-    name = 'workers'   # Defines the name of the app
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'workers'
 
     def ready(self):
-        from django.contrib.auth.models import Group, Permission
-        from django.contrib.contenttypes.models import ContentType
-        from django.apps import apps
+        if 'makemigrations' in sys.argv or 'migrate' in sys.argv:
+            return  # Avoid running during migrations
 
-        staff_group, _ = Group.objects.get_or_create(name='Workers')
+        try:
+            from django.contrib.auth.models import Group, Permission
+            from django.contrib.contenttypes.models import ContentType
+            from django.apps import apps
 
-        for model in apps.get_models():
-            content_type = ContentType.objects.get_for_model(model)
-            perms = Permission.objects.filter(content_type=content_type)
+            staff_group, _ = Group.objects.get_or_create(name='Workers')
 
-            for perm in perms:
-                if "view" in perm.codename or "change" in perm.codename:
-                    staff_group.permissions.add(perm)
+            for model in apps.get_models():
+                content_type = ContentType.objects.get_for_model(model)
+                perms = Permission.objects.filter(content_type=content_type)
+
+                for perm in perms:
+                    if perm.codename.startswith("view_") or perm.codename.startswith("change_"):
+                        staff_group.permissions.add(perm)
+                        logger.debug(f"Added permission {perm.codename} to Workers group")
+        except Exception as e:
+            logger.warning(f"Skipping permission setup in Workers.ready() due to error: {e}")
