@@ -63,30 +63,47 @@
             </div>
         </section>
 
-        <section id="testimonials">
+        <section id="testimonials first-wrapper">
             <h2>What Our Users Say</h2>
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
-                    <span>
-                        <p>"Sheltrade has made managing my digital transactions so much easier!"</p>
-                        <cite>- John D.</cite>
-                    </span>
-                </div>
-                <div class="testimonial">
-                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
-                    <span>
-                        <p>"The cryptocurrency trading platform is user-friendly and secure."</p>
-                        <cite>- Sarah M.</cite>
-                    </span>
-                </div>
-                <div class="testimonial">
-                    <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
-                    <span>
-                        <p>"I love how I can pay all my bills in one place. Highly recommended!"</p>
-                        <cite>- Michael R.</cite>
-                    </span>
-                </div>
+            <div class="testimonial-slider wrapper">
+                <i id="left" class="fa-solid fa-angle-left"></i>
+                <div class="carousel">
+                    {% if reviews %}
+                        {% for r in reviews %}
+                            <div class="testimonial">
+                                <img src="{{ r.image.url }}" alt="{{ r.sender }}">
+                                <span>
+                                    <p>{{ r.content }}</p>
+                                    <cite>- {{ r.sender }}</cite>
+                                </span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="testimonial">
+                            <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                            <span>
+                                <p>"Sheltrade has made managing my digital transactions so much easier!"</p>
+                                <cite>- John D.</cite>
+                            </span>
+                        </div>
+                        <div class="testimonial">
+                            <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                            <span>
+                                <p>"The cryptocurrency trading platform is user-friendly and secure."</p>
+                                <cite>- Sarah M.</cite>
+                            </span>
+                        </div>
+                        <div class="testimonial">
+                            <img src="{% static 'core/image/F1.jpg' %}" alt="User 1">
+                            <span>
+                                <p>"I love how I can pay all my bills in one place. Highly recommended!"</p>
+                                <cite>- Michael R.</cite>
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>                    
+                <i id="right" class="fa-solid fa-angle-right"></i>
+            </div>    
             </div>
         </section>
     </main>
@@ -99,4 +116,5 @@
             {% endif %}
         });
     </script>
+    <script src="{% static 'core/js/slider.js' %}"
 {% endblock %}

@@ -57,12 +57,9 @@ def dashboard(request):
         'unread_count': unread_count
     }
 
-    if request.user.groups.filter(name='Workers').exists():
+    if user.groups.filter(name='Workers').exists() or user.is_superuser:
         return redirect('/admin/')
-    elif request.user.is_superuser:
-        return redirect('/admin/')
-    else:
-        return redirect('/dashboard/')
+    
     return render(request, 'core/dashboard.html', context)
 
 @login_required
@@ -216,7 +213,7 @@ def changeUserName(request):
 
 
 def legal(request, slug):
-    legal = Legal.objects.filter(slug=slug)
+    legal = Legal.objects.filter(slug=slug).first()
     context = {
         'legal':legal,
     }

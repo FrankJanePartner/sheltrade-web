@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 import environ
@@ -120,6 +119,7 @@ TEMPLATES = [
                 "core.context_processors.countries",
                 "sheltradeAdmin.context_processors.details",
                 "contact.context_processors.base_template",
+                "contact.context_processors.sheltrade_info",
                 # "django.core.context_processors.request",
                 # 'allauth.account.context_processors.account',
                 # "allauth.socialaccount.context_processors.socialaccount",

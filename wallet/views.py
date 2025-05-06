@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .utils import generate_narration
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Transaction, Wallet, DepositNarration, WithdrawalAccount, Withdrawal
+from .models import Transaction, Wallet, Deposit, DepositNarration, WithdrawalAccount, Withdrawal
 from sheltradeAdmin.models import BankDetail
 from core.models import Profile, Notification
 from django.contrib.auth.models import User
@@ -49,16 +49,15 @@ def deposit(request):
 def deposit_submit_view(request):
     if request.method == 'POST':
         narration = request.POST.get('narration')
-
         amount = Decimal(request.POST.get('amount') or 0)
         proof_of_payment = request.FILES.get('proof_of_payment')
         
-
-        transaction = Transaction(user=request.user, transaction_type='Deposit', proof_of_payment=proof_of_payment, amount=amount, status="pending")
+        transaction = Transaction(user=request.user, transaction_type='Deposit', amount=amount, status="pending")
         transaction.save()
-        deposit_naration = DepositNarration(user=request.user, narration=narration, transaction_id=transaction)
+        deposit_naration = DepositNarration(user=request.user, narration=narration, transaction=transaction)
         deposit_naration.save()
-
+        deposit = Deposit(user=request.user, naration =deposit_naration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
+        deposit.save()
 
         # Prepare the email content
         subject = 'Alert!!! New Deposit'

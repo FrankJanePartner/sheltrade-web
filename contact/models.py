@@ -66,3 +66,41 @@ class Contact(models.Model):
             str: A formatted string indicating the sender's name and read status.
         """
         return f"{self.name} sent a message. Read: {self.read}"
+
+
+class Review(models.Model):
+    star_choice = [1, 2, 3, 4, 5]
+    sender = models.CharField(max_length=350)
+    image = models.ImageField(upload_to="review", default="defaults/default1.png", blank=True)
+    content = models.TextField()
+    stars  = models.PositiveIntegerField(default=star_choice)
+    
+
+    def __str__(self):
+        return self.sender
+    
+    class Meta:
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
+
+
+class SheltradeSocialMedia(models.Model):
+    social_name = models.CharField(max_length=50)
+    social_url = models.URLField(max_length = 200)
+
+    def __str__(self):
+        return self.social_name
+    class Meta:
+        verbose_name = 'Sheltrade Social Media'
+        verbose_name_plural = 'Sheltrade Social Medias'
+
+
+class SheltradeContact(models.Model):
+    contact_name = models.CharField(max_length=50, help_text=_("Thsi is for shltrade phone numbers and emails"))
+    contact_url = models.CharField(max_length = 200)
+
+    def __str__(self):
+        return self.contact_name
+    class Meta:
+        verbose_name = 'Sheltrade Contact'
+        verbose_name_plural = 'Sheltrade Contacts'

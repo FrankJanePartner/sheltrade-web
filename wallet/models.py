@@ -36,11 +36,15 @@ class Transaction(models.Model):
         amount (Decimal): The amount involved in the transaction.
         status (str): The status of the transaction (e.g., completed, pending).
     """
-
+    PAYMENT_STATUS = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_type = models.CharField(max_length=50)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='Pending')
 
     def __str__(self):
         """
@@ -59,7 +63,7 @@ class DepositNarration(models.Model):
         narration (str): The narration or description of the deposit.
     """
 
-    transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     narration = models.TextField()
 
     def __str__(self):
@@ -67,6 +71,28 @@ class DepositNarration(models.Model):
         Returns a string representation of the DepositNarration instance.
         """
         return f'Deposit Narration for Transaction {self.transaction.id}'
+    
+    class Meta:
+        verbose_name = 'Deposit Narration'
+        verbose_name_plural = 'Deposit Narrations'
+
+
+class Deposit(models.Model):
+    PAYMENT_STATUS = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    naration = models.ForeignKey(DepositNarration, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    proof_of_payment = models.FileField(upload_to="proof_of_payment")
+    status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='Pending')
+
+    def __str__(self):
+        return f'Deposit of {self.amount} by {self.user} -naration: {self.naration}'
+
 
 class Withdrawal(models.Model):
     """
@@ -90,6 +116,7 @@ class Withdrawal(models.Model):
         Returns a string representation of the Withdrawal instance.
         """
         return f'Withdrawal {self.id} - {self.amount}'
+        
 
 class WithdrawalAccount(models.Model):
     """
@@ -112,3 +139,7 @@ class WithdrawalAccount(models.Model):
         Returns a string representation of the WithdrawalAccount instance.
         """
         return f'{self.user.username} - {self.bank_name} - {self.account_number}'
+    
+    class Meta:
+        verbose_name = 'WithdrawalAccount'
+        verbose_name_plural = 'WithdrawalAccounts'

@@ -14,11 +14,13 @@ Usage:
 - The `Wallet`, `Transaction`, `DepositNarration`, `Withdrawal`, and `WithdrawalAccount` models are automatically available in the Django admin dashboard after registration.
 """
 from django.contrib import admin
-from .models import Wallet, Transaction, DepositNarration, Withdrawal, WithdrawalAccount
+from .models import Wallet, Transaction, Deposit, DepositNarration, Withdrawal, WithdrawalAccount
 
 # Register the Wallet model in the Django admin panel.
+
 admin.site.register(Wallet)
 admin.site.register(Transaction)
 admin.site.register(DepositNarration)
+admin.site.register(Deposit)
 admin.site.register(Withdrawal)
 admin.site.register(WithdrawalAccount)

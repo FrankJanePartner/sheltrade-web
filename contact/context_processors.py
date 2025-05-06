@@ -1,5 +1,6 @@
 
 from django.contrib.auth.models import User
+from contact.models import  Review, SheltradeSocialMedia, SheltradeContact
 
 
 def base_template(request):
@@ -12,5 +13,17 @@ def base_template(request):
     context = {
         "user": request.user,  # No need to fetch from the database
         "base_template": base_template,
+    }
+    return context
+
+
+def sheltrade_info(request):
+    reviews = Review.objects.all()
+    sheltradeSocialMedia = SheltradeSocialMedia.objects.all()
+    sheltradeContact = SheltradeSocialMedia.objects.all()
+    context = {
+        "rewiews" : reviews,
+        "sheltradeSocialMedia" : sheltradeSocialMedia,
+        "sheltradeSocialMedia" : sheltradeContact
     }
     return context

@@ -14,7 +14,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         # Create a profile instance for the new user
         Profile.objects.get_or_create(user=instance)
-        Wallet.objects.get_or_create(user=instance)
+        Wallet.objects.get_or_create(user=user, defaults={'balance': 0.00})
+
 
         if request and request.path.startswith("/admin/auth/user/add/"):
             instance.is_staff = True  # Ensure staff status

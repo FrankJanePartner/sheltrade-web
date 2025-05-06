@@ -10,6 +10,7 @@
     {% endblock %}
     <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'core/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/slidercss' %}">
     <link rel="stylesheet" href="{% static 'core/css/header.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
@@ -30,22 +31,33 @@
                 <li><a href="/contact/">Contact Us</a></li>
             </ul>
             {% endblock %}
-            <div class="user-actions">
-                <a href="/accounts/login/" class="btn btn-login">Login</a>
-                <a href="/accounts/signup/" class="btn btn-signup">Sign Up</a>
-            </div>
-            <button id="menu-btn" class="menu_bar">
-                <div id="menu-icon" class="fas fa-bars"></div>
-                <div><span class="menu_span">Menu</span></div>
-            </button>
-            <ul class="accordion_menu">    
-                <li><a class="dropdown_text" href="/">Home</a></li>
-                <li><a class="dropdown_text" href="/about/">About Us</a></li>
-                <li><a class="dropdown_text" href="/#services-overview">Services</a></li>
-                <li><a class="dropdown_text" href="/contact/">Contact Us</a></li>
-                <li><a class="dropdown_text" href="/accounts/signup/">Sign Up</a></li>
-                <li><a class="dropdown_text" href="/accounts/login/">Login</a></li>
-            </ul>
+            {% if user.is_authenticated %}
+                <div class="user-actions" style="width: fit-content !important;">
+                    <a href="/dashboard/" class="btn btn-signup">Dashboard</a>
+                </div>
+                <a href="/dashboard/" style="text-decoration:none;" class="menu_bar">
+                    <button id="menu-btn" class="menu_bar">
+                        <div><span class="menu_span">Dashboard</span></div>
+                    </button>
+                </a>
+            {% else %}
+                <div class="user-actions">
+                    <a href="/accounts/login/" class="btn btn-login">Login</a>
+                    <a href="/accounts/signup/" class="btn btn-signup">Sign Up</a>
+                </div>
+                <button id="menu-btn" class="menu_bar">
+                    <div id="menu-icon" class="fas fa-bars"></div>
+                    <div><span class="menu_span">Menu</span></div>
+                </button>
+                <ul class="accordion_menu">    
+                    <li><a class="dropdown_text" href="/">Home</a></li>
+                    <li><a class="dropdown_text" href="/about/">About Us</a></li>
+                    <li><a class="dropdown_text" href="/#services-overview">Services</a></li>
+                    <li><a class="dropdown_text" href="/contact/">Contact Us</a></li>
+                    <li><a class="dropdown_text" href="/accounts/signup/">Sign Up</a></li>
+                    <li><a class="dropdown_text" href="/accounts/login/">Login</a></li>
+                </ul>
+            {% endif %}
         </nav>
     </header>
     {% block content %}
@@ -66,10 +78,12 @@
             </div>
             <div class="social-media">
                 <h4>Follow Us</h4>
-                <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i>   Facebook</a>
-                <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i> Twitter</a>
-                <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                <a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                {% for s in sheltradeSocialMedia %}
+                    <a href="{{ s.social_url }}" class="social-icon">
+                        <i class="fa-brands fa-{{ s.social_name }}"></i>
+                        {{ s.social_name }}
+                    </a>
+                {% endfor %}
             </div>
             <div class="contact-info">
                 <h4>Contact Information</h4>
@@ -79,7 +93,7 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 Sheltrade. All rights reserved.</p>
-            <a href="#terms"><i class="fa-solid fa-file-contract"></i> Terms of Service</a> | <a href="#privacy"><i class="fa-solid fa-shield"></i> Privacy Policy</a>
+            <a href="/terms/"><i class="fa-solid fa-file-contract"></i> Terms of Service</a> | <a href="/privacy"><i class="fa-solid fa-shield"></i> Privacy Policy</a>
         </div>
     </footer>
 

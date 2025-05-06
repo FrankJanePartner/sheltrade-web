@@ -105,7 +105,7 @@ class Notification(models.Model):
 # Legal Model
 # ============================
 class Legal(models.Model):
-    name = models.URLField()
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=100)    
     content = HTMLField()
     created_at = models.DateTimeField(auto_now_add=True, blank=True)

@@ -16,5 +16,5 @@ urlpatterns = [
     path('accounts/login/phone_Number/', phoneNumberLogin, name='phoneNumberLogin'),
     path('accounts/add/phone_Number/', addPhoneNumber, name='addPhoneNumber'),
     path('accounts/username/change/', changeUserName, name='changeUserName'),
-    path('<slug:slug>', legal, name='legal'),
+    path('<slug:slug>/', legal, name='legal'),
 ]

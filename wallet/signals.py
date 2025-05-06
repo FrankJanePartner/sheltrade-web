@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import Transaction,  Wallet
+from .models import Transaction,  Wallet, Deposit
 from core.models import Profile, Notification
 from giftcard.models import GiftCard, BuyGiftCard
 from sheltradeAdmin.models import CryptoWallet
@@ -221,3 +221,21 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                 sellerBalance.save()
                 transaction = Transaction(user=seller, transaction_type='Sell Giftcard', amount=instance.amount, status="Approved")
                 transaction.save()
+
+
+
+
+
+@receiver(post_save, sender=Deposit)
+def handle_User_deposits(sender, instance, created, **kwargs):
+    if instance.status == 'Approved':
+        transaction = Transaction.objects.get(transaction=instance.transaction, status="Approved")
+        transaction.save()
+    
+    elif instance.status == 'Rejected':
+        transaction = Transaction.objects.get(transaction=instance.transaction, status="Rejected")
+        transaction.save()
+
+
+
+                

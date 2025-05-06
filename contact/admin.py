@@ -15,7 +15,10 @@ Usage:
 """
 
 from django.contrib import admin
-from .models import Contact
+from .models import Contact, Review, SheltradeSocialMedia, SheltradeContact
 
 # Register the Contact model in the Django admin panel
 admin.site.register(Contact)
+admin.site.register(Review)
+admin.site.register(SheltradeSocialMedia)
+admin.site.register(SheltradeContact)

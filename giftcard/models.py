@@ -29,7 +29,7 @@ class GiftCard(models.Model):
     expiration_date = models.DateField(null=True, blank=True)
     condition = models.CharField(max_length=255)
     restrictions = models.TextField(blank=True)
-    uploaded_image = models.ImageField(upload_to='giftcards/', null=True, blank=True)
+    uploaded_image = models.ImageField(upload_to='giftcards/', default="defaults/gift-card.png", null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):

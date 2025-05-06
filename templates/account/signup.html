@@ -38,23 +38,27 @@
             </div>
             <div class="form-group">
                 <label for="id_password1">Password:</label>
-                <input type="password" name="password1" placeholder="Enter Password" autocomplete="new-password" required aria-invalid="true" aria-describedby="id_password1_helptext" id="id_password1">            
+                <input type="password" name="password1" placeholder="Enter Password" autocomplete="password" required aria-invalid="true" aria-describedby="id_password1_helptext" id="id_password1">            
             </div>
             <div class="form-group">
                 <label for="id_password2" style="color:var(--darkBlue)">Conirm Password:</label>
-                <input type="password" name="password2" placeholder="Re-enter Password" autocomplete="new-password" required aria-invalid="true" id="id_password2">
+                <input type="password" name="password2" placeholder="Re-enter Password" autocomplete="password" required aria-invalid="true" id="id_password2">
             </div>
             <div class="form-group1">
+                <input type="checkbox" name="legal" required>
+                <label for="id_password2" style="color:var(--darkBlue)">By clicking this you agree to our <a href="/terms">Terms of Services</a> and <a href="/policy">Privacy Policy</a></label>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn-primary" id="btn-primary">Sign Up</button>
                 <p style="color:var(--darkBlue)">Already have an account? <a style="color:var(--yellow)" href="/accounts/login/">Log in</a></p>
             </div>
             <div class="form-group">
                 <a class="social-signup-google allauth social-signup" href="{% provider_login_url 'google' %}">
-                    <i class="fa-brands fa-google"></i>
+                    <i class="fa-brands bi bi-google"></i>
                     Continue with Google
                 </a>
                 <a class="social-signup-facebook allauth social-signup" href="{% provider_login_url 'facebook' %}">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands bi bi-facebook"></i>
                     Continue with Facebook
                 </a>
             </div>
