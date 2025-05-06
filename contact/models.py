@@ -69,11 +69,17 @@ class Contact(models.Model):
 
 
 class Review(models.Model):
-    star_choice = [1, 2, 3, 4, 5]
+    STARS = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5)
+    )
     sender = models.CharField(max_length=350)
     image = models.ImageField(upload_to="review", default="defaults/default1.png", blank=True)
     content = models.TextField()
-    stars  = models.PositiveIntegerField(default=star_choice)
+    stars  = models.CharField(max_length=1, choices=STARS, default=1)
     
 
     def __str__(self):
