@@ -12,3 +12,4 @@ Admin Tasks
 9. Add Transaction Charge for subsciptions
 10. Add Cash Back for Airtime
 11. Add Cash Back for Data
+12. Add domain name to sites

@@ -16,7 +16,7 @@ from django.utils.html import strip_tags
 @login_required
 def wallet(request):
     user = request.user
-    wallet = Wallet.objects.get(user=user)
+    wallet = Wallet.objects.get_or_create(user=user)
     transactions = Transaction.objects.filter(user=user)
 
     context = {
@@ -54,7 +54,7 @@ def deposit_submit_view(request):
         
         transaction = Transaction(user=request.user, transaction_type='Deposit', amount=amount, status="pending")
         transaction.save()
-        deposit_naration = DepositNarration(user=request.user, narration=narration, transaction=transaction)
+        deposit_naration = DepositNarration(narration=narration, transaction=transaction)
         deposit_naration.save()
         deposit = Deposit(user=request.user, naration =deposit_naration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
         deposit.save()
@@ -69,7 +69,7 @@ def deposit_submit_view(request):
             f"Proof Of Payment: Attached below."
         )
         sender_email = settings.DEFAULT_FROM_EMAIL
-        admin_users = User.objects.filter(is_superuser=True)
+        admin_users = User.objects.filter(is_staff=True)
         recipient_list = [user.email for user in admin_users]
         image = {proof_of_payment.read()}
 
@@ -99,7 +99,7 @@ def withdrawal_submit_view(request):
         selected_account_id = request.POST.get('SelectedAcount')
         amount = Decimal(request.POST.get('amount'))
         withdrawal_account= WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
-        wallet = Wallet.objects.get(user=request.user)
+        wallet = Wallet.objects.get_or_create(user=request.user)
 
         if wallet.userBalance >= amount:
             transaction = Transaction(user=request.user, transaction_type='Withdrawal', amount=amount, status="pending")
