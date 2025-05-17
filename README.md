@@ -1,87 +1,100 @@
 # Sheltrade Web Platform
 
 ## Project Overview
-Sheltrade is a comprehensive web platform designed to facilitate financial transactions, wallet management, gift card sales, and user notifications. The platform supports user profiles with customizable preferences such as preferred currency and phone number. It provides a secure and user-friendly interface for managing transactions and gift cards.
+Sheltrade is a comprehensive financial platform designed to facilitate a variety of financial transactions including wallet management, gift card sales, and user notifications. The platform supports user profiles with customizable preferences such as preferred currency and phone number. It provides a secure and user-friendly interface for managing transactions, gift cards, and notifications.
 
-## User Roles and Access
-The platform distinguishes between different types of users with specific roles and access levels:
+The platform distinguishes between different user roles, including regular users, staff, superusers, and a special "Workers" group, each with specific access levels and functionalities.
 
-- **Regular Users:** These users have access to the full range of functionalities including wallet management, transactions, gift card sales, notifications, and profile settings.
-- **Staff and Superusers:** These users have administrative privileges and access the platform's admin interface. Their functionalities are not included in the mobile app.
-- **Workers Group:** Users belonging to the "Workers" group are also redirected to the admin interface and do not have functionalities in the mobile app.
+## What You Can Do on the Platform
+- Manage your wallet balance and view transaction history.
+- Buy and sell gift cards securely.
+- Receive and manage notifications related to your account activities.
+- Update your profile details including username, phone number, and preferred currency.
+- Access a personalized dashboard tailored to your user role.
 
-## Mobile App Development with React Native and Expo
-This project supports building a mobile application for regular users using React Native and Expo. The mobile app will provide access to the core functionalities of the platform, excluding any features available only to staff, superusers, or workers group members.
+## What You Can Do with the Code
+- Extend or customize the platform by adding new features or modifying existing ones.
+- Integrate with external APIs for additional financial services.
+- Build a mobile application using the provided API endpoints.
+- Manage user roles and permissions to tailor access control.
+- Utilize the modular app structure to maintain and scale the platform efficiently.
 
-### Getting Started
-To build the mobile app, follow these steps:
+## Project Setup Instructions
 
-1. **Set up the development environment:**
-   - Install [Node.js](https://nodejs.org/)
-   - Install [Expo CLI](https://docs.expo.dev/get-started/installation/) by running:
-     ```
-     npm install -g expo-cli
-     ```
-2. **Create a new React Native project with Expo:**
-   ```
-   expo init sheltrade-mobile
-   ```
-3. **Implement the mobile app features:**
-   - Use the platform's API endpoints to interact with user data, transactions, wallets, gift cards, and notifications.
-   - Ensure that the app only allows access to functionalities for regular users (exclude staff, superusers, and workers).
-   - Implement authentication and user profile management consistent with the web platform.
-4. **Run and test the app:**
-   ```
-   cd sheltrade-mobile
-   expo start
-   ```
-   Use the Expo Go app on your mobile device or an emulator to test the application.
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package installer)
+- Virtual environment tool (optional but recommended)
 
-### Notes
-- The mobile app should not include any administrative features or access for staff, superusers, or workers group users.
-- Ensure proper handling of user roles and permissions when interacting with the backend API.
-- Follow best practices for React Native and Expo development to create a performant and user-friendly mobile experience.
+### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd sheltrade-web
+```
+
+### Step 2: Create and Activate a Virtual Environment (Optional but Recommended)
+```bash
+python -m venv venv
+# On Windows
+venv\Scripts\activate
+# On macOS/Linux
+source venv/bin/activate
+```
+
+### Step 3: Install Dependencies
+Install all required Python packages using pip:
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Configure Environment Variables
+Create a `.env` file in the project root directory with the following variables:
+```
+VTPass_API_KEY=your_vtpass_api_key_here
+VTPass_PUBLIC_KEY=your_vtpass_public_key_here
+VTPass_SECRET_KEY=your_vtpass_secret_key_here
+VTPass_BASE_URL=https://sandbox.vtpass.com/api
+VTPass_EMAIL=your_email@example.com
+VTPass_PASSWORD=your_password_here
+DEBUG=True
+```
+Replace the placeholder values with your actual credentials.
+
+### Step 5: Run Database Migrations
+```bash
+python manage.py migrate
+```
+
+### Step 6: Run the Development Server
+```bash
+python manage.py runserver
+```
+Access the platform at `http://127.0.0.1:8000/` in your web browser.
+
+## Additional Notes
+- The platform uses environment variables for sensitive information and configuration.
+- User roles are enforced to restrict access to certain features.
+- The project includes multiple Django apps for modular functionality.
+- For mobile app development, refer to the `mobile app` section below.
+
+## Mobile App Development (Optional)
+The platform supports building a mobile application for regular users using React Native and Expo. The mobile app provides access to core functionalities excluding administrative features.
+
+### Mobile App Setup
+1. Install Node.js and Expo CLI.
+2. Create a new React Native project with Expo.
+3. Use the platform's API endpoints for data interaction.
+4. Run and test the app using Expo Go or an emulator.
+
+## Project Flow Overview
+1. User Authentication via email/username or phone number.
+2. Role-Based Redirection to user dashboard or admin interface.
+3. User Dashboard with transactions, wallet, gift cards, and notifications.
+4. Wallet and Transactions management.
+5. Gift Card buying and selling.
+6. Notifications management.
+7. Profile and Settings management.
 
 ---
 
-This README provides an overview of the Sheltrade platform and guidance for building a mobile app tailored for regular users. For more detailed API documentation and backend development, refer to the respective project files and documentation.
-
-## Project Flow Description
-
-Below is a textual flowchart describing the main flow of the Sheltrade platform:
-
-1. **User Authentication**
-   - User logs in via email/username or phone number.
-   - Authentication is verified against stored credentials.
-
-2. **Role-Based Redirection**
-   - If user is in the "Workers" group, staff, or superuser:
-     - Redirect to the admin interface for administrative tasks.
-   - Else:
-     - Redirect to the user dashboard.
-
-3. **User Dashboard**
-   - Displays user transactions, wallet balance, gift cards, and notifications.
-   - Users can update profile details including preferred currency and phone number.
-
-4. **Wallet and Transactions**
-   - Users can view and manage their wallet balance.
-   - Transactions are recorded and displayed in the dashboard.
-
-5. **Gift Cards**
-   - Users can buy and sell gift cards.
-   - Gift card details are accessible from the dashboard.
-
-6. **Notifications**
-   - Users receive notifications about account activities.
-   - Notifications can be marked as read or viewed in detail.
-
-7. **Settings and Profile Management**
-   - Users can change username, update phone number, and set preferred currency.
-   - Changes trigger notifications to inform users of updates.
-
-8. **Mobile App Scope**
-   - The mobile app built with React Native and Expo targets regular users only.
-   - Staff, superusers, and workers group users do not have access to the mobile app functionalities.
-
-This flow provides a high-level overview of how users interact with the Sheltrade platform and the separation of roles within the system.
+This README provides a comprehensive overview of the Sheltrade platform, its capabilities, and detailed setup instructions to help developers and users get started quickly.
