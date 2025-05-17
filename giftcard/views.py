@@ -38,6 +38,89 @@ def buy_gift_card(request):
     return render(request, 'giftcard/buy_gift_card.html', {'gift_cards': gift_cards})
 
 @login_required
+def gift_card_details(request):
+    """
+    Allows users to sell a gift card.
+
+    This view handles the process of selling a gift card. It creates a GiftCard record if the sale is successful.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Redirects to the wallet or renders the sell gift card template.
+    """
+    if request.method == 'POST':
+        card_type = request.POST.get('card_type')
+        card_number = request.POST.get('card_number')
+        card_pin = request.POST.get('card_pin')
+        card_code = request.POST.get('card_code')
+        expiration_date = request.POST.get('expiration_date')
+        condition = request.POST.get('condition')
+        restrictions = request.POST.get('restrictions')
+        price = request.POST.get('price')
+
+        # Create a GiftCard record
+        GiftCard.objects.create(
+            seller=request.user,
+            card_type=card_type,
+            card_number=card_number,
+            card_pin=card_pin,
+            card_code=card_code,
+            expiration_date=expiration_date,
+            condition=condition,
+            restrictions=restrictions,
+            price=price
+        )
+        messages.success(request, 'Your gift card has been listed for sale!')
+        return redirect('wallet:wallet')
+
+    return render(request, 'giftcard/sell_gift_card.html')
+
+
+@login_required
+def sell_gift_card(request):
+    """
+    Allows users to sell a gift card.
+
+    This view handles the process of selling a gift card. It creates a GiftCard record if the sale is successful.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Redirects to the wallet or renders the sell gift card template.
+    """
+    if request.method == 'POST':
+        card_type = request.POST.get('card_type')
+        card_number = request.POST.get('card_number')
+        card_pin = request.POST.get('card_pin')
+        card_code = request.POST.get('card_code')
+        expiration_date = request.POST.get('expiration_date')
+        condition = request.POST.get('condition')
+        restrictions = request.POST.get('restrictions')
+        price = request.POST.get('price')
+
+        # Create a GiftCard record
+        GiftCard.objects.create(
+            seller=request.user,
+            card_type=card_type,
+            card_number=card_number,
+            card_pin=card_pin,
+            card_code=card_code,
+            expiration_date=expiration_date,
+            condition=condition,
+            restrictions=restrictions,
+            price=price
+        )
+        messages.success(request, 'Your gift card has been listed for sale!')
+        return redirect('wallet:wallet')
+
+    return render(request, 'giftcard/sell_gift_card.html')
+
+
+
+@login_required
 def sell_gift_card(request):
     """
     Allows users to sell a gift card.

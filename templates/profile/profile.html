@@ -45,6 +45,19 @@
                 </div>
                 <p style="width: fit-content;">Change Username &rarr;</p>
             </a>
+            <a href="/settings/#changeNames" class="grid-item" style="height: 7rem !important;">
+                <div style="display: flex; flex-direction: column;">
+                    <h3 style="width: fit-content; margin: 0 0 1.5rem;">
+                        First Name:
+                        <span style="color: var(--yellow); margin-left: 0.5rem;">{{ user.first_name }}</span>
+                    </h3>
+                    <h3 style="width: fit-content; margin: 0;">
+                        Last Name:
+                        <span style="color: var(--yellow); margin-left: 0.5rem;">{{ user.last_name }}</span>
+                    </h3>
+                </div>
+                <p style="width: fit-content;">{% if user.first_name and user.last_name %}Add Name {% else %} Change Name {% endif %} &rarr;</p>
+            </a>
             <a href="/settings/#confirm-email-code" class="grid-item">
                 <div>
                     <h3 style="width: fit-content">

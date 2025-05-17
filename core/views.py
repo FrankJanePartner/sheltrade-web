@@ -212,6 +212,27 @@ def changeUserName(request):
             return redirect('core:settings')
 
 
+def changeNames(request):
+    """
+    Allows users to change their Names.
+    """
+    if request.method == 'POST':
+        fName = request.POST.get('first_name')
+        lName = request.POST.get('last_name')
+        user = request.user
+
+        user.first_name = fName
+        user.last_name = lName
+        user.save()
+        Notification.objects.create(
+            user=user,
+            title='Change Names',
+            content="First name and Last name updated successfully!"
+        )
+        messages.success(request, 'First name and Last name updated successfully!')
+        return redirect('core:settings')
+
+
 def legal(request, slug):
     legal = Legal.objects.filter(slug=slug).first()
     context = {

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, aboutus,  dashboard, profile, preferred_currency, notification, settings, notification_detail, mark_all_as_read, phoneNumberLogin, addPhoneNumber, changeUserName, legal
+from .views import home, aboutus,  dashboard, profile, preferred_currency, notification, settings, notification_detail, mark_all_as_read, phoneNumberLogin, addPhoneNumber, changeUserName, changeNames, legal
 
 app_name = 'core'
 
@@ -16,5 +16,6 @@ urlpatterns = [
     path('accounts/login/phone_Number/', phoneNumberLogin, name='phoneNumberLogin'),
     path('accounts/add/phone_Number/', addPhoneNumber, name='addPhoneNumber'),
     path('accounts/username/change/', changeUserName, name='changeUserName'),
-    path('<slug:slug>/', legal, name='legal'),
+    path('accounts/name/update/', changeNames, name='changeNames'),
+    path('legal/<slug:slug>/', legal, name='legal'),
 ]

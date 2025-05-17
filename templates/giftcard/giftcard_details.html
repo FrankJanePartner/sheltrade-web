@@ -1,0 +1,129 @@
+{% extends "../formBase.html" %}
+{% load static %}
+{% block title %}Buy GiftCard{% endblock %}
+{% block content %}
+    <div class="container socialSignIn">
+        <div class="topSection">
+            <a href="/dashboard/" class="back">&larr; Go Back</a>
+            <a href="/">
+                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+            </a>
+        </div>
+        <div class="formHeader">
+            <h1>Buy GiftCard</h1>
+        </div>
+        <form method="post" action="{% url 'giftcard:buy_gift_card' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for message in messages %}
+                <h5 style="text-align:center; color:red;">{{ message }}</h5>
+            {% endfor %}
+            <div class="form-group">
+                <i class="opened-package fas fa-box-open"></i>
+                <input type="search" id="card_type_search" placeholder="Choose a card type">
+            </div>
+            <div class="giftcard-image">
+                {% if giftcards %}
+                    {% for giftcard in giftcards %}
+                        <div class="gift-img" data-name="{{ giftcard.card_type }}" data-id="{{ giftcard.id }}">
+                            <img src="{{ giftcard.uploaded_image.url }}" alt="{{ giftcard.card_type }}">
+                            <section>
+                                <h5>{{ giftcard.card_type }}</h5>
+                                <span>${{ giftcard.price }}</span>
+                            </section>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No Gift Cards Yet</p>
+                {% endif %}
+            </div>            
+        
+            <input type="hidden" id="selected-giftcard-id" name="giftcard-id" value="">
+        
+            <div class="form-group amount-select">
+                <label for="card-amount">Price of Card</label>
+                <input type="number" id="card-amount" name="card-amount" placeholder="Enter amount" readonly>
+            </div>
+
+            <div class="form-group">
+                {% if charge %}
+                    <input type="hidden" id="processing_Fee" name="processing_Fee" step="0.01" required value="{{ charge.charge }}">
+                {% else %}
+                    <input type="hidden" id="processing_Fee" name="processing_Fee" step="0.01" required value="0">
+                {% endif %}
+            </div>
+            
+            <div class="transaction-summary">
+                <h3>Transaction Summary</h3>
+                <p>You are about to buy a gift card</p>
+                <div class="summary-item">
+                    <h4>Card Type:</h4>
+                    <span id="selected-card-type">-</span>
+                </div>
+                <div class="summary-item">
+                    <h4>Amount:</h4>
+                    <span id="selected-amount">{{ currency_symbol }}-</span>
+                </div>
+                <div class="summary-item">
+                    <h4>Processing Fee:</h4>
+                    <span id="processing-Fee">{{ currency_symbol }}{{ charge.charge }}</span>
+                </div>
+                <div class="summary-item">
+                    <h4>Total:</h4>
+                    <span id="total">{{ currency_symbol }}-</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-buy">Buy Now</button>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('card_type_search');
+                const giftCards = document.querySelectorAll('.gift-img');
+                const amountInput = document.getElementById('card-amount');
+                const selectedCardIdInput = document.getElementById('selected-giftcard-id');
+                const selectedCardTypeDisplay = document.getElementById('selected-card-type');
+                const selectedAmountDisplay = document.getElementById('selected-amount');
+                const processingFeeInput = document.getElementById('processing_Fee');
+                const totalAmountDisplay = document.getElementById('total');
+                const buyNowButton = document.querySelector('.btn-buy');
+            
+                // Disable Buy Now button initially
+                buyNowButton.disabled = true;
+            
+                // Filter functionality
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    giftCards.forEach(card => {
+                        const cardName = card.getAttribute('data-name').toLowerCase();
+                        card.style.display = cardName.includes(query) ? '' : 'none';
+                    });
+                });
+            
+                // Add click event to each gift card
+                giftCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        const cardPrice = parseFloat(this.querySelector('span').innerText.replace('$', ''));
+                        const cardId = this.getAttribute('data-id');
+                        const cardType = this.querySelector('h5').innerText;
+            
+                        amountInput.value = cardPrice.toFixed(2);
+                        selectedCardIdInput.value = cardId;
+                        selectedCardTypeDisplay.innerText = cardType;
+                        selectedAmountDisplay.innerText = `{{ currency_symbol }}${cardPrice.toFixed(2)}`;
+            
+                        const processingFee = parseFloat(processingFeeInput.value);
+                        const totalAmount = cardPrice + processingFee;
+                        totalAmountDisplay.innerText = `{{ currency_symbol }}${totalAmount.toFixed(2)}`;
+            
+                        // Highlight the selected card
+                        giftCards.forEach(g => g.classList.remove('selected'));
+                        this.classList.add('selected');
+            
+                        // Enable Buy Now button
+                        buyNowButton.disabled = false;
+                    });
+                });
+            });            
+        </script> 
+    </div>
+{% endblock %}

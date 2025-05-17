@@ -265,24 +265,27 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587 # Use 465 if using SSL
-# EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = 'myappsa9@gmail.com'
-# EMAIL_HOST_PASSWORD = 'nrgh zjca vijp fkbl'
-# DEFAULT_FROM_EMAIL = 'partnermarvel55@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587 # Use 465 if using SSL
+EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'myappsa9@gmail.com'
+EMAIL_HOST_PASSWORD = 'nrgh zjca vijp fkbl'
+DEFAULT_FROM_EMAIL = 'info@sheltrade.com'
 
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
-    "http://127.0.0.1:8081",
     "http://localhost:8082",
+    "http://127.0.0.1:8081",
     "http://127.0.0.1:8082",
+    "http://10.0.2.2:8000",
+    "exp://192.168.43.203:8081",
+    "exp://192.168.43.203:8082",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -18,7 +18,11 @@
 <body>
     <div class="container">
         <div class="topSection">
-            <a href="/" class="back">&larr; Go Back</a>
+            {% if user.is_ %}
+                <a href="/dashboard/" class="back">&larr; Go Back</a>
+            {% else %}
+                <a href="/" class="back">&larr; Go Back</a>
+            {% endif %}
             <a href="/">
                 <img src="../static/core/image/logo.png" alt="logo" class="logo">
             </a>
