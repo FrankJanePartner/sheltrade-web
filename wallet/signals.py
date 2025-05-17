@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Transaction,  Wallet, Deposit
 from core.models import Profile, Notification
-from giftcard.models import GiftCard, BuyGiftCard
+from giftcard.models import GiftCard
 from sheltradeAdmin.models import CryptoWallet
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
@@ -154,12 +154,12 @@ def handle_User_transactions(sender, instance, created, **kwargs):
             )
         userBalance.save()
 
-    # Get the related BuyGiftCard instances for the user
-    giftcardBuyers = BuyGiftCard.objects.filter(buyer=user)
+    # Get the related GiftCard instances for the user
+    giftcardBuyers = GiftCard.objects.filter(buyer=user)
 
-    # Check if there are any BuyGiftCard instances
+    # Check if there are any GiftCard instances
     if not giftcardBuyers.exists():
-        return  # Early exit if no BuyGiftCard records found
+        return  # Early exit if no GiftCard records found
 
     for giftcardBuyer in giftcardBuyers:
         seller = giftcardBuyer.gift_card.seller

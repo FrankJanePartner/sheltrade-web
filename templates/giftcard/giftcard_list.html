@@ -43,7 +43,7 @@
         <section class="secondSection grid-container" id="giftcardContainer">
             {% if giftcards %}
                 {% for giftcard in giftcards %}
-                    <a href="/wallet/" class="grid-item" data-status="{{ giftcard.status|lower }}">
+                    <a href="{{ giftcard.get_absolute_url }}" class="grid-item" data-status="{{ giftcard.status|lower }}">
                         <div>
                             <img src="{{ giftcard.uploaded_image.url }}" alt="">
                             <span>

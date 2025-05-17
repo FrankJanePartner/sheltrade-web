@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'giftcard',
     'mobileTopUp',
     'sheltradeAdmin',
-    'sheltradeAPI',
+    # 'sheltradeAPI',
     'wallet',
     'workers',
 

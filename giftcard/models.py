@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 class GiftCard(models.Model):
     """
@@ -21,7 +23,9 @@ class GiftCard(models.Model):
         price (Decimal): The price at which the gift card is being sold.
     """
 
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="giftcard_seller")
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="giftcard_buyer", blank=True)
+    slug = models.SlugField(max_length = 50, blank=True)
     card_type = models.CharField(max_length=255)
     card_number = models.CharField(max_length=255)
     card_pin = models.CharField(max_length=255)
@@ -37,25 +41,12 @@ class GiftCard(models.Model):
         Returns a string representation of the GiftCard instance.
         """
         return f'{self.card_type} - {self.card_number}'
+    
+    def save(self, *args, **kwargs):
+        """Auto-generate fields if not provided."""
+        if not self.slug:
+            self.slug = f"{self.seller}-{self.card_type}"
+        super().save(*args, **kwargs)
 
-class BuyGiftCard(models.Model):
-    """
-    Represents a purchase of a gift card by a user.
-
-    This model stores information about the buyer and the gift card being purchased.
-
-    Attributes:
-        buyer (User): The user who is buying the gift card.
-        gift_card (GiftCard): The gift card being purchased.
-        escrow_status (str): The status of the escrow for the transaction.
-    """
-
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    gift_card = models.ForeignKey(GiftCard, on_delete=models.CASCADE)
-    escrow_status = models.CharField(max_length=50, default='held')
-
-    def __str__(self):
-        """
-        Returns a string representation of the BuyGiftCard instance.
-        """
-        return f'{self.buyer.username} bought {self.gift_card.card_type}'
+    def get_absolute_url(self):
+        return reverse("giftcard:giftcard-details", args=[self.slug])

@@ -14,8 +14,7 @@ Usage:
 - The `GiftCard` model is automatically available in the Django admin dashboard after registration.
 """
 from django.contrib import admin
-from .models import GiftCard, BuyGiftCard
+from .models import GiftCard
 
 # Register the GiftCard model in the Django admin panel
 admin.site.register(GiftCard)
-admin.site.register(BuyGiftCard)
