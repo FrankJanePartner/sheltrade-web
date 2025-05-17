@@ -166,3 +166,5 @@ cython_debug/
 tempFolder/
 .vscode/
 .vscode
+vscode/
+vscode
