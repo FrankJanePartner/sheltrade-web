@@ -227,64 +227,6 @@ nav ul li a.active {
     font-weight: 500;
 }
 
-/* Testimonials styles */
-#testimonials {
-    width: 95dvw;
-    margin: 0 auto;
-    padding: 4rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#testimonials h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.testimonial-slider {
-    margin: 0 auto;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 2rem;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.testimonial {
-    width: 35%;
-    flex: 0 0 300px;
-    scroll-snap-align: start;
-    background-color: #f8f9fa;
-    padding: 0.1rem;
-    margin: 0rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.testimonial img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 1rem;
-}
-
-.testimonial p {
-    font-style: italic;
-    margin-bottom: 1rem;
-}
-
-.testimonial cite {
-    font-weight: bold;
-}
-
 /* Footer styles */
 footer {
     width: 100dvw;

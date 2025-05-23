@@ -65,9 +65,9 @@ body{
     display: -webkit-box;
     font-size: clamp(3rem, 2.5dvw, 4rem);
     background: var(--white);
-    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin: 0 0 1rem;
 }
 
@@ -75,8 +75,8 @@ body{
     display: -webkit-box;
     font-size: clamp(3rem, 2.5dvw, 4rem);
     background: var(--yellow);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 1rem;
 }
@@ -134,7 +134,7 @@ body{
 }
 
 .grid-item div span{
-    text-wrap: auto;
+    word-wrap: auto;
 }
 
 .grid-item i{

@@ -1,7 +1,7 @@
 /* SLIDER START */
-const carousel = document.querySelector(".carousel"),
-firstImg = carousel.querySelectorAll("img")[0],
-arrowIcons = document.querySelectorAll(".wrapper i");
+const carousel = document.querySelector(".testimonial-slider"),
+firstImg = carousel.querySelectorAll(".testimonial")[0],
+arrowIcons = document.querySelectorAll(".testimonial-slider i");
 
 let isDragStart = false, isDragging = false, prevPageX, prevScrollLeft, positionDiff;
 
