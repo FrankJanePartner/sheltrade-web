@@ -89,3 +89,4 @@ class SheltradeContact(models.Model):
     class Meta:
         verbose_name = 'Sheltrade Contact'
         verbose_name_plural = 'Sheltrade Contacts'
+

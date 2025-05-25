@@ -35,7 +35,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
         (c.cryptoName for c in CryptoWallet.objects.all() if c.cryptoName in instance.transaction_type),
         None
     )
-    userBalance = Wallet.objects.get(user=user)
+    balance = Wallet.objects.get(user=user)
     cryptoWallet = CryptoWallet.objects.all()
     
     # Handle Crypto Transactions
@@ -47,8 +47,8 @@ def handle_User_transactions(sender, instance, created, **kwargs):
 
     if instance.status == 'Approved':
         if instance.transaction_type == "Deposit":
-            userBalance.userBalance += instance.amount
-            userBalance.save()
+            balance.balance += instance.amount
+            balance.save()
             # Send email to user
             subject = f' Fund Deposit.'
             messageContent = f"""
@@ -74,8 +74,8 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                 """
             )
         elif instance.transaction_type == 'Withdrawal':
-            userBalance.userBalance -= instance.amount
-            userBalance.save()
+            balance.balance -= instance.amount
+            balance.save()
             # Send email to user
             subject = f'Fund Withdrawal.'
             messageContent = f"""
@@ -101,7 +101,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                 """
             )
         elif crypto and instance.transaction_type.startswith(f"Sell {crypto}"):
-            userBalance.userBalance += instance.amount
+            balance.balance += instance.amount
             # Send email to user
             subject = f'Crypto Sold'
             messageContent = f"""
@@ -127,7 +127,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                 """
             )
         elif crypto and instance.transaction_type.startswith(f"Buy {crypto}"):
-            userBalance.userBalance -= instance.amount
+            balance.balance -= instance.amount
             # Send email to user
             subject = f'Buy {crypto}'
             messageContent = f"""
@@ -152,7 +152,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                     Your purchase of {crypto} was successfull.
                 """
             )
-        userBalance.save()
+        balance.save()
 
     # Get the related GiftCard instances for the user
     giftcardBuyers = GiftCard.objects.filter(buyer=user)
@@ -178,7 +178,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                     sellerBalance = Wallet.objects.get(user=seller)
                 
                 giftcardBuyer.escrow_status = "Sold"
-                sellerBalance.userBalance += instance.amount
+                sellerBalance.balance += instance.amount
                 sellerBalance.save()
                 # Send email to user
                 subject = f'GiftCard added'
@@ -217,7 +217,7 @@ def handle_User_transactions(sender, instance, created, **kwargs):
                     sellerBalance = Wallet.objects.get(user=seller)
                 
                 giftcardBuyer.escrow_status = "Sold"
-                sellerBalance.userBalance += instance.amount
+                sellerBalance.balance += instance.amount
                 sellerBalance.save()
                 transaction = Transaction(user=seller, transaction_type='Sell Giftcard', amount=instance.amount, status="Approved")
                 transaction.save()

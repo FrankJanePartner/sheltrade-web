@@ -1,29 +1,29 @@
 import os
 from pathlib import Path
-# import environ
+import environ
 from datetime import timedelta
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# load_dotenv()
+load_dotenv()
 
-# env = environ.Env()
-# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY="django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+"
+SECRET_KEY=env('SECRET_KEY')
 
-# # API and other important info
-# VTPass_API_KEY=env('VTPass_API_KEY')
-# VTPass_PUBLIC_KEY=env('VTPass_PUBLIC_KEY')
-# VTPass_SECRET_KEY=env('VTPass_SECRET_KEY')
-# VTPass_BASE_URL=env('VTPass_BASE_URL')
-# VTPass_EMAIL=env('VTPass_EMAIL')  # Replace with your Vtpass email
-# VTPass_PASSWORD=env('VTPass_PASSWORD')
+# API and other important info
+VTPass_API_KEY=env('VTPass_API_KEY')
+VTPass_PUBLIC_KEY=env('VTPass_PUBLIC_KEY')
+VTPass_SECRET_KEY=env('VTPass_SECRET_KEY')
+VTPass_BASE_URL=env('VTPass_BASE_URL')
+VTPass_EMAIL=env('VTPass_EMAIL')  # Replace with your Vtpass email
+VTPass_PASSWORD=env('VTPass_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'giftcard',
     'mobileTopUp',
     'sheltradeAdmin',
-    # 'sheltradeAPI',
     'wallet',
     'workers',
 
@@ -72,12 +71,6 @@ INSTALLED_APPS = [
     'mptt',
     'tinymce',
     # 'guardian',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_framework_simplejwt.token_blacklist',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
-    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -154,9 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
@@ -200,18 +190,6 @@ AUTHENTICATION_BACKENDS = [
     # 'guardian.backends.ObjectPermissionBackend',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',  # If using Token Authentication
-        'rest_framework.authentication.SessionAuthentication',  # For web session login
-        'rest_framework.authentication.BasicAuthentication',  # Optional
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',  # Ensures only authenticated users can access
-    # ),
-}
 
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -248,8 +226,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
-            'client_id': '74765500020-gi7u5q1nmani6kemv428ckn936k4bncd.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': env('GOOGLE_CLIENT_ID'),
+            'secret': env('GOOGLE_SECRET'),
             'key': ''
         }
     },
@@ -257,25 +235,25 @@ SOCIALACCOUNT_PROVIDERS = {
         'METHOD': 'oauth2',
         'SCOPE': ['email', 'public_profile'],
         'APP': {
-            'client_id': '509697181767177',
-            'secret': '651a9335cb086c9c8d5fca07d71f1a86',
+            'client_id': env('FACEBOOK_CLIENT_ID'), 
+            'secret': env('FACEBOOK_SECRET'),
             'key': ''
         }
     }
 }
 
 
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587 # Use 465 if using SSL
-EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'myappsa9@gmail.com'
-EMAIL_HOST_PASSWORD = 'nrgh zjca vijp fkbl'
-DEFAULT_FROM_EMAIL = 'info@sheltrade.com'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587 # Use 465 if using SSL
+# EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
+# EMAIL_USE_SSL = False
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -290,34 +268,11 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-DJREST_AUTH = {
-    'USE_JSON': True,
-}
-
-REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'jwt-auth',
-    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
-    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
-    'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
-    'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
-    'VERIFICATION_URL': '/api/auth/verify-email/',
-}
-
-
-ACCOUNT_ADAPTER = "core.adapters.CustomAccountAdapter"
-
-REST_AUTH_REGISTER_SERIALIZER = "dj_rest_auth.registration.serializers.RegisterSerializer"
-
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-
 
 LOGIN_URL = '/accounts/login/'
 SIGNUP_URL = '/accounts/signup/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-# ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect to login page
-
 
 
 #ACCOUNT_EMAIL_REQUIRED = True
@@ -328,12 +283,6 @@ ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "Sheltrade "
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/accounts/login/"
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/dashboard/"
-
-
-# API confirmation
-# DJRESTAUTH_VERIFICATION_URL = '/accounts/login/'
 
 
 TINYMCE_DEFAULT_CONFIG = {
@@ -363,42 +312,3 @@ TINYMCE_DEFAULT_CONFIG = {
     'statusbar': True,
 }
 
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
-    "UPDATE_LAST_LOGIN": False,
-
-    "ALGORITHM": "HS256",
-    "VERIFYING_KEY": "",
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JSON_ENCODER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
-
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
-
-    "JTI_CLAIM": "jti",
-
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
-}

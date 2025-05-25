@@ -16,7 +16,7 @@ from django.utils.html import strip_tags
 @login_required
 def wallet(request):
     user = request.user
-    wallet = Wallet.objects.get_or_create(user=user)
+    wallet = Wallet.objects.filter(user=user).first()
     transactions = Transaction.objects.filter(user=user)
 
     context = {
@@ -42,11 +42,7 @@ def deposit(request):
         'narration': narration,
         'profile':profile,
     }
-    
-    return render(request, 'wallet/deposite.html', context)
 
-@login_required
-def deposit_submit_view(request):
     if request.method == 'POST':
         narration = request.POST.get('narration')
         amount = Decimal(request.POST.get('amount') or 0)
@@ -84,24 +80,19 @@ def deposit_submit_view(request):
 
         messages.info(request, 'Deposit sent! Awaiting approval.')
         return redirect('wallet:wallet')
-        # Handle the deposit logic here using the narration
+    
+    return render(request, 'wallet/deposite.html', context)
 
 @login_required
 def withdrawal(request):
-    withdrawalAccounts = WithdrawalAccount.objects.filter(user=request.user)
-    
-    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccounts})
-
-
-@login_required
-def withdrawal_submit_view(request):
     if request.method == 'POST':
         selected_account_id = request.POST.get('SelectedAcount')
         amount = Decimal(request.POST.get('amount'))
         withdrawal_account= WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
         wallet = Wallet.objects.get_or_create(user=request.user)
+        userBalance = wallet.balance
 
-        if wallet.userBalance >= amount:
+        if userBalance >= amount:
             transaction = Transaction(user=request.user, transaction_type='Withdrawal', amount=amount, status="pending")
             transaction.save()
             withdrawal = Withdrawal(user=request.user, transaction_id=transaction, acount_name=withdrawal_account.account_name, acount_number=withdrawal_account.account_number, BankName=withdrawal_account.bank_name)
@@ -130,7 +121,9 @@ def withdrawal_submit_view(request):
             
         else:
             messages.info(request, 'Insufficient balance.')
-        return redirect('wallet:withdraw')
+        return redirect('wallet:withdraw')    
+    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccounts})
+
 
 
 @login_required

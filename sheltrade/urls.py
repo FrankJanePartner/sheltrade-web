@@ -1,16 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-
-# from sheltradeAPI.views import CustomEmailVerificationSentView
-# from allauth.account.views import email_verification_sent, ConfirmEmailView
-from dj_rest_auth.registration.views import VerifyEmailView
 
 
 admin.site.site_header = 'Sheltrade'
@@ -28,21 +19,11 @@ urlpatterns = [
     path('giftcard/', include('giftcard.urls', namespace='giftcard')),
     path('mobileTopUp/', include('mobileTopUp.urls', namespace='mobileTopUp')),
     path('billPayments/', include('billPayments.urls', namespace='billPayments')),
-    # path('api/', include('sheltradeAPI.urls', namespace='sheltradeAPI')),
     
 
     # third party url
     path('tinymce/', include('tinymce.urls')),
     path('accounts/', include('allauth.urls')),
-    path('accounts/confirm-email/', include('allauth.account.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]
-
-# API URLs
-urlpatterns += [
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
 

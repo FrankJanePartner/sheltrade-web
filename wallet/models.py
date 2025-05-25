@@ -45,12 +45,13 @@ class Transaction(models.Model):
     transaction_type = models.CharField(max_length=50)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='Pending')
+    date_time = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         """
         Returns a string representation of the Transaction instance.
         """
-        return f'Transaction {self.id} - {self.transaction_type} - {self.amount}'
+        return f'{self.transaction_type} Transaction by {self.user}  - {self.amount}'
 
 class DepositNarration(models.Model):
     """

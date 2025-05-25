@@ -29,7 +29,8 @@
         </section>
         <section id="wallet-overview" class="formHeader">
             <h2>Available Balance</h2>
-            <h1 class="balance">{{ currency_symbol }} {{ wallet.userBalance|intcomma }}</h1>
+            <h1 class="balance">{{ currency_symbol }} {{ wallet.balance|intcomma }}</h1>
+            <h5>CashBacks: {{ currency_symbol }} {{ wallet.cashback|intcomma }}</h5>
         </section>
         <section id="wallet-actions">
             <a href="/wallet/deposit/" class="grid-item">

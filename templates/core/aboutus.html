@@ -86,21 +86,13 @@
         <section id="team">
             <h2>Meet Our Team</h2>
             <div class="team-grid slider">
+                {% for team in sheltradeTeam %}
                 <div class="team-member">
-                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 1">
-                    <h3>John Doe</h3>
-                    <p>CEO & Co-founder</p>
+                    <img src="{{ team.image.url }}" alt="Team Member {{ team.id }}">
+                    <h3>{{ team.full_name }}</h3>
+                    <p>{{ team.job_description }}</p>
                 </div>
-                <div class="team-member">
-                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 2">
-                    <h3>Jane Smith</h3>
-                    <p>CTO & Co-founder</p>
-                </div>
-                <div class="team-member">
-                    <img src="{% static 'core/image/PT2.jpg' %}" alt="Team Member 3">
-                    <h3>Mike Johnson</h3>
-                    <p>Head of Operations</p>
-                </div>
+                {% endfor %}
             </div>
             <div class="big-pentagon"></div>
             <div class="small-pentagon"></div>

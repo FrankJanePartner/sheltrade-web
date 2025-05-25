@@ -19,7 +19,7 @@ def base_template(request):
 
 def sheltrade_info(request):
     sheltradeSocialMedia = SheltradeSocialMedia.objects.all()
-    sheltradeContact = SheltradeSocialMedia.objects.all()
+    sheltradeContact = SheltradeContact.objects.all()
     context = {
         "sheltradeSocialMedia" : sheltradeSocialMedia,
         "sheltradeContact" : sheltradeContact

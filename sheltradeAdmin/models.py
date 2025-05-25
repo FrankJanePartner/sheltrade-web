@@ -84,3 +84,18 @@ class CashBack(models.Model):
 
     def __str__(self):
         return f"Cash Back: {self.amount}% for Airtime, Data, Bills"
+
+
+
+# Model representing Sheltrade Team profile
+class SheltradeTeam(models.Model):
+    full_name = models.CharField(max_length=500)
+    job_description = models.CharField(max_length=700)
+    image = models.ImageField(upload_to="Images/Team", default="defaults/gift-card.png")
+
+    class Meta:
+        verbose_name = "Sheltrade Team"
+        verbose_name_plural = "Sheltrade Team"
+
+    def __str__(self):
+        return self.full_name
