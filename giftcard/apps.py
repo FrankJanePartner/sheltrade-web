@@ -20,3 +20,7 @@ class GiftcardConfig(AppConfig):
     """Configuration class for the Giftcard app."""
     default_auto_field = 'django.db.models.BigAutoField'  # Sets the default primary key field type
     name = 'giftcard'   # Defines the name of the app
+
+
+    def ready(self):
+        import giftcard.signals  # Importing signal handlers to connect them to Django's signal framework

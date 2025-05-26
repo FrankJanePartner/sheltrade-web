@@ -1,8 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import GiftCard
 from wallet.models import Wallet
+from datetime import datetime
+from django.http import HttpResponseForbidden
+
+@login_required
+def list_gift_card(request):
+    giftcards = GiftCard.objects.all()
+    return render(request, 'giftcard/giftcard_list.html', {'giftcards':giftcards})
 
 @login_required
 def buy_gift_card(request):
@@ -20,22 +27,21 @@ def buy_gift_card(request):
     """
     user = request.user
     wallet = Wallet.objects.get(user=user)
-
+    gift_cards = GiftCard.objects.filter(staus="Listed")
     if request.method == 'POST':
         gift_card_id = request.POST.get('gift_card_id')
         gift_card = GiftCard.objects.get(id=gift_card_id)
 
-        if wallet.userBalance >= gift_card.price:
+        if wallet.balance >= gift_card.price:
             # Create a GiftCard record
             GiftCard.objects.create(buyer=user, gift_card=gift_card)
             messages.success(request, f'You have successfully purchased {gift_card.card_type}!')
             return redirect('core:dashbard')
         else:
             messages.error(request, 'Insufficient balance to purchase this gift card.')
-            return redirect('giftcard:buy_gift_card')
+            return redirect('giftcard:buy_gift_card', {'gift_cards': gift_cards})
 
-    gift_cards = GiftCard.objects.all()
-    return render(request, 'giftcard/buy_gift_card.html', {'gift_cards': gift_cards})
+    return render(request, 'giftcard/buygiftcard.html', {'gift_cards': gift_cards})
 
 @login_required
 def sell_gift_card(request):
@@ -52,62 +58,89 @@ def sell_gift_card(request):
     """
     if request.method == 'POST':
         card_type = request.POST.get('card_type')
-        card_number = request.POST.get('card_number')
         card_pin = request.POST.get('card_pin')
-        card_code = request.POST.get('card_code')
-        expiration_date = request.POST.get('expiration_date')
+        expiration_date_str = request.POST.get('expiration_date')
         condition = request.POST.get('condition')
         restrictions = request.POST.get('restrictions')
         price = request.POST.get('price')
+        image = request.FILES.get('uploaded_image')
 
-        # Create a GiftCard record
-        GiftCard.objects.create(
-            seller=request.user,
-            card_type=card_type,
-            card_number=card_number,
-            card_pin=card_pin,
-            card_code=card_code,
-            expiration_date=expiration_date,
-            condition=condition,
-            restrictions=restrictions,
-            price=price
-        )
-        messages.success(request, 'Your gift card has been listed for sale!')
-        return redirect('core:dashbard')
-
-    return render(request, 'giftcard/sell_gift_card.html')
-
-@login_required
-def list_gift_card(request):
-    giftcards = GiftCard.objects.all()
-    return render(request, 'giftcard/giftcard_list.html', {'giftcards':giftcards})
-
-@login_required
-def gift_card_details(request, slug):
-     
-    if request.method == 'POST':
-        card_type = request.POST.get('card_type')
-        card_number = request.POST.get('card_number')
-        card_pin = request.POST.get('card_pin')
-        card_code = request.POST.get('card_code')
-        expiration_date = request.POST.get('expiration_date')
-        condition = request.POST.get('condition')
-        restrictions = request.POST.get('restrictions')
-        price = request.POST.get('price')
+        expiration_date = None
+        if expiration_date_str:
+            try:
+                expiration_date = datetime.strptime(expiration_date_str, '%Y-%m-%d').date()
+            except ValueError:
+                messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
+                return render(request, 'giftcard/sellgiftcard.html')
 
         # Create a GiftCard record
         GiftCard.objects.get_or_create(
             seller=request.user,
             card_type=card_type,
-            card_number=card_number,
             card_pin=card_pin,
-            card_code=card_code,
             expiration_date=expiration_date,
             condition=condition,
             restrictions=restrictions,
-            price=price
+            price=price,
+            uploaded_image=image
         )
         messages.success(request, 'Your gift card has been listed for sale!')
-        return redirect('core:dashbard')
+        return redirect('core:dashboard')
 
-    return render(request, 'giftcard/giftcard_details.html')
+    return render(request, 'giftcard/sellgiftcard.html')
+
+
+@login_required
+def gift_card_details(request, slug):
+    giftcard = get_object_or_404(GiftCard, slug=slug)
+
+    if request.method == 'POST':
+        card_type = request.POST.get('card_type')
+        card_pin = request.POST.get('card_pin')
+        expiration_date_str = request.POST.get('expiration_date')
+        condition = request.POST.get('condition')
+        restrictions = request.POST.get('restrictions')
+        price = request.POST.get('price')
+        image = request.FILES.get('uploaded_image')
+
+        expiration_date = None
+        if expiration_date_str:
+            try:
+                expiration_date = datetime.strptime(expiration_date_str, '%Y-%m-%d').date()
+            except ValueError:
+                messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
+                return render(request, 'giftcard/sellgiftcard.html', {'giftcard':giftcard})
+
+
+        # Update the existing gift card
+        giftcard.card_type = card_type
+        giftcard.card_pin = card_pin
+        giftcard.expiration_date = expiration_date
+        giftcard.condition = condition
+        giftcard.restrictions = restrictions
+        giftcard.price = price
+
+        if image:
+            giftcard.uploaded_image = image
+
+        giftcard.save()
+        messages.success(request, 'Your gift card has been updated')
+        return redirect('/giftcard/')
+
+    return render(request, 'giftcard/giftcard_details.html', {'giftcard':giftcard})
+
+
+@login_required
+def delete_gift_card(request, slug):
+    giftcard = get_object_or_404(GiftCard, slug=slug)
+
+    # Optional: Ensure only the seller can delete their card
+    if giftcard.seller != request.user:
+        return HttpResponseForbidden("You're not allowed to delete this gift card.")
+
+    if request.method == 'POST':
+        giftcard.delete()
+        messages.success(request, 'Gift card deleted successfully.')
+        return redirect('core:dashboard')  # Replace with the page you want to redirect to after deletion
+
+    return render(request, 'giftcard/confirm_delete.html', {'giftcard': giftcard})

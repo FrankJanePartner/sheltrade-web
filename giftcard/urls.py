@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import sell_gift_card, buy_gift_card, gift_card_details, list_gift_card#, add_gift_card, buy_gift_card, market
+from .views import sell_gift_card, buy_gift_card, gift_card_details, list_gift_card, delete_gift_card
 
 app_name = 'giftcard'
 
 urlpatterns = [
-    path('', buy_gift_card, name='buy_gift_card'),
+    path('', list_gift_card, name='market'),
+    path('buy/', buy_gift_card, name='buy_gift_card'),
     path('sell/', sell_gift_card, name='sell_gift_card'),
     path('<slug:slug>', gift_card_details, name='giftcard-details'),
-    path('list-giftcard/', list_gift_card, name='list-giftcard'),
+    path('<slug:slug>/delete/', delete_gift_card, name='delete'),
 ]
-

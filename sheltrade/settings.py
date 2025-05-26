@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'mobileTopUp',
     'sheltradeAdmin',
     'wallet',
-    'workers',
 
     # third-party apps
     # 'djmoney',
