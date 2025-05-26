@@ -24,13 +24,7 @@ class WorkersConfig(AppConfig):
 
     def ready(self):
         # List of allowed models in 'app_label.modelname' format
-        allowed_models = ['contact.Contact', 'wallet.Deposit']
-
-        # Dictionary mapping model names to allowed update fields
-        allowed_update_fields = {
-            'contact.Contact': ['field1', 'field2'],  # Replace with actual field names
-            'wallet.Deposit': ['status'],  # Replace with actual field names
-        }
+        allowed_models = ['contact.Contact', 'wallet.Deposit', 'wallet.Withdrawal']
 
         if 'makemigrations' in sys.argv or 'migrate' in sys.argv:
             return  # Avoid running during migrations

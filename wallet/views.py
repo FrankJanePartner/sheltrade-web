@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .utils import generate_narration
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Transaction, Wallet, Deposit, DepositNarration, WithdrawalAccount, Withdrawal
+from .models import Transaction, Wallet, Deposit, WithdrawalAccount, Withdrawal
 from sheltradeAdmin.models import BankDetail
 from core.models import Profile, Notification
 from django.contrib.auth.models import User
@@ -50,9 +50,7 @@ def deposit(request):
         
         transaction = Transaction(user=request.user, transaction_type='Deposit', amount=amount, status="pending")
         transaction.save()
-        deposit_naration = DepositNarration(narration=narration, transaction=transaction)
-        deposit_naration.save()
-        deposit = Deposit(user=request.user, naration =deposit_naration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
+        deposit = Deposit(user=request.user, narration=narration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
         deposit.save()
 
         # Prepare the email content
@@ -85,17 +83,19 @@ def deposit(request):
 
 @login_required
 def withdrawal(request):
+    withdrawalAccount= WithdrawalAccount.objects.filter(user=request.user)
+
     if request.method == 'POST':
         selected_account_id = request.POST.get('SelectedAcount')
         amount = Decimal(request.POST.get('amount'))
-        withdrawal_account= WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
-        wallet = Wallet.objects.get_or_create(user=request.user)
+        withdrawalAccounts= WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
+        wallet, created = Wallet.objects.get_or_create(user=request.user)
         userBalance = wallet.balance
 
         if userBalance >= amount:
             transaction = Transaction(user=request.user, transaction_type='Withdrawal', amount=amount, status="pending")
             transaction.save()
-            withdrawal = Withdrawal(user=request.user, transaction_id=transaction, acount_name=withdrawal_account.account_name, acount_number=withdrawal_account.account_number, BankName=withdrawal_account.bank_name)
+            withdrawal = Withdrawal(user=request.user, transaction=transaction, withdrawalAccounts=withdrawalAccounts, amount=amount, status="pending")
             withdrawal.save()
 
             # Prepare the email content
@@ -116,13 +116,13 @@ def withdrawal(request):
             email.attach_alternative(html_content, "text/html")
             email.send()
             
-            messages.success(request, f"Withdrawal processed from {withdrawal_account.account_name}.")
+            messages.success(request, f"Withdrawal processed from {withdrawalAccounts.account_name}.")
             return redirect('wallet:wallet')
             
         else:
             messages.info(request, 'Insufficient balance.')
         return redirect('wallet:withdraw')    
-    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccounts})
+    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccount})
 
 
 

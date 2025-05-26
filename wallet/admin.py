@@ -14,13 +14,50 @@ Usage:
 - The `Wallet`, `Transaction`, `DepositNarration`, `Withdrawal`, and `WithdrawalAccount` models are automatically available in the Django admin dashboard after registration.
 """
 from django.contrib import admin
-from .models import Wallet, Transaction, Deposit, DepositNarration, Withdrawal, WithdrawalAccount
+from .models import Wallet, Transaction, Deposit, Withdrawal, WithdrawalAccount
 
-# Register the Wallet model in the Django admin panel.
+class DepositAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount', 'status')
+    list_filter = ('status',)
+    search_fields = ('user__username',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            if obj and obj.status in ['Approved', 'Rejected']:
+                # If deposit is already processed, make all fields readonly
+                return [
+                    'user', 'transaction', 'naration',
+                    'amount', 'proof_of_payment', 'status'
+                ]
+            else:
+                # Allow changing status, make the rest readonly
+                return [
+                    'user', 'transaction', 'naration',
+                    'amount', 'proof_of_payment'
+                ]
+        return []
+    
+class WithdrawalAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount', 'status')
+    list_filter = ('status',)
+    search_fields = ('user__username',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            if obj and obj.status in ['Sent', 'Declined']:
+                return [
+                    'user', 'transaction',
+                    'amount', 'status'
+                ]
+            else:
+                return [
+                    'user', 'transaction', 'amount'
+                ]
+        return []
 
 admin.site.register(Wallet)
 admin.site.register(Transaction)
-admin.site.register(DepositNarration)
-admin.site.register(Deposit)
-admin.site.register(Withdrawal)
+admin.site.register(Deposit, DepositAdmin)
+admin.site.register(Withdrawal, WithdrawalAdmin)
 admin.site.register(WithdrawalAccount)
+
