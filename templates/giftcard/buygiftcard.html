@@ -6,7 +6,7 @@
         <div class="topSection">
             <a href="/dashboard/" class="back">&larr; Go Back</a>
             <a href="/">
-                <img src="{% static 'core/image/Logo.png' %}" alt="logo" class="logo">
+                <img src="{% static 'core/image/logo white.png' %}" alt="logo" class="logo">
             </a>
         </div>
         <div class="formHeader">
@@ -21,23 +21,26 @@
                 <i class="opened-package fas fa-box-open"></i>
                 <input type="search" id="card_type_search" placeholder="Choose a card type">
             </div>
-            <div class="giftcard-image">
-                {% if giftcards %}
+            {% if giftcards %}
+                <div class="giftcard-image">
                     {% for giftcard in giftcards %}
                         <div class="gift-img" data-name="{{ giftcard.card_type }}" data-id="{{ giftcard.id }}">
-                            <img src="{{ giftcard.uploaded_image.url }}" alt="{{ giftcard.card_type }}">
+                            {% if giftcard.uploaded_image and giftcard.uploaded_image.url %}
+                                <img src="{{ giftcard.uploaded_image.url }}" alt="{{ giftcard.card_type }}">
+                            {% else %}
+                                <img src="{% static 'core/image/defaults/gift-card.png' %}" alt="{{ giftcard.card_type }}">
+                            {% endif %}
                             <section>
                                 <h5>{{ giftcard.card_type }}</h5>
                                 <span>${{ giftcard.price }}</span>
                             </section>
                         </div>
                     {% endfor %}
+                </div>            
                 {% else %}
                     <p>No Gift Cards Yet</p>
-                {% endif %}
-            </div>            
-        
-            <input type="hidden" id="selected-giftcard-id" name="giftcard-id" value="">
+                {% endif %}        
+            <input type="hidden" id="selected-giftcard-id" name="giftcard-id" value="{{ giftcard.id }}">
         
             <div class="form-group amount-select">
                 <label for="card-amount">Price of Card</label>

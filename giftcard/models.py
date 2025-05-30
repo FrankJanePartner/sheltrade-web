@@ -34,14 +34,14 @@ class GiftCard(models.Model):
     card_type = models.CharField(max_length=255)
     card_pin = models.CharField(max_length=255)
     expiration_date = models.DateField(null=True, blank=True)
-    condition = models.CharField(max_length=255)
+    condition = models.CharField(max_length=255, blank=True)
     restrictions = models.TextField(blank=True)
     uploaded_image = models.ImageField(upload_to='giftcards/', default="defaults/gift-card.png", null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=10, choices=STATUS, default='Pending')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    sold_at = models.DateField(null=True)
+    sold_at = models.DateField(null=True, blank=True)
 
     def __str__(self):
         """

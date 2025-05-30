@@ -9,7 +9,7 @@ from wallet.models import Wallet, Transaction
 @receiver(post_save, sender=GiftCard)
 def handle_User_GiftCards(sender, instance, created, **kwargs):
 
-    user = instance.user
+    user = instance.seller
     balance = Wallet.objects.get(user=user)
 
     if instance.status == 'Sold':
@@ -17,7 +17,7 @@ def handle_User_GiftCards(sender, instance, created, **kwargs):
             user=user,
             transaction_type='GiftCard Sold', amount=instance.price, status="Sold"
         )
-        balance.balance += instance.amount
+        balance.balance += instance.price
         balance.save()
 
         Notification.objects.create(

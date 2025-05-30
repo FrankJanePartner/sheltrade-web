@@ -87,7 +87,7 @@ class WithdrawalAccount(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=255)
-    account_name = models.CharField(max_length=500)
+    account_name = models.CharField(max_length=255)
     bank_name = models.CharField(max_length=255)
 
     def __str__(self):

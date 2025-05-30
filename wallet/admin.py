@@ -15,6 +15,7 @@ Usage:
 """
 from django.contrib import admin
 from .models import Wallet, Transaction, Deposit, Withdrawal, WithdrawalAccount
+from mptt.admin import MPTTModelAdmin
 
 class DepositAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'status')
@@ -36,11 +37,15 @@ class DepositAdmin(admin.ModelAdmin):
                     'amount', 'proof_of_payment'
                 ]
         return []
-    
-class WithdrawalAdmin(admin.ModelAdmin):
+
+
+class WithdrawalAdmin(admin.TabularInline):
     list_display = ('user', 'amount', 'status')
     list_filter = ('status',)
     search_fields = ('user__username',)
+    inlines = [
+        Withdrawal
+    ]
 
     def get_readonly_fields(self, request, obj=None):
         if not request.user.is_superuser:
@@ -55,9 +60,14 @@ class WithdrawalAdmin(admin.ModelAdmin):
                 ]
         return []
 
+
+class WithdrawalAccountAdmin(admin.ModelAdmin):
+    model = WithdrawalAccount
+
+
 admin.site.register(Wallet)
 admin.site.register(Transaction)
 admin.site.register(Deposit, DepositAdmin)
-admin.site.register(Withdrawal, WithdrawalAdmin)
-admin.site.register(WithdrawalAccount)
+admin.site.register(Withdrawal)
+admin.site.register(WithdrawalAccount, WithdrawalAccountAdmin)
 

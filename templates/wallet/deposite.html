@@ -14,8 +14,21 @@
         </div>
         <form method="post"  enctype="multipart/form-data" action="">
             {% csrf_token %}
-            {% for message in messages %}
-                <h5>{{message}}</h5>
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" >
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
             {% endfor %}
             <div class="form-group">
                 <div class="form-group">

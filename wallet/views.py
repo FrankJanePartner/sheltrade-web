@@ -44,13 +44,12 @@ def deposit(request):
     }
 
     if request.method == 'POST':
-        narration = request.POST.get('narration')
         amount = Decimal(request.POST.get('amount') or 0)
         proof_of_payment = request.FILES.get('proof_of_payment')
         
         transaction = Transaction(user=request.user, transaction_type='Deposit', amount=amount, status="pending")
         transaction.save()
-        deposit = Deposit(user=request.user, narration=narration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
+        deposit = Deposit(user=request.user, naration=narration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
         deposit.save()
 
         # Prepare the email content
@@ -59,7 +58,7 @@ def deposit(request):
             f"Username: {request.user.username}\n"
             f"User's Email: {request.user.email}\n"
             f"Deposit Amount: {amount}\n"
-            f"Narration: {narration}\n"
+            f"Naration: {narration}\n"
             f"Proof Of Payment: Attached below."
         )
         sender_email = settings.DEFAULT_FROM_EMAIL
@@ -95,7 +94,7 @@ def withdrawal(request):
         if userBalance >= amount:
             transaction = Transaction(user=request.user, transaction_type='Withdrawal', amount=amount, status="pending")
             transaction.save()
-            withdrawal = Withdrawal(user=request.user, transaction=transaction, withdrawalAccounts=withdrawalAccounts, amount=amount, status="pending")
+            withdrawal = Withdrawal(user=request.user, transaction=transaction, withdrawalAccount=withdrawalAccounts, amount=amount, status="pending")
             withdrawal.save()
 
             # Prepare the email content
@@ -116,12 +115,12 @@ def withdrawal(request):
             email.attach_alternative(html_content, "text/html")
             email.send()
             
-            messages.success(request, f"Withdrawal processed from {withdrawalAccounts.account_name}.")
+            messages.success(request, f"Your Withdrawal rrequest has been sent.")
             return redirect('wallet:wallet')
             
         else:
             messages.info(request, 'Insufficient balance.')
-        return redirect('wallet:withdraw')    
+            return redirect('wallet/withdraw.html ')    
     return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccount})
 
 
@@ -134,8 +133,7 @@ def AddAccount(request):
         bankName = request.POST.get('bankName')
         accountNumber = request.POST.get('accountNumber')
 
-        address = WithdrawalAccount(user=request.user, account_name=accountName, account_number=accountNumber, bank_name=bankName)
-        address.save()
+        address = WithdrawalAccount.objects.get_or_create(user=request.user, account_name=accountName, account_number=accountNumber, bank_name=bankName)
 
         # Send notification
         Notification.objects.create(

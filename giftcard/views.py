@@ -27,21 +27,28 @@ def buy_gift_card(request):
     """
     user = request.user
     wallet = Wallet.objects.get(user=user)
-    gift_cards = GiftCard.objects.filter(staus="Listed")
+    giftcards = GiftCard.objects.filter(status="Listed")
     if request.method == 'POST':
-        gift_card_id = request.POST.get('gift_card_id')
-        gift_card = GiftCard.objects.get(id=gift_card_id)
+        gift_card_id = request.POST.get('giftcard-id')
+        try:
+            gift_card = GiftCard.objects.get(id=gift_card_id)
+        except GiftCard.DoesNotExist:
+            messages.error(request, 'The selected gift card does not exist.')
+            return redirect('giftcard:buy_gift_card')
 
         if wallet.balance >= gift_card.price:
-            # Create a GiftCard record
-            GiftCard.objects.create(buyer=user, gift_card=gift_card)
+            # Update the gift card as sold and assign buyer and sold_at
+            gift_card.buyer = user
+            gift_card.sold_at = datetime.now()
+            gift_card.status = 'Sold'
+            gift_card.save()
             messages.success(request, f'You have successfully purchased {gift_card.card_type}!')
-            return redirect('core:dashbard')
+            return redirect('core:dashboard')
         else:
             messages.error(request, 'Insufficient balance to purchase this gift card.')
-            return redirect('giftcard:buy_gift_card', {'gift_cards': gift_cards})
+            return redirect('giftcard:buy_gift_card')
 
-    return render(request, 'giftcard/buygiftcard.html', {'gift_cards': gift_cards})
+    return render(request, 'giftcard/buygiftcard.html', {'giftcards': giftcards})
 
 @login_required
 def sell_gift_card(request):

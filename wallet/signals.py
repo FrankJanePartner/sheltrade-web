@@ -30,7 +30,7 @@ def handle_User_deposits(sender, instance, created, **kwargs):
 
     user = instance.user
     transaction = instance.transaction
-    balance = Wallet.objects.get(user=user)
+    balance, created = Wallet.objects.get_or_create(user=user)
 
     if instance.status == 'Approved':
         if transaction.status != 'Approved':

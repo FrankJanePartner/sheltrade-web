@@ -45,7 +45,11 @@
                 {% for giftcard in giftcards %}
                     <a href="{{ giftcard.get_absolute_url }}" class="grid-item" data-status="{{ giftcard.status|lower }}">
                         <div>
-                            <img src="{{ giftcard.uploaded_image.url }}" alt="">
+                            {% if giftcard.uploaded_image and giftcard.uploaded_image.url %}
+                                <img src="{{ giftcard.uploaded_image.url }}" alt="{{ giftcard.card_type }}">
+                            {% else %}
+                                <img src="{% static 'core/image/defaults/gift-card.png' %}" alt="{{ giftcard.card_type }}">
+                            {% endif %}
                             <span>
                                 <h4>{{ giftcard.card_type }}</h4>
                                 <p>${{ giftcard.status }}</p>

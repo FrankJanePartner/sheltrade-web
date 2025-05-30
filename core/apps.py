@@ -38,7 +38,7 @@ class CoreConfig(AppConfig):
         import core.signals  # Importing signal handlers to connect them to Django's signal framework
 
         # List of allowed models in 'app_label.modelname' format
-        allowed_models = ['contact.Contact','gitcard.GiftCard', 'wallet.Deposit', 'wallet.Withdrawal']
+        allowed_models = ['contact.Contact','gitcard.GiftCard', 'wallet.Deposit', 'wallet.Withdrawal', 'wallet.WithdrawalAccount']
 
         if 'makemigrations' in sys.argv or 'migrate' in sys.argv:
             return  # Avoid running during migrations

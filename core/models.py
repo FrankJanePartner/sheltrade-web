@@ -96,7 +96,7 @@ class Notification(models.Model):
     def save(self, *args, **kwargs):
         """Automatically generates a slug from the title if not provided."""
         if not self.slug:
-            self.slug = slugify(f'{self.id}{self.title}')[:20]  # Ensure slug length constraint
+            self.slug = slugify(f'{self.title}')[:20]  # Ensure slug length constraint
         super().save(*args, **kwargs)
 
 
