@@ -15,10 +15,28 @@ Usage:
 """
 from django.contrib import admin
 from .models import GiftCard
+from django.urls import reverse
+from django.utils.html import format_html
 
 # Register the GiftCard model in the Django admin panel
 class GiftCardAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("seller", "card_type"),}
+    list_filter = ('status', 'card_type')
+    search_fields = ('card_number', 'card_type', 'seller__username')
+    actions = ['verify_selected']
+
+    def verify_button(self, obj):
+        if obj.status == 'pending':
+            url = reverse('admin:verify_giftcard', args=[obj.id])
+            return format_html('<a class="button" href="{}">Verify</a>', url)
+        return ''
+    verify_button.short_description = 'Actions'
+    verify_button.allow_tags = True
+
+    def verify_selected(self, request, queryset):
+        for card in queryset:
+            self.verify_card(request, card)
+    verify_selected.short_description = "Verify selected gift cards"
 
     def get_readonly_fields(self, request, obj=None):
         if not request.user.is_superuser:

@@ -15,7 +15,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=env('SECRET_KEY')
+SECRET_KEY='django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+'
 
 # API and other important info
 VTPass_API_KEY=env('VTPass_API_KEY')
@@ -29,8 +29,6 @@ VTPass_PASSWORD=env('VTPass_PASSWORD')
 DEBUG = True
 
 ALLOWED_HOSTS = []#'sheltrade.godhouse.org', 'https://www.sheltrade.godhouse.org', 'www.sheltrade.godhouse.org', 'sheltrade.pythonanywhere.com', 'https://www.sheltrade.pythonanywhere.com', 'www.sheltrade.pythonanywhere.com']
-
-
 
 SITE_ID = 1
 

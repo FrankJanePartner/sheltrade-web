@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 
 @login_required
 def list_gift_card(request):
-    giftcards = GiftCard.objects.all()
+    giftcards = GiftCard.objects.filter(status='listed')
     return render(request, 'giftcard/giftcard_list.html', {'giftcards':giftcards})
 
 @login_required

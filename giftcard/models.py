@@ -22,8 +22,8 @@ class GiftCard(models.Model):
     """
 
     STATUS = (
-        ('Pending', 'Pending'),
-        ('Listed', 'Listed'),
+        ('Pending', 'Pending Verification'),
+        ('listed', 'Listed for Sale'),
         ('Sold', 'Sold'),
         ('Rejected', 'Rejected'),
     )
@@ -42,6 +42,14 @@ class GiftCard(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     sold_at = models.DateField(null=True, blank=True)
+    date_verified = models.DateTimeField(null=True, blank=True)
+    verified_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='verified_giftcards'
+    )
 
     def __str__(self):
         """

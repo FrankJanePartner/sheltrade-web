@@ -21,6 +21,7 @@ class COINGECKOAPI:
         except requests.exceptions.RequestException as e:
             return {"error": str(e)}
 
+
 # Create an instance before calling the method
 # coingecko = COINGECKOAPI()
 # c = coingecko.getprice('ethereum', 'usd')
