@@ -1,20 +1,15 @@
 import os
 from pathlib import Path
 import environ
-from datetime import timedelta
 
-from dotenv import load_dotenv
+# Load environment variables from .env file
+env = environ.Env()
+environ.Env.read_env(Path(__file__).resolve().parent.parent / '.env')
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Base directory of the projectfrom pathlib import Path
+# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-load_dotenv()
-
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY='django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+'
 
 # API and other important info
@@ -223,8 +218,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
-            'client_id': env('GOOGLE_CLIENT_ID'),
-            'secret': env('GOOGLE_SECRET'),
+            'client_id': '74765500020-gi7u5q1nmani6kemv428ckn936k4bncd.apps.googleusercontent.com',
+            'secret': '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',
             'key': ''
         }
     },
@@ -232,26 +227,20 @@ SOCIALACCOUNT_PROVIDERS = {
         'METHOD': 'oauth2',
         'SCOPE': ['email', 'public_profile'],
         'APP': {
-            'client_id': env('FACEBOOK_CLIENT_ID'), 
-            'secret': env('FACEBOOK_SECRET'),
+            'client_id': '509697181767177',
+            'secret': '651a9335cb086c9c8d5fca07d71f1a86',
             'key': ''
         }
     }
 }
 
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587 # Use 465 if using SSL
-# EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'myappsa9@gmail.com'
+EMAIL_HOST_PASSWORD = 'fnjj frry egqv feyg'
+DEFAULT_FROM_EMAIL = 'myappsa9@gmail.com'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
