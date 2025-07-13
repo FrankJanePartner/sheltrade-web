@@ -14,3 +14,4 @@ PyJWT>=2.6.0
 cryptography>=40.0.0
 pytz>=2023.3
 Pillow>=9.5.0
+forex-python
