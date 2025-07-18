@@ -1,4 +1,4 @@
-import os
+3import os
 from pathlib import Path
 import environ
 
@@ -23,8 +23,7 @@ VTPass_PASSWORD=env('VTPass_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://sheltrade.onrender.com', 'sheltrade.onrender.com', 'https://sheltrade-rfi7.onrender.com', 'sheltrade-rfi7.onrender.com']#'sheltrade.godhouse.org', 'https://www.sheltrade.godhouse.org', 'www.sheltrade.godhouse.org', 'sheltrade.pythonanywhere.com', 'https://www.sheltrade.pythonanywhere.com', 'www.sheltrade.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['https://sheltrade.onrender.com', 'sheltrade.onrender.com', 'https://sheltrade-rfi7.onrender.com', 'sheltrade-rfi7.onrender.com']
 SITE_ID = 1
 
 # Application definition
