@@ -66,6 +66,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    
+    # whitenoise specific middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     
     # corsheaders specific middleware
@@ -160,6 +164,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS= [BASE_DIR / 'static']
 STATIC_ROOT = 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'  # Add a leading slash for correct URL path
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
