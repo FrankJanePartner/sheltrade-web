@@ -1,0 +1,97 @@
+body{
+    position: relative;
+}
+
+section{
+    align-items: center;
+}
+
+section .notStatus{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section .notStatus p b{
+    color: var(darkBlue) !important;
+}
+
+section .notStatus button{
+    padding: 0.7rem 2rem;
+    border: 2px solid !important;
+    border-radius: 5px;
+    background-color: var(darkBlue) !important;
+    background-image: none !important;
+}
+
+section .note{
+    width: 90dvw !important;
+    box-shadow: 3px 3px 20px 14px white;
+    margin: 2rem 0;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+}
+
+section .note h4{
+    font-size: 2rem;
+    border-bottom: 2px solid white;
+}
+
+.notDetails h4,
+.notDetails a,
+.notDetails i,
+.notDetails p{
+    color: white !important;
+}
+
+.notDetails a{
+    text-decoration: none;
+}
+
+.notDetails h4{
+    border-top: 2px solid var(--darkBlue);
+    border-bottom: 2px solid var(--darkBlue);
+    padding: 1rem 0;
+}
+
+#note{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem
+}
+
+#note span{
+    font-size: 2rem;
+    color: var(--darkBlue) !important;
+}
+
+#innerLink{
+    width:fit-content;
+    height: fit-content;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    color: var(--yellow) !important;
+    text-decoration: none;
+}
+
+#innerLink button:hover{
+    padding: 0;
+    background-image: none;
+    background: none;
+    box-shadow: none;
+}
+
+#innerLink:hover, #innerLink button:hover{
+    color: var(--darkBlue) !important;
+}

@@ -1,0 +1,373 @@
+*{
+    /* background-color: var(--darkBlue); */
+    font-family: var(--font-family);
+    color: rgb(196, 196, 201);
+}
+
+body{
+    width: 100dvw;
+    height: fit-content;
+    overflow-x: hidden;
+    margin: 0;
+    padding-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: linear-gradient(to right bottom, var(--darkBlue), var(--lightBlue), var(--darkBlue));
+}
+
+.container{
+    width: 95dvw;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background: none;
+}
+
+.topSection{
+    width: 100%;
+    height: clamp(2dvh, 2dvh, 15dvh);
+    margin: 2rem auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.topSection a{
+    text-decoration: none;
+    font-size: clamp(0.5rem, 5vw, 2.5rem);
+}
+
+.back{
+    color: var(--orange);
+}
+
+.logo {
+    width: clamp(2rem, 15vw, 13rem);
+    background: none;
+}
+
+.formHeader{
+    width: fit-content;
+    margin: 0;
+    height: fit-content;
+}
+
+.formHeader h1{
+    display: -webkit-box;
+    font-size: clamp(2rem, 3vw, 5rem);
+    background: var(--white);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 1rem;
+}
+
+.formStartText p{
+    display: -webkit-box;
+    font-size: clamp(1.5rem, 0.5vw, 3rem);
+    background: linear-gradient(to right, var(--orange), var(--yellow));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 1rem;
+    text-align: center;
+}
+
+form {
+    width: 60dvw;
+    height: fit-content;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    /* Glassmorphism background settings */
+    background: rgba(255, 255, 255, 0.027); /* Semi-transparent background for frosted look */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+    border-radius: 15px; /* Rounded corners for softer, glassy look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow to elevate the form */
+
+    /* Optional gradient overlay */
+    background-image: linear-gradient(120deg, rgba(255, 166, 0, 0.116), rgba(255, 255, 0, 0.068));
+    background-blend-mode: overlay; /* Overlay gradient for a slight color tint */
+}
+
+section{
+    width: 100%;
+    height: fit-content;
+    padding: 0.1rem 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+form .form-group,
+.transaction-summary{
+    width: 60dvw;
+    height: fit-content;
+    padding: 0.1rem 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+form .form-group input,
+form .form-group select,
+form .form-group textarea,
+form button{
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(0.3rem, 3vw, 1rem);
+    box-sizing: border-box;
+}
+
+form .form-group input,
+form .form-group select,
+form .form-group textarea{
+    background-color: var(--darkBlue);
+    border: 2px solid white;
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+button {
+    padding: 0.5rem;
+    border: 2px solid transparent; /* Transparent border for gradient background-clip */
+    border-radius: 1rem; /* Rounded corners */
+    background-color: rgba(255, 166, 0, 0.116); /* Semi-transparent background */
+    
+    /* Gradient border trick */
+    background-image: linear-gradient(45deg, var(--orange), var(--yellow));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for added depth */
+
+    /* Text styling */
+    color: rgb(196, 196, 201); /* Adjust to your preferred color */
+    font-size: clamp(0.5rem, 3vw, 1.2rem);
+    font-weight: 700;
+}
+
+button:hover {
+    border: 2px solid var(--orange);
+    background-color: var(--darkBlue);
+    background-image: linear-gradient(45deg, var(--orange), var(--yellow));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* Required to make background-clip apply to text */
+}
+
+
+/* form label, form h3, form select, form option, form p{
+color: black !important;
+} */
+
+form label{
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+form .giftcard-image{
+    max-width: 100%;
+    height: 12rem;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    padding: 0 ;
+    display: grid;
+    margin: 2rem 0;
+    gap: 1rem;
+    row-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(3rem, 12vw, 12rem), 20rem));
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+form .giftcard-image .gift-img{
+    width: 98%;
+    padding: 0;
+    height: 10rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(0.5rem, 3vw, 1.3rem);
+}
+
+form .giftcard-image .gift-img img{
+    width: 95%;
+    height: 50%;
+    object-fit: cover;
+}
+
+form .giftcard-image .gift-img section{
+    width: 95%;
+    height: 3.7rem;
+    padding: 0.1rem 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+form .giftcard-image .gift-img section h5{
+    font-size: clamp(0.5rem, 3vw, 1.3rem);
+    font-weight: 600;
+    color: white;
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+form .giftcard-image .gift-img section span{
+    font-size: clamp(0.7rem, 3vw, 1rem);
+    font-weight: 400;
+    color: black;
+    margin: 0;
+}
+
+form .social-signup{
+    color: var(--yellow);
+    text-decoration: none;
+    margin-bottom: 0.7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form .social-signup i{
+    font-size: 1.5rem;
+}
+
+form .social-signup-google i{
+    background: linear-gradient(45deg, red, yellow, blue, green);
+    display: -webkit-box;
+    font-size: clamp(2rem, 3vw, 5rem);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+form .social-signup-option i{
+    background: none !important;
+    color: var(--yellow);
+    font-size: clamp(2rem, 3vw, 5rem);
+}
+
+.input-plus-select{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.input-plus-select select{
+    width: fit-content !important;
+}
+
+.copy-input{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+}
+
+.copy-input button{
+    width: fit-content !important;
+    padding: 0.7rem;
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.copy-input button i{
+    margin: 0 !important;
+}
+
+textarea{
+    width: 100%;
+    height: 15dvh;
+}
+
+.transaction-summary h3{
+    color: white !important;
+    font-weight: 600;
+    font-size: clamp(0.5rem, 6vw, 2rem);
+    margin: 0;
+}
+
+.transaction-summary p{
+    color: var(--darkBlue) !important;
+}
+
+.transaction-summary .summary-item{
+    width: 100%;
+    height: 3rem;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(0.3rem, 3vw, 1rem);
+}
+
+.transaction-summary h4,
+.transaction-summary span{
+    color: black !important;
+}
+
+.cmailcode .formHeader{
+    margin: 2rem 0;
+}
+
+#confirm-email-code{
+    height: clamp(36.5dvh, 60.5dvh, 69.5dvh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logout-from-stage, #logout-from-stage{
+    display: none;
+}
+
+
+/* @media screen and (max-width: 768px) {
+    body{
+        height: fit-content !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+} */
+
+/* @media screen and ( width <= 600px) {
+
+    
+
+
+} */
+

@@ -1,0 +1,216 @@
+*{
+    /* background-color: var(--darkBlue); */
+    font-family: var(--font-family);
+    color: rgb(196, 196, 201);
+}
+
+body{
+    width: 100dvw;
+    height: fit-content;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: linear-gradient(to right bottom, var(--darkBlue), var(--lightBlue), var(--darkBlue));
+}
+
+.container{
+    width: 95dvw;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.firstSection{
+    width: 100%;
+    height: clamp(10dvh, 15dvh, 20dvh);
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+
+.firstSection h2 {
+    font-size: clamp(0.5rem, 3vw, 1.2rem);
+    width: fit-content;
+}
+
+.firstSection h2 span{
+    font-size: clamp(1.7rem, 3vw, 3rem);
+    color: white;
+}
+
+.firstSection .div{
+    width: fit-content;
+    gap: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.firstSection .div span{
+    width: fit-content;
+    gap: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.firstSection .div i{
+    color: white;
+}
+
+.firstSection .div i:hover{
+    color: var(--darkBlue);
+    font-size: 1.5rem;
+    padding: 0.4rem;
+    background: linear-gradient(to right bottom, var(--orange), var(--yellow), var(--orange));
+    border-radius: 100%;
+    border: 1px solid var(--darkBlue);
+}
+
+.firstSection .div .logo {
+    width: clamp(3rem, 5vw, 10rem);
+    background: none;
+}
+
+.firstSection .div a{
+    text-decoration: none;
+}
+
+.firstSection .div a i{
+    font-size: clamp(0.7rem, 3vw, 1.5rem);
+}
+
+.firstSection .div a i::after{
+    content: "";
+}
+
+form{
+    background: none;
+}
+
+.grid-container{
+    max-width: 100%;
+    height: fit-content;
+    margin: auto auto 3rem;
+    padding: auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(3.5rem, 5dvw, 5rem), 20rem));
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item{
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    height: fit-content;
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: var(--darkBlue);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(0.5rem, 3vw, 1.3rem);
+}
+
+.grid-item::after{
+    content: '';
+    position: absolute;
+    width: 107%;
+    height: 109%;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, var(--orange), var(--yellow));
+    z-index: -1;
+}
+
+.grid-item:hover{
+    z-index: 0;
+    width: 107%;
+    height: 102%;
+    box-shadow: 40px 0 100px var(--yellow), -40px 0 100px var(--orange);
+}
+
+.grid-item div{
+    width: 97%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.grid-item div span{
+    width: 98%;
+    height: fit-content;
+    text-wrap: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-item div span h4,
+.grid-item div span p{
+    margin: 0;
+}
+
+.pending, .Pending{
+    color: yellow;
+}
+.valid, .Valid{
+    color: green;
+}
+.invalid, .Invalid{
+    color: red;
+}
+.listed, .Listed{
+    color: green;
+}
+.Sold, .Sold{
+    color: black;
+    font-weight: 700;
+}
+
+.grid-item div span p{
+    font-size: 1rem;
+}
+
+.grid-item img{
+    width: 97%;
+    height: 10rem;
+    margin-bottom: 1rem;
+    object-fit: cover;
+}
+
+
+@media screen and (max-width: 768px) {
+    body{
+        height: fit-content !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and ( width <= 600px) {
+
+    .firstSection h2 span{
+        display: block;
+    }
+
+
+}

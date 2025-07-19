@@ -1,0 +1,59 @@
+.testimonial-slider {
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+.testimonial-slider i{
+    top: 50%;
+    height: 44px;
+    width: 44px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.15rem;
+    position: absolute;
+    text-align: center;
+    line-height: 44px;
+    background: black;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.1s linear;
+}
+
+.testimonial-slider i:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
+.testimonial-slider i:hover {
+    background: #f2f2f2;
+}
+
+.testimonial-slider i:first-child {
+    left: -22px;
+    display: none;
+}
+
+.testimonial-slider i:last-child {
+    right: -22px;
+  
+}
+
+.testimonial-slider  .dragging:first-child {
+    margin-left: 0px;
+}
+/*SLIDER BREAK POINT START */ 
+@media screen and (max-width: 900px) {
+    .testimonial-slider  .dragging{
+      width: calc(100% / 4);
+    }
+}
+  
+@media screen and (max-width: 550px) {
+    .testimonial-slider  .dragging{
+      width: 100%;
+    }
+}
+/* SLIDER END */
+/*SLIDER BREAK POINT END */

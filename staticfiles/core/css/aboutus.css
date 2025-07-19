@@ -1,0 +1,227 @@
+/* About Us specific styles */
+main{
+    width: 100dvw;
+    height: fit-content;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #000080;
+}
+
+#about-hero,
+#our-story,
+#mission-vision,
+#team,
+#values {
+    width: 100dvw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #000080;
+    border-bottom: 3px dashed #f4f4f4;
+    padding: 4rem;
+    color: #f4f4f4;
+    text-align: start;
+    position: relative;
+}
+
+#about-hero h1,
+#our-story h2,
+#mission-vision h2,
+#team h2,
+#values h2 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+#about-hero p,
+#our-story p,
+#mission-vision p,
+#team p,
+#values p{
+    width: 80%;
+    font-size: 1rem;
+}
+
+.nonagon{
+    width: 40dvw;
+    height: 75dvh;
+    clip-path: ellipse(36% 51% at 98% 68%);
+    position: absolute;
+    bottom: 1px;
+    right: -4px;
+    background-color: #007BFF;
+    z-index: 10;
+}
+
+.pentagon{
+    width: 10dvw;
+    height: 85dvh;
+    clip-path: polygon(100% 0, 99% 100%, 0 100%, 0 36%);
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+    background-color: #ffd700;
+}
+
+#our-story{
+    align-items: flex-end;
+}
+
+#our-story h2{
+    width: 80%;
+}
+
+.small-pentagon{
+    width: 15dvw;
+    height: 60dvh;
+    clip-path: polygon(100% 0, 99% 100%, 0 100%, 0 36%);
+    position: absolute;
+    bottom: 1px;
+    left: -4px;
+    background-color: #007BFF;
+    z-index: 10;
+    transform: scaleX(-1);
+}
+
+.big-pentagon{
+    width: 10dvw;
+    height: 85dvh;
+    clip-path: polygon(100% 0, 99% 100%, 0 100%, 0 36%);
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+    background-color: #ffd700;
+    transform: scaleX(-1);
+}
+
+.mission, .vision {
+    margin-bottom: 2rem;
+}
+
+#team{
+    align-items: flex-end;
+}
+
+#team h2{
+    width: 80%;
+}
+
+.team-grid {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.team-member {
+    text-align: center;
+    border: 1px double #FF4500;
+    padding: 0.7rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.team-member img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+#values{
+    height: 50dvh;
+}
+
+#values ul {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#values li {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    /* About Us specific styles */
+    main{
+        margin: 1px;
+    }
+
+    #about-hero,
+    #our-story,
+    #mission-vision,
+    #team,
+    #values {
+        padding: 1rem 0.5rem;
+    }
+
+    #about-hero h1,
+    #our-story h2,
+    #mission-vision h2,
+    #team h2,
+    #values h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #about-hero p,
+    #our-story p,
+    #mission-vision p,
+    #team p,
+    #values p{
+        width: 87%;
+        font-size: 0.7rem;
+    }
+
+    #our-story h2{
+        width: 87%;
+    }
+
+    #team h2{
+        width: 87%;
+    }
+
+    .team-grid {
+        width: 87%;
+        height: 80%;
+        overflow-y: scroll;
+        grid-template-columns: 1fr;
+    }
+
+    #values{
+        height: fit-content;
+    }
+
+    #values ul {
+        width: 87%;
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    #values li {
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 5px;
+    }
+
+}

@@ -1,0 +1,206 @@
+/* Importing Google Font Manrope with different weights */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+/* General Body Styling */
+body {
+    width: 100dvw; /* Full viewport width */
+    height: fit-content; /* Adjusts height based on content */
+    background-color: #f4f4f4; /* Light grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    margin: 0; /* Removes default margin */
+}
+
+/* Container Styling - Main Layout */
+.container {
+    width: 100dvw;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adds slight shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    background: linear-gradient(to right bottom, var(--darkBlue), var(--lightBlue), var(--darkBlue)); /* Gradient Background */
+}
+
+/* Heading inside container */
+.container h1 {
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+/* Main Content Styling */
+main {
+    width: 60dvw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+/* Support Form Styling */
+#support-form {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#support-form h2 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+/* Form Container */
+#support-form form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Form Group - Label & Input */
+#support-form form .form-group {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#support-form form .form-group label {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+#support-form form .form-group input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#support-form form .form-group textarea {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Submit Button Styling */
+#support-form form button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #007bff; /* Primary Blue Button */
+    color: #fff;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+/* FAQ Section Styling */
+#faq {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#faq h2 {
+    font-size: 2rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* FAQ Details and Summary Styling */
+#faq details {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-bottom: 1px solid #333;
+    padding-bottom: 40px;
+}
+
+#faq details summary {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: #007bff; /* Highlighted text color */
+}
+
+#faq details p {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Footer Section Styling */
+footer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Footer Top Section */
+.top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid #fff;
+    padding: 30px;
+}
+
+/* Logo Styling */
+.logo {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.logo img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Social Media Links */
+.social-media {
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 5px;
+}
+
+.social-media a {
+    color: #fff;
+}
+
+.social-media a i {
+    color: #fff;
+}

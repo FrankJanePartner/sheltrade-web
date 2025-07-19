@@ -1,0 +1,11 @@
+.rotate-icon {
+    transform: rotate(90deg); /* Rotates the icon by 90 degrees */
+  }
+  
+  form i{
+    margin: 0;
+    margin-left: 0.5rem;
+    margin-right: 1.5rem;
+    color: var(--darkBlue);
+    font-size: 1.5rem !important;
+  }

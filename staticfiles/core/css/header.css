@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100dvw;
+    height: fit-content;
+    font-family: 'Manrope';
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100dvw;
+    top: 0;
+    z-index: 1000;
+    height: fit-content;
+}
+
+nav {
+    width: 95dvw;
+    margin: 0 auto;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    width:15%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}   
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 1rem;
+}
+
+.user-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login {
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.btn-signup {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-login:hover {
+    background-color: #f0f8ff;
+}
+
+.btn-signup:hover {
+    background-color: #0056b3;
+}
+
+/* Footer styles */
+footer {
+    width: 100dvw;
+    margin: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 3rem 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-content {
+    width: 90dvw;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-logo {
+    width: 20%;
+}
+
+.footer-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer-content h4 {
+    margin-bottom: 1rem;
+}
+
+.footer-content ul {
+    list-style: none;
+}
+
+.footer-content ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-content a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-media{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+
+.social-media a {
+    margin-right: 1rem;
+}
+
+.footer-bottom {
+    margin-top: 2rem;
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    body{
+        background-color: #171A1FFF;
+    }
+
+    header{
+        padding: 0;
+    }
+
+    header{
+        line-height: 0;
+    }
+
+    nav{
+        justify-content: space-between;
+        margin: 0;
+    }
+
+    nav ul{
+        display: none;
+    }
+    
+    .logo {
+        width: 30%;
+        margin-left: 0.5rem;
+    }
+    
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+
+    .user-actions {
+        width: 45%;
+        margin-top: 0rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .btn {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        padding: 1rem;
+        font-size: 0.7rem;
+    }
+
+    .btn-login {
+        color: #007bff;
+        border: 1px solid #007bff;
+    }
+
+    .btn-signup {
+        width: 50%;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-login:hover {
+        background-color: #f0f8ff;
+    }
+
+    .btn-signup:hover {
+        background-color: #0056b3;
+    }
+
+
+    .footer-content {
+        flex-direction: column;
+    }
+
+    .footer-logo {
+        width: 40%;
+    }
+    
+    .footer-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
