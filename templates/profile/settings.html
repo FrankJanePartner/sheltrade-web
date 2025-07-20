@@ -89,9 +89,9 @@
             {% csrf_token %}
             <h1>Add / Change Phone Number</h1>
             <div class="form-group">
-                <label for="phone_Number">Phone Number:</label>
+                <label for="phone_Number">Phone Number</label>
                 <div class="amount-select input-plus-select">
-                    <input type="phone_Number" name="phone_Number" id="phone_Number" placeholder="Phone Number">
+                    <input type="tel" name="phone_Number" id="phone_Number" placeholder="Phone Number" value="">
                     <select  id="countries" name="countries" style="width: fit-content">
                         <option value="">+ </option>
                         {% for code, country in country_codes %}

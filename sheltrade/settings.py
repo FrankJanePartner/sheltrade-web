@@ -23,7 +23,7 @@ VTPass_PASSWORD=env('VTPass_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://sheltrade.onrender.com', 'sheltrade.onrender.com', 'https://sheltrade-rfi7.onrender.com', 'sheltrade-rfi7.onrender.com']
+ALLOWED_HOSTS = ['https://sheltrade.onrender.com', 'sheltrade.onrender.com', 'https://sheltrade-rfi7.onrender.com', 'sheltrade-rfi7.onrender.com', '*']
 SITE_ID = 1
 
 # Application definition

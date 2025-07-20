@@ -68,8 +68,16 @@
 
             <!-- Phone number input -->
             <div class="form-group">
-                <label for="phone-number">Phone Number:</label>
-                <input type="text" id="phone-number" name="phone" placeholder="Enter Phone Number" />
+                <label for="phone-number">Phone Number</label>
+                <div class="amount-select input-plus-select">
+                    <input type="text" id="phone-number" name="phone" placeholder="Enter phone number" value="">
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
             <!-- Amount input with currency selection -->
@@ -205,6 +213,22 @@
                 const amount = selectedOption.dataset.amount || '';  // Retrieve the amount from the selected option's data attribute
                 document.getElementById('amount').value = amount;  // Update the amount input field with the selected plan's amount
             });
+
+            // Add event listeners for input and change to update transaction summary
+            document.querySelectorAll('select, input').forEach(element => {
+                element.addEventListener('change', updateSummary);
+                element.addEventListener('input', updateSummary);
+            });
+
+            // Function to update the transaction summary dynamically
+            function updateSummary() {
+                document.getElementById('summary-service-provider').textContent = document.getElementById('service-provider').value || '-';
+                document.getElementById('summary-meter-type').textContent = document.getElementById('service-plan').value || '-';
+                document.getElementById('summary-meter-number').textContent = document.getElementById('card-number').value || '-';
+                document.getElementById('summary-phone-number').textContent = document.getElementById('phone-number').value || '-';
+                const amount = document.getElementById('amount').value || '-';
+                document.getElementById('summary-amount').textContent = amount ? `${document.getElementById('currency').value.toUpperCase()}${amount}` : '-';
+            }
         </script>
     </div>
 {% endblock %}

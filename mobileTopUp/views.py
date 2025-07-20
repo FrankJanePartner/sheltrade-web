@@ -26,7 +26,7 @@ def buyairtime(request):
 
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
-    userBalance = balance.userBalance
+    userBalance = balance.balance
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)
@@ -69,7 +69,7 @@ def buyairtime(request):
                     return JsonResponse({'error': "Invalid response from VTU API"}, status=500)
 
                 if buy_airtime_response.get("code") == "000":  # Success response check
-                    balance.userBalance -= (amount - cashBackRate)
+                    balance.balance -= (amount - cashBackRate)
                     balance.save()
                     Transaction.objects.create(
                         user=user,
@@ -118,7 +118,7 @@ def buydata(request):
 
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
-    userBalance = balance.userBalance
+    userBalance = balance.balance
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)
@@ -158,7 +158,7 @@ def buydata(request):
 
 
                 if buy_data_response.get('code') == '000':  # Check for success
-                    balance.userBalance -= (amount - cashBackRate)
+                    balance.balance -= (amount - cashBackRate)
                     balance.save()
                     Transaction.objects.create(
                         user=user,

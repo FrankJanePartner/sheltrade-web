@@ -61,8 +61,16 @@
 
             <!-- Input field for phone number -->
             <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" placeholder="Enter your meter number" required>
+                <label for="phone">Phone Number</label>
+                <div class="amount-select input-plus-select">
+                    <input type="text" id="phone" name="phone" placeholder="Enter phone number" value="">
+                    <select  id="countries" name="countries" style="width: fit-content">
+                        <option value="">+ </option>
+                        {% for code, country in country_codes %}
+                            <option value="{{ code }}">{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
             <!-- Amount input field with currency selection -->
@@ -169,17 +177,22 @@
         // Whenever any input or select field changes, update the summary section
         document.querySelectorAll('select, input').forEach(element => {
             element.addEventListener('change', updateSummary);
+            element.addEventListener('input', updateSummary);
         });
 
         // Function to update the transaction summary
-        function updateSummary() {
-            // Update the summary section with the latest input values
-            document.getElementById('summary-phone-number').textContent = document.getElementById('phone').value || '-';
-            const amount = document.getElementById('amount').value || '-';
-            document.getElementById('summary-amount').textContent = amount ? `${currency.toUpperCase()}${amount}` : '-';
-            document.getElementById('summary-service-provider').textContent = document.getElementById('service-provider').value || '-';
-            document.getElementById('summary-meter-type').textContent = document.getElementById('meter-type').value || '-';
-            document.getElementById('summary-meter-number').textContent = document.getElementById('meter-number').value || '-';
-        }
+            function updateSummary() {
+                // Update the summary section with the latest input values
+                let phoneInput = document.getElementById('phone');
+                let countryCodeSelect = document.getElementById('countries');
+                let countryCode = countryCodeSelect && countryCodeSelect.value ? countryCodeSelect.value + ' ' : '';
+                document.getElementById('summary-phone-number').textContent = countryCode + (phoneInput.value || '-');
+                const amount = document.getElementById('amount').value || '-';
+                const currency = document.getElementById('currency').value || '';
+                document.getElementById('summary-amount').textContent = amount ? `${currency.toUpperCase()}${amount}` : '-';
+                document.getElementById('summary-service-provider').textContent = document.getElementById('service-provider').value || '-';
+                document.getElementById('summary-meter-type').textContent = document.getElementById('meter-type').value || '-';
+                document.getElementById('summary-meter-number').textContent = document.getElementById('meter-number').value || '-';
+            }
     </script>
 {% endblock %}

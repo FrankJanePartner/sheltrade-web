@@ -69,24 +69,27 @@
         </form>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                // Select inputs and add event listeners
+                // Select inputs and add event listeners for both 'input' and 'change'
                 document.querySelectorAll('select, input').forEach(element => {
                     element.addEventListener('change', updateSummary);
+                    element.addEventListener('input', updateSummary);
                 });
             
                 function updateSummary() {
                     let network = document.getElementById('network');
                     let phoneNumber = document.getElementById('phone-number');
+                    let countryCodeSelect = document.getElementById('countries');
                     let amount = document.getElementById('amount');
                     let currency = document.getElementById('currency');
             
-                    if (!network || !phoneNumber || !amount || !currency) {
+                    if (!network || !phoneNumber || !amount || !currency || !countryCodeSelect) {
                         console.error("One or more required elements are missing.");
                         return;
                     }
             
                     document.getElementById('summary-network').textContent = network.value.toUpperCase() || '-';
-                    document.getElementById('summary-phone-number').textContent = phoneNumber.value || '-';
+                    let countryCode = countryCodeSelect.value ? countryCodeSelect.value + ' ' : '';
+                    document.getElementById('summary-phone-number').textContent = countryCode + (phoneNumber.value || '-');
                     document.getElementById('summary-amount').textContent = amount.value ? `${amount.value} ${currency.value.toUpperCase()}` : '-';
                 }
             });            
