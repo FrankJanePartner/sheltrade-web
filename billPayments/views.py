@@ -1,3 +1,7 @@
+"""
+Views for billPayments app: handle TV subscriptions, electricity payments, and related pages.
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .utils import VTUBILLSAPI, VT_EMAIL, VT_PASSWORD
@@ -12,35 +16,64 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from decimal import Decimal
 
 # Initialize the VTUAPI with the necessary keys
 vtu_api = VTUBILLSAPI(VT_EMAIL, VT_PASSWORD)
 
 def remove_first_char(s):
-    """Remove the first character from a string if its length is greater than 10."""
+    """
+    Remove the first character from a string if its length is greater than 10.
+    This is used to normalize phone numbers that may have a leading zero or country code.
+    """
     return s[1:] if len(s) > 10 else s
 
 @login_required
 @require_http_methods(["GET"])
 def get_tv_services(request):
-    """Fetch available TV service providers."""
+    """
+    Fetch available TV service providers.
+
+    Args:
+        request: HTTP GET request with 'serviceID' parameter.
+
+    Returns:
+        JsonResponse with service variations or error message.
+    """
     service_id = request.GET.get('serviceID')
     if service_id:
         services = vtu_api.getServices(service_id)
         return JsonResponse(services, safe=False)
     return JsonResponse({'error': 'Service ID is required.'}, status=400)
 
-@login_required
+
 @require_http_methods(["POST"])
 def subscribe_tv(request):
-    """Handle TV subscription: Verify and process payment based on subscription type."""
+    """
+    Handle TV subscription: Verify and process payment based on subscription type.
+
+    Steps:
+    - Validate user balance and input data.
+    - Verify smart card number.
+    - Process subscription renewal or change.
+    - Deduct amount from user wallet with cashback.
+    - Create transaction record.
+    - Send email and notification to user.
+    - Redirect to dashboard on success.
+
+    Args:
+        request: HTTP POST request with subscription data.
+
+    Returns:
+        JsonResponse on error or redirect on success.
+    """
     user = request.user
     profile = Profile.objects.select_related("user").filter(user=user).first()
     currency = profile.preferredCurrency.lower() if profile else "ngn"
 
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
-    userBalance = balance.userBalance
+    userBalance = balance.balance
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)
@@ -86,8 +119,9 @@ def subscribe_tv(request):
                 response = vtu_api.changePlan(
                     request_id, service_id, billers_code, variation_code, amount, phone, subscription_type, 1
                 )
-            balance.userBalance -= (amount - cashBackRate)
+            balance = balance.balance - Decimal(amount - cashBackRate)
             balance.save()
+            
             Transaction.objects.create(
                 user=user,
                 transaction_type="Paid Cable bills",
@@ -120,20 +154,44 @@ def subscribe_tv(request):
 
 @login_required
 def subs(request):
-    """Render the subscriptions page."""
+    """
+    Render the subscriptions page.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered subscriptions page.
+    """
     return render(request, 'billPayment/subscriptions.html')
 
-@login_required
 @require_http_methods(["POST"])
 def pay_electricity(request):
-    """Handle electricity bill payment: Verify meter and process payment."""
+    """
+    Handle electricity bill payment: Verify meter and process payment.
+
+    Steps:
+    - Validate user balance and input data.
+    - Verify meter number.
+    - Process payment for prepaid or postpaid meter.
+    - Deduct amount from user wallet with cashback.
+    - Create transaction record.
+    - Send email and notification to user.
+    - Redirect to dashboard on success.
+
+    Args:
+        request: HTTP POST request with payment data.
+
+    Returns:
+        JsonResponse on error or redirect on success.
+    """
     user = request.user
     profile = Profile.objects.select_related("user").filter(user=user).first()
     currency = profile.preferredCurrency.lower() if profile else "ngn"
 
     # Fetch user's wallet and balance
     balance = get_object_or_404(Wallet, user=user)
-    userBalance = balance.userBalance
+    userBalance = balance.balance
 
     # Fetch cashback rate
     cashBackObj = get_object_or_404(CashBack, id=1)

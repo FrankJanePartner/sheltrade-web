@@ -1,3 +1,5 @@
+"""Utility functions and VTUBILLSAPI class for interacting with VTpass API for bill payments."""
+
 import json
 import requests
 from requests import Session
@@ -10,12 +12,14 @@ import pytz
 
 # Base URL for VTpass API (sandbox environment for testing)
 BASE_URL = "https://sandbox.vtpass.com/api/"
+
 VT_EMAIL = "partnermarvel55@gmail.com"  # Replace with your Vtpass email
 VT_PASSWORD = "Tygeropartner@55"        # Replace with your Vtpass password
 
 class VTUBILLSAPI:
     """
     A class to interact with the VTpass API for various bill payment services.
+
     Provides methods for:
     - Fetching available services
     - Verifying smart card numbers and meter numbers
@@ -40,10 +44,10 @@ class VTUBILLSAPI:
     def generate_request_id(suffix_length=10):
         """
         Generates a unique request ID using the current timestamp and a random string.
-        
+
         Args:
             suffix_length (int): Length of the random suffix (default is 10).
-        
+
         Returns:
             str: Unique request ID.
         """
@@ -52,29 +56,29 @@ class VTUBILLSAPI:
         timestamp = now.strftime('%Y%m%d%H%M')  # Format: YYYYMMDDHHMM
         suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=suffix_length))
         return f"{timestamp}{suffix}"
-    
+
     def getServices(self, serviceID):
         """
         Fetches available variations for a given service ID (e.g., TV subscriptions, electricity providers).
-        
+
         Args:
             serviceID (str): The ID of the service.
-        
+
         Returns:
             dict: JSON response containing service variations.
         """
         url = f"{self.base_url}service-variations?serviceID={serviceID}"
         response = self.session.get(url)
         return response.json()
-    
+
     def verifySCNumber(self, billersCode, serviceID):
         """
         Verifies the smart card number for TV subscriptions.
-        
+
         Args:
             billersCode (str): Smart card number to verify.
             serviceID (str): Service provider ID.
-        
+
         Returns:
             dict: JSON response confirming the verification status.
         """

@@ -1,3 +1,7 @@
+"""
+Views for contact app: handle contact form display, submission, and message details.
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Contact
 from core.models import Notification
@@ -11,11 +15,17 @@ from django.contrib import messages
 # Fetch all admin users to notify them of new messages
 admin_users = User.objects.filter(is_superuser=True)
 
-
 def contactus(request):
     """
-    Renders the contact us page with the appropriate base template.
+    Render the contact us page with the appropriate base template.
+
     If the user is authenticated, a different base template is used.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered contact us page with context including user and base template.
     """
     user = User.objects.all()
     
@@ -31,14 +41,20 @@ def contactus(request):
     }
     return render(request, 'core/contactus.html', context)
 
-
 def sendContact(request):
     """
-    Handles contact form submissions.
-    - Captures the name, email, and message from POST request.
-    - Saves the data to the Contact model.
-    - Sends an email notification to all admin users.
-    - Displays a success message and reloads the contact page.
+    Handle contact form submissions.
+
+    - Capture the name, email, and message from POST request.
+    - Save the data to the Contact model.
+    - Send an email notification to all admin users.
+    - Display a success message and reload the contact page.
+
+    Args:
+        request: HTTP POST request with contact form data.
+
+    Returns:
+        Rendered contact us page with success message on successful submission.
     """
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -65,12 +81,19 @@ def sendContact(request):
         messages.success(request, "Message sent successfully")
         return render(request, 'core/contactus.html')
 
-
 def contact_detail(request, slug):
     """
-    Displays the details of a specific contact message.
-    - Retrieves the message by its slug.
-    - Marks the message as read if it hasn't been viewed yet.
+    Display the details of a specific contact message.
+
+    - Retrieve the message by its slug.
+    - Mark the message as read if it hasn't been viewed yet.
+
+    Args:
+        request: HTTP request.
+        slug (str): Slug identifier for the contact message.
+
+    Returns:
+        Rendered contact detail page with the contact message context.
     """
     contact = get_object_or_404(Contact, slug=slug)
     

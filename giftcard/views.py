@@ -1,3 +1,7 @@
+"""
+Views for giftcard app: handle listing, buying, selling, updating, and deleting gift cards.
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,8 +12,17 @@ from django.http import HttpResponseForbidden
 
 @login_required
 def list_gift_card(request):
+    """
+    Lists all gift cards with status 'listed'.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered gift card list page with giftcards context.
+    """
     giftcards = GiftCard.objects.filter(status='listed')
-    return render(request, 'giftcard/giftcard_list.html', {'giftcards':giftcards})
+    return render(request, 'giftcard/giftcard_list.html', {'giftcards': giftcards})
 
 @login_required
 def buy_gift_card(request):
@@ -17,13 +30,13 @@ def buy_gift_card(request):
     Allows users to buy a gift card.
 
     This view handles the process of purchasing a gift card. It checks the user's wallet balance
-    and creates a GiftCard record if the purchase is successful.
+    and updates the gift card status if the purchase is successful.
 
     Args:
-        request (HttpRequest): The HTTP request object.
+        request: HTTP request.
 
     Returns:
-        HttpResponse: Redirects to the wallet or renders the buy gift card template.
+        Redirects to dashboard on success or renders buy gift card page.
     """
     user = request.user
     wallet = Wallet.objects.get(user=user)
@@ -58,10 +71,10 @@ def sell_gift_card(request):
     This view handles the process of selling a gift card. It creates a GiftCard record if the sale is successful.
 
     Args:
-        request (HttpRequest): The HTTP request object.
+        request: HTTP request.
 
     Returns:
-        HttpResponse: Redirects to the wallet or renders the sell gift card template.
+        Redirects to dashboard on success or renders sell gift card page.
     """
     if request.method == 'POST':
         card_type = request.POST.get('card_type')
@@ -96,9 +109,18 @@ def sell_gift_card(request):
 
     return render(request, 'giftcard/sellgiftcard.html')
 
-
 @login_required
 def gift_card_details(request, slug):
+    """
+    Displays and allows updating of a gift card's details.
+
+    Args:
+        request: HTTP request.
+        slug (str): Slug identifier for the gift card.
+
+    Returns:
+        Renders gift card details page or redirects after update.
+    """
     giftcard = get_object_or_404(GiftCard, slug=slug)
 
     if request.method == 'POST':
@@ -116,8 +138,7 @@ def gift_card_details(request, slug):
                 expiration_date = datetime.strptime(expiration_date_str, '%Y-%m-%d').date()
             except ValueError:
                 messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
-                return render(request, 'giftcard/sellgiftcard.html', {'giftcard':giftcard})
-
+                return render(request, 'giftcard/sellgiftcard.html', {'giftcard': giftcard})
 
         # Update the existing gift card
         giftcard.card_type = card_type
@@ -134,14 +155,23 @@ def gift_card_details(request, slug):
         messages.success(request, 'Your gift card has been updated')
         return redirect('/giftcard/')
 
-    return render(request, 'giftcard/giftcard_details.html', {'giftcard':giftcard})
-
+    return render(request, 'giftcard/giftcard_details.html', {'giftcard': giftcard})
 
 @login_required
 def delete_gift_card(request, slug):
+    """
+    Allows the seller to delete their gift card.
+
+    Args:
+        request: HTTP request.
+        slug (str): Slug identifier for the gift card.
+
+    Returns:
+        Redirects to dashboard after deletion or renders confirmation page.
+    """
     giftcard = get_object_or_404(GiftCard, slug=slug)
 
-    # Optional: Ensure only the seller can delete their card
+    # Ensure only the seller can delete their card
     if giftcard.seller != request.user:
         return HttpResponseForbidden("You're not allowed to delete this gift card.")
 

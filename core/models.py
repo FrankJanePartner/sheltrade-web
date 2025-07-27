@@ -105,16 +105,24 @@ class Notification(models.Model):
 # Legal Model
 # ============================
 class Legal(models.Model):
+    """
+    Represents legal content pages with rich text content.
+
+    Fields:
+    - name: The name/title of the legal document.
+    - slug: URL-friendly slug generated from the name.
+    - content: Rich text content of the legal document.
+    - created_at: Timestamp when the document was created.
+    """
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=100)    
     content = HTMLField()
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
+        """Returns a readable string representation of the legal document."""
         return f'{self.name}'
     
     class Meta:
         verbose_name_plural = "Legal"
         ordering = ['-created_at']
-
-

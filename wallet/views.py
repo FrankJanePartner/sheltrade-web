@@ -1,3 +1,7 @@
+"""
+Views for wallet app: handle wallet display, transactions, deposits, withdrawals, and account management.
+"""
+
 from django.shortcuts import render, redirect
 from .utils import generate_narration
 from django.contrib import messages
@@ -12,41 +16,72 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-# Create your views here.
 @login_required
 def wallet(request):
+    """
+    Display the user's wallet and transaction history.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered wallet page with wallet and transactions context.
+    """
     user = request.user
     wallet = Wallet.objects.filter(user=user).first()
     transactions = Transaction.objects.filter(user=user)
 
     context = {
-        "wallet":wallet,
-        "transactions":transactions,
+        "wallet": wallet,
+        "transactions": transactions,
     }
 
     return render(request, 'wallet/wallet.html', context)
 
 @login_required
 def transactions(request):
+    """
+    Display the user's transactions.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered transactions page with transactions context.
+    """
     user = request.user
     transactions = Transaction.objects.filter(user=user)
-    return render(request, 'wallet/transactions.html', {"transactions":transactions})
+    return render(request, 'wallet/transactions.html', {"transactions": transactions})
 
 @login_required
 def deposit(request):
+    """
+    Handle deposit requests.
+
+    - Generate narration.
+    - Save deposit transaction and proof of payment.
+    - Send email notification to admins.
+    - Display info message and redirect.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered deposit page or redirect on POST.
+    """
     user = request.user
     narration = generate_narration()
     profile = Profile.objects.filter(user=user).first()
 
     context = {
         'narration': narration,
-        'profile':profile,
+        'profile': profile,
     }
 
     if request.method == 'POST':
         amount = Decimal(request.POST.get('amount') or 0)
         proof_of_payment = request.FILES.get('proof_of_payment')
-        
+
         transaction = Transaction(user=request.user, transaction_type='Deposit', amount=amount, status="pending")
         transaction.save()
         deposit = Deposit(user=request.user, naration=narration, transaction=transaction, proof_of_payment=proof_of_payment, amount=amount, status="pending")
@@ -54,7 +89,7 @@ def deposit(request):
 
         # Prepare the email content
         subject = 'Alert!!! New Deposit'
-        messageContent  = (
+        messageContent = (
             f"Username: {request.user.username}\n"
             f"User's Email: {request.user.email}\n"
             f"Deposit Amount: {amount}\n"
@@ -72,22 +107,34 @@ def deposit(request):
         email = EmailMultiAlternatives(subject, text_content, sender_email, recipient_list)
         email.attach_alternative(html_content, "text/html")
         email.send()
-            
-        # send_mail(subject, message, sender_email, recipient_list, fail_silently=False)
 
         messages.info(request, 'Deposit sent! Awaiting approval.')
         return redirect('wallet:wallet')
-    
+
     return render(request, 'wallet/deposite.html', context)
 
 @login_required
 def withdrawal(request):
-    withdrawalAccount= WithdrawalAccount.objects.filter(user=request.user)
+    """
+    Handle withdrawal requests.
+
+    - Validate user balance.
+    - Save withdrawal transaction.
+    - Send email notification to admins.
+    - Display success or info message and redirect.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered withdrawal page or redirect on POST.
+    """
+    withdrawalAccount = WithdrawalAccount.objects.filter(user=request.user)
 
     if request.method == 'POST':
         selected_account_id = request.POST.get('SelectedAcount')
         amount = Decimal(request.POST.get('amount'))
-        withdrawalAccounts= WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
+        withdrawalAccounts = WithdrawalAccount.objects.get(id=selected_account_id, user=request.user)
         wallet, created = Wallet.objects.get_or_create(user=request.user)
         userBalance = wallet.balance
 
@@ -114,19 +161,30 @@ def withdrawal(request):
             email = EmailMultiAlternatives(subject, text_content, sender_email, recipient_list)
             email.attach_alternative(html_content, "text/html")
             email.send()
-            
-            messages.success(request, f"Your Withdrawal rrequest has been sent.")
+
+            messages.success(request, f"Your Withdrawal request has been sent.")
             return redirect('wallet:wallet')
-            
+
         else:
             messages.info(request, 'Insufficient balance.')
-            return redirect('wallet/withdraw.html ')    
-    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts":withdrawalAccount})
-
-
+            return redirect('wallet/withdraw.html')
+    return render(request, 'wallet/withdraw.html', {"withdrawalAccounts": withdrawalAccount})
 
 @login_required
 def AddAccount(request):
+    """
+    Handle adding a withdrawal account.
+
+    - Save account details.
+    - Send notification.
+    - Display info message and redirect.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Rendered add withdrawal account page or redirect on POST.
+    """
     if request.method == 'POST':
         user = request.user
         accountName = request.POST.get('accountName')
@@ -140,10 +198,10 @@ def AddAccount(request):
             user=user,
             title='Added Account.',
             content="""
-                Account added sucessfully.
+                Account added successfully.
             """
         )
-        messages.info(request, 'Account added sucessfully.')
+        messages.info(request, 'Account added successfully.')
         return redirect('wallet:wallet')
     else:
         return render(request, 'wallet/AddWithdrawalAccount.html')

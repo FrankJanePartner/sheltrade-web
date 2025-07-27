@@ -1,4 +1,14 @@
 {% load static %}
+<!--
+Base template for the application.
+
+This template provides the overall HTML structure and includes common CSS and JS resources.
+It defines blocks for title, styles, main content, and scripts that child templates can override.
+
+Usage:
+- Extend this template in other templates to maintain consistent layout and styling.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +16,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Dashboard{% endblock %}</title>
     {% block style %}
+        <!-- Block for page-specific stylesheets -->
         <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
     {% endblock %}
+    <!-- Common stylesheets -->
     <link rel="stylesheet" href="{% static 'core/css/menu.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'core/image/Icon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'core/assests/bootstrap-icons/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'core/assests/remixicon/remixicon.css' %}">
     <link rel="stylesheet" href="{% static 'core/assests/boxicons/css/boxicons.css' %}">
+    <!-- External icon libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
@@ -25,13 +38,16 @@
         <header>
             <div class="header-content">
                 <div class="right">
+                    <!-- Button to toggle aside menu -->
                     <div id="aside-menu-btn" class="aside-menu-btn aside-control" <!--style="display: none"-->>
                         <i id="menu-icon" class="fas fa-bars"></i>
                     </div>
+                    <!-- Logo linking to home page -->
                     <div class="logo">
                         <a href="/"><img src="{% static 'core/image/Logo.png' %}" alt="Sheltrade Logo"></a>
                     </div>
                 </div>
+                <!-- Main navigation menu -->
                 <nav>
                     <ul>
                         <li><a href="/profile/">Profile</a></li>
@@ -39,6 +55,7 @@
                         <li><a href="/wallet/#transaction-history">Transactions</a></li>
                     </ul>
                 </nav>
+                <!-- User menu with quick links -->
                 <div class="user-menu">
                     <a href="/accounts/logout"><i class="logout -icon ri-logout-box-r-line"></i>Logout</a>
                     <a href="/contact/"><i class="help  fas fa-question-circle"></i></a>
@@ -46,10 +63,12 @@
                     <a href="/notification"><i class="notification fas fa-bell"></i></a>
                     <a href="/profile/"><i class="user fas fa-user"></i></a>
                 </div>
+                <!-- Dropdown menu button showing username -->
                 <div id="menu-btn" class="menu_bar">
                     <div><span class="menu_span">Hi  {{ user.username }}</span></div>
                     <div id="menu-icon" class="fas fa-chevron-down"></div>
                 </div>
+                <!-- Accordion dropdown menu -->
                 <ul class="accordion_menu">
                     <li><a class="dropdown_text" href="/wallet/"><i class="wallet  fas fa-wallet"></i> Wallets</a></li>
                     <li><a class="dropdown_text" href="/profile/"><i class="user fas fa-user"></i> Profile</a></li>
@@ -60,12 +79,16 @@
                 </ul>
             </div>
         </header>
+        <!-- Main content block to be overridden by child templates -->
         {% block content %}
         {% endblock %}
     </div>
+    <!-- Ionicons scripts for icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- Custom menu JavaScript -->
     <script src="{% static 'core/js/menu.js' %}"></script>
+    <!-- Block for page-specific scripts -->
     {% block script %}
     <script></script>
     {% endblock %}

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'mobileTopUp',
     'sheltradeAdmin',
     'wallet',
+    'sheltradeAPI',
 
     # third-party apps
     # 'djmoney',
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'mptt',
     'tinymce',
+    'rest_framework',
     # 'guardian',
 ]
 

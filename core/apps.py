@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 import sys
 import logging
+
 logger = logging.getLogger(__name__)
 
 """
@@ -21,8 +22,14 @@ Usage:
 """
 
 class CoreConfig(AppConfig):
-    
-    """Configuration class for the Core app."""
+    """
+    Configuration class for the Core app.
+
+    Attributes:
+        default_auto_field (str): Specifies the default type of primary key field to use.
+        name (str): The name of the app used by Django for app registry.
+    """
+
     default_auto_field = 'django.db.models.BigAutoField'  # Sets the default primary key field 
     name = 'core'   # Defines the name of the app
 
@@ -33,39 +40,48 @@ class CoreConfig(AppConfig):
         This method imports the `core.signals` module to ensure that any signal handlers 
         related to the Core app are registered and functional.
         
-        Signals are used to execute code in response to model events like saving or deleting an object.
+        It also sets up permissions for the 'Workers' group based on allowed models.
+        Permissions are granted or removed to control access to specific models.
+
+        The method avoids running during migration commands to prevent conflicts.
+
+        Raises:
+            Logs a warning if permission setup fails due to any exception.
         """
         import core.signals  # Importing signal handlers to connect them to Django's signal framework
 
-        # List of allowed models in 'app_label.modelname' format
+        # List of allowed models in 'app_label.modelname' format for permission assignment
         allowed_models = ['contact.Contact','gitcard.GiftCard', 'wallet.Deposit', 'wallet.Withdrawal', 'wallet.WithdrawalAccount']
 
+        # Avoid running permission setup during migration commands
         if 'makemigrations' in sys.argv or 'migrate' in sys.argv:
-            return  # Avoid running during migrations
+            return  # Exit early during migrations
 
         try:
             from django.contrib.auth.models import Group, Permission
             from django.contrib.contenttypes.models import ContentType
             from django.apps import apps
 
+            # Get or create the 'Workers' group to assign permissions
             staff_group, _ = Group.objects.get_or_create(name='Workers')
 
-            # Clear all permissions first to avoid duplicates
+            # Clear all existing permissions to avoid duplicates or stale permissions
             staff_group.permissions.clear()
 
+            # Iterate over all registered models in the project
             for model in apps.get_models():
                 model_label = f"{model._meta.app_label}.{model.__name__}"
                 content_type = ContentType.objects.get_for_model(model)
                 perms = Permission.objects.filter(content_type=content_type)
 
                 if model_label in allowed_models:
-                    # Grant view permission
+                    # Grant view permission if available
                     view_perm = perms.filter(codename=f'view_{model.__name__.lower()}').first()
                     if view_perm:
                         staff_group.permissions.add(view_perm)
                         logger.debug(f"Added permission {view_perm.codename} to Workers group")
 
-                    # Grant change permission - but field-level restrictions must be enforced elsewhere
+                    # Grant change permission - field-level restrictions must be enforced elsewhere
                     change_perm = perms.filter(codename=f'change_{model.__name__.lower()}').first()
                     if change_perm:
                         staff_group.permissions.add(change_perm)

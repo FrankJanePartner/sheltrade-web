@@ -16,10 +16,31 @@ from django.conf import settings
 vtu_api = VTUAPI(API_KEY, PUBLIC_KEY, SECRET_KEY)
 
 def remove_first_char(s):
+    """
+    Removes the first character from a string if its length is greater than 10.
+
+    Args:
+        s (str): The input string.
+
+    Returns:
+        str: The modified string without the first character if applicable.
+    """
     return s[1:] if len(s) > 10 else s
 
 @login_required
 def buyairtime(request):
+    """
+    Handles the purchase of airtime by the user.
+
+    Validates input, checks wallet balance, interacts with VTU API,
+    updates wallet and transaction records, sends notifications and emails.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        Renders buy airtime page or redirects to dashboard on success.
+    """
     user = request.user
     profile = Profile.objects.select_related("user").filter(user=user).first()
     currency = profile.preferredCurrency.lower() if profile else "ngn"
@@ -45,10 +66,9 @@ def buyairtime(request):
             phone_number = remove_first_char(phone_number)
         else:
             phone_number = phone_number
-            
 
         if not network:
-            error_message = "Nework required."
+            error_message = "Network required."
         elif not phone_number:
             error_message = "Phone required."
         elif not amount:
@@ -69,7 +89,7 @@ def buyairtime(request):
                     return JsonResponse({'error': "Invalid response from VTU API"}, status=500)
 
                 if buy_airtime_response.get("code") == "000":  # Success response check
-                    balance.balance -= (amount - cashBackRate)
+                    balance.balance = balance.balance - Decimal(amount) + Decimal(cashBackRate)
                     balance.save()
                     Transaction.objects.create(
                         user=user,
@@ -81,25 +101,24 @@ def buyairtime(request):
                     subject = f'Buy Airtime.'
                     message = f"""
                             Hi, {user},
-                            Your airtime of {currency}{amount} was successfull.
+                            Your airtime of {currency}{amount} was successful.
                         """
                     sender_email = settings.EMAIL_HOST_USER
                     recipient_list = [user.email]
                     send_mail(subject, message, sender_email, recipient_list, fail_silently=False)
 
-                            
                     # Send notification
                     Notification.objects.create(
                         user=user,
                         title='Buy Airtime.',
-                        content="""
+                        content=f"""
                             Hi, {user},
-                            Your airtime of {currency}{amount} was successfull.
+                            Your airtime of {currency}{amount} was successful.
                         """
                     )
                     messages.success(
                         request,
-                        f"{currency}{amount:.2f} {network} bought successfully! You have recieve a {cashBackObj}% CashBack"
+                        f"{currency}{amount:.2f} {network} bought successfully! You have received a {cashBackObj.amount}% CashBack"
                     )
                     return redirect("core:dashboard")
                 else:
@@ -158,7 +177,7 @@ def buydata(request):
 
 
                 if buy_data_response.get('code') == '000':  # Check for success
-                    balance.balance -= (amount - cashBackRate)
+                    balance.balance = balance.balance - Decimal(amount) + Decimal(cashBackRate)
                     balance.save()
                     Transaction.objects.create(
                         user=user,
@@ -171,27 +190,26 @@ def buydata(request):
                     subject = f'Buy Data'
                     message = f"""
                             Hi, {user},
-                            Your data plan of {variation_code } for {currency}{amount} was successfull.
+                            Your data plan of {variation_code} for {currency}{amount} was successful.
                         """
                     sender_email = settings.EMAIL_HOST_USER
-                    recipient_list = [settings.EMAIL_HOST_USER]
+                    recipient_list = [user.email]
                     send_mail(subject, message, sender_email, recipient_list, fail_silently=False)
-
-                            
+                    
                     # Send notification
                     Notification.objects.create(
                         user=user,
                         title='Buy Data',
-                        content="""
+                        content=f"""
                                 Hi, {user},
-                                Your data plan of {variation_code } for {currency}{amount} was successfull.
+                                Your data plan of {variation_code} for {currency}{amount} was successful.
                             """
                     )
                     messages.success(
                         request,
-                        f"Data bought successfully! You have recieve a {cashBackObj}% CashBack"
+                        f"Data bought successfully! You have received a {cashBackObj.amount}% CashBack"
                     )
-                    return render(request, 'core:dashboard')
+                    return redirect('core:dashboard')
                 else:
                     error_message = buy_data_response.get('response_description', 'Failed to purchase data.')
 

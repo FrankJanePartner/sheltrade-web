@@ -1,13 +1,16 @@
+"""
+Models for contact app: define Contact messages and Sheltrade contact/social media info.
+"""
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils.text import slugify
 
-
 class Contact(models.Model):
     """
     Model representing a contact message sent through the platform.
-    
+
     Attributes:
         name (str): The name of the sender.
         slug (str): A unique identifier generated from the name and ID.
@@ -35,7 +38,7 @@ class Contact(models.Model):
     def get_absolute_url(self):
         """
         Returns the absolute URL for the contact detail page.
-        
+
         Returns:
             str: URL for the contact detail view.
         """
@@ -48,7 +51,7 @@ class Contact(models.Model):
         if not self.read:
             self.read = True
             self.save()
-    
+
     def save(self, *args, **kwargs):
         """
         Overrides the save method to auto-generate a slug from the name and ID.
@@ -61,31 +64,44 @@ class Contact(models.Model):
     def __str__(self):
         """
         Returns a string representation of the contact message.
-        
+
         Returns:
             str: A formatted string indicating the sender's name and read status.
         """
         return f"{self.name} sent a message. Read: {self.read}"
-        
-
 
 class SheltradeSocialMedia(models.Model):
+    """
+    Model representing Sheltrade social media links.
+
+    Attributes:
+        social_name (str): Name of the social media platform.
+        social_url (str): URL to the social media profile.
+    """
     social_name = models.CharField(max_length=50)
-    social_url = models.URLField(max_length = 200)
+    social_url = models.URLField(max_length=200)
 
     def __str__(self):
         return self.social_name
+
     class Meta:
         verbose_name = 'Sheltrade Social Media'
         verbose_name_plural = 'Sheltrade Social Medias'
 
-
 class SheltradeContact(models.Model):
-    contact_name = models.CharField(max_length=50, help_text=_("Thsi is for shltrade phone numbers and emails"))
-    contact_url = models.CharField(max_length = 200)
+    """
+    Model representing Sheltrade contact information such as phone numbers and emails.
+
+    Attributes:
+        contact_name (str): Name or label for the contact info.
+        contact_url (str): Contact details (phone number, email, etc.).
+    """
+    contact_name = models.CharField(max_length=50, help_text=_("This is for Sheltrade phone numbers and emails"))
+    contact_url = models.CharField(max_length=200)
 
     def __str__(self):
         return self.contact_name
+
     class Meta:
         verbose_name = 'Sheltrade Contact'
         verbose_name_plural = 'Sheltrade Contacts'

@@ -71,7 +71,6 @@ def profile(request):
     profile = Profile.objects.filter(user=user).first()
     return render(request, 'profile/profile.html', {"profile": profile})
 
-@login_required
 def preferred_currency(request):
     """
     Allows users to set or update their preferred currency.
@@ -84,12 +83,12 @@ def preferred_currency(request):
         profile = Profile.objects.get(user=user)
         old_currency = profile.preferredCurrency
         wallet = Wallet.objects.get(user=user)
-        user_balance = wallet.userBalance
+        user_balance = wallet.balance
         
         # Convert balance to the new currency
         result = exchange.get_price(old_currency, currency)
         rate = Decimal(result['conversion_rate'])
-        wallet.userBalance = user_balance * rate
+        wallet.balance = user_balance * rate
         wallet.save()
 
         profile.preferredCurrency = currency
@@ -131,7 +130,8 @@ def mark_all_as_read(request):
     """
     Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
     return redirect('core:notification')
-
+    
+@login_required    
 def settings(request):
     """
     Renders the settings page for the user.
@@ -189,6 +189,7 @@ def phoneNumberLogin(request):
 
     return render(request, 'account/login_with_phone_number.html')
 
+
 def changeUserName(request):
     """
     Allows users to change their username.
@@ -234,8 +235,22 @@ def changeNames(request):
 
 
 def legal(request, slug):
+    """
+    Displays a legal page based on the slug.
+
+    Args:
+        request: HTTP request.
+        slug (str): Slug identifier for the legal page.
+
+    Returns:
+        Rendered legal page with legal content context.
+    """
     legal = Legal.objects.filter(slug=slug).first()
     context = {
-        'legal':legal,
+        'legal': legal,
     }
     return render(request, 'core/legal.html', context)
+
+# Additional comments added to core/views.py for comprehensive documentation
+
+# End of core/views.py

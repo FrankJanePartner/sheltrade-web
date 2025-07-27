@@ -19,7 +19,7 @@ urlpatterns = [
     path('giftcard/', include('giftcard.urls', namespace='giftcard')),
     path('mobileTopUp/', include('mobileTopUp.urls', namespace='mobileTopUp')),
     path('billPayments/', include('billPayments.urls', namespace='billPayments')),
-    
+    path('api/', include('sheltradeAPI.urls')),
 
     # third party url
     path('tinymce/', include('tinymce.urls')),
