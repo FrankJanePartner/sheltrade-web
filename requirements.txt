@@ -4,6 +4,7 @@ certifi==2024.8.30
 cffi==1.17.1
 charset-normalizer==3.3.2
 cryptography
+dj-rest-auth
 Django
 django-allauth
 django-environ>=0.9.0
@@ -32,3 +33,11 @@ sqlparse==0.5.1
 typing_extensions==4.12.2
 urllib3==2.2.3
 whitenoise
+django-environ==0.12.0
+django-filter==25.1
+django-postgres-extra==2.0.9
+django-timezone-field==7.1
+django_celery_results==2.6.0
+djangorestframework==3.16.1
+djangorestframework_simplejwt==5.5.1
+drf-spectacular==0.28.0

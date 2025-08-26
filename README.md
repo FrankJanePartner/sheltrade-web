@@ -71,6 +71,48 @@ python manage.py runserver
 ```
 Access the platform at `http://127.0.0.1:8000/` in your web browser.
 
+## API Endpoints Overview
+The platform exposes several key API endpoints for interaction:
+
+- `/api/wallet/` - Manage wallet balance and transactions.
+- `/api/giftcard/` - Buy, sell, and verify gift cards.
+- `/api/notifications/` - Retrieve and manage user notifications.
+- `/api/profile/` - Update and retrieve user profile information.
+- `/api/auth/` - User authentication and registration endpoints.
+
+Each endpoint supports standard HTTP methods (GET, POST, PUT, DELETE) as appropriate. Authentication is required for most endpoints.
+
+## Colors and Styling
+The platform uses a consistent color scheme to enhance user experience:
+
+- Primary Color: #007bff (Blue) - Used for buttons, links, and highlights.
+- Secondary Color: #6c757d (Gray) - Used for secondary buttons and text.
+- Success Color: #28a745 (Green) - Used for success messages and indicators.
+- Danger Color: #dc3545 (Red) - Used for error messages and warnings.
+- Background Color: #f8f9fa (Light Gray) - Used for page backgrounds.
+
+These colors are defined in the CSS files located in `static/core/css/` and applied throughout the UI components.
+
+## Packages and Libraries Used
+The project leverages several key packages and libraries:
+
+- Django: Web framework for backend development.
+- Django REST Framework: For building RESTful APIs.
+- Requests: For making HTTP requests to external APIs.
+- Puppeteer: For automated UI testing.
+- Coverage.py: For test coverage measurement.
+- React Native & Expo (optional): For mobile app development.
+- Other Django apps: billPayments, giftcard, crypto, mobileTopUp, wallet, sheltradeAdmin for modular functionality.
+
+## Project Flow Overview
+1. User Authentication via email/username or phone number.
+2. Role-Based Redirection to user dashboard or admin interface.
+3. User Dashboard with transactions, wallet, gift cards, and notifications.
+4. Wallet and Transactions management.
+5. Gift Card buying and selling.
+6. Notifications management.
+7. Profile and Settings management.
+
 ## Additional Notes
 - The platform uses environment variables for sensitive information and configuration.
 - User roles are enforced to restrict access to certain features.
@@ -86,15 +128,6 @@ The platform supports building a mobile application for regular users using Reac
 3. Use the platform's API endpoints for data interaction.
 4. Run and test the app using Expo Go or an emulator.
 
-## Project Flow Overview
-1. User Authentication via email/username or phone number.
-2. Role-Based Redirection to user dashboard or admin interface.
-3. User Dashboard with transactions, wallet, gift cards, and notifications.
-4. Wallet and Transactions management.
-5. Gift Card buying and selling.
-6. Notifications management.
-7. Profile and Settings management.
-
 ---
 
-This README provides a comprehensive overview of the Sheltrade platform, its capabilities, and detailed setup instructions to help developers and users get started quickly.
+This README provides a comprehensive overview of the Sheltrade platform, its capabilities, setup instructions, API details, styling guide, and development notes to help developers and users get started quickly.
