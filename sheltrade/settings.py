@@ -12,14 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY='django-insecure-s%ze&ormldy6e8i8(k84(0btyz!#ubj40-16*1svrh^uoc96c+'
 
-# API and other important info
-VTPass_API_KEY=env('VTPass_API_KEY')
-VTPass_PUBLIC_KEY=env('VTPass_PUBLIC_KEY')
-VTPass_SECRET_KEY=env('VTPass_SECRET_KEY')
-VTPass_BASE_URL=env('VTPass_BASE_URL')
-VTPass_EMAIL=env('VTPass_EMAIL')  # Replace with your Vtpass email
-VTPass_PASSWORD=env('VTPass_PASSWORD')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
